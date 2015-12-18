@@ -18,4 +18,10 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+
+    url(r'^connections/', include('connections.urls', namespace='connections')),
+    url(r'^enquiries/', include('enquiries.urls', namespace='enquiries')),
+    url(r'^plans/', include('plans.urls', namespace='plans')),
+    url(r'^reports/', include('reports.urls', namespace='reports')),
+    url(r'^advertisements/', include('advertisements.urls', namespace='advertisements')),
 ]
