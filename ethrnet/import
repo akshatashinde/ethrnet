@@ -8,7 +8,7 @@ site.addsitedir('/home/ubuntu/.virtualenvs/ethernet/local/lib/python2.7/site-pac
 sys.path.append('/var/www/ethernet/ethrnet')
 sys.path.append('/var/www/ethernet/ethrnet/ethrnet')
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'ethrnet.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'ethernet.settings'
 
 activate_env = os.path.expanduser('/home/ubuntu/.virtualenvs/ethernet/bin/activate_this.py')
 
@@ -16,6 +16,6 @@ execfile(activate_env, dict(__file__=activate_env))
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ethrnet.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ethernet.settings")
 
 application = get_wsgi_application()
