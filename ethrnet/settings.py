@@ -108,7 +108,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-print STATICFILES_DIRS
+
 # Media (upload) files
 MEDIA_ROOT = '/var/tmp/media/'
 MEDIA_URL = '/media/'
