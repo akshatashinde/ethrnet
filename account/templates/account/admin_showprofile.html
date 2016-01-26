@@ -1,0 +1,45 @@
+{% extends "admin_base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<head><link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<style>
+	th,td,table {
+		padding:30px; 
+	}
+h3 {
+	color:white;
+}
+</style>
+</head>
+	<br /><br /><br /><br /><br />
+<div class="container" style="width:800px;height:600px; margin-top:-100px;">
+	<div class="panel panel-primary">
+		<div class="panel-heading"><h3>Profile Edit</h3></div>
+			<div class="panel-content" style="padding:20px">
+	
+				{% for i in data %}
+					{% if i.profile_picture %}
+						<img src="/media/{{ i.profile_picture }}" class="img-circle" alt="Cinque Terre" width="150" height="200">
+					{% else %}
+						<img src="/static/images/defaultpic.png" class="img-circle" width="150" height="350">
+					{% endif %}<br /><br />
+					  										
+					<table class="table table-responsive">
+						<tr><th>User Name:</th>
+						<td>{{ i.first_name }}  {{ i.last_name }}</td>
+						<td><a href="edit" class="btn btn-info btn-sg">
+						<span class="glyphicon glyphicon-edit"></span>Edit</a></td></tr>
+						<tr><th>Mobile No:</th><td>{{ i.mobile_no }}</td></tr>
+						<tr><th>Gender:</th><td>{{ i.gender}}</td></tr>
+    					<tr><th>DOB:</th><td>{{ i.dob }}</td></tr>
+       			{% endfor %}
+    				</table>
+    		</div>
+    	</div>		
+	</div>			
+
+{% endblock content %}

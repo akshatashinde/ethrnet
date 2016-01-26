@@ -26,7 +26,7 @@ SECRET_KEY = '%2gw7+_0t1rv-qkjj#^ss2)4gkdltvqs2c3!xcj7i4h%h#gw)x'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+AUTH_USER_MODEL = 'user_auth.User'
 
 # Application definition
 
@@ -39,6 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'djangular',
+    'user_auth',
+    'plans',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -57,7 +59,7 @@ ROOT_URLCONF = 'ethrnet.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -97,11 +99,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Templates
-TEMPLATE_DIRS = [
-    os.path.join(BASE_DIR, 'templates')
-]
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 # STATIC_ROOT = '/home/single/ethernet/ethrnet/static/'
@@ -121,3 +118,7 @@ EMAIL_HOST_USER = 'ganesh.palkar.sid@gmail.com'
 EMAIL_HOST_PASSWORD = 'Poly@456'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = 'ganesh.palkar.sid@gmail.com'
+
+LOGIN_REDIRECT_URL = '/myadmin/'
+# Templates
+LOGIN_URL = '/login/'

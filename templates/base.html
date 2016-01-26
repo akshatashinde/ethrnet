@@ -49,6 +49,14 @@
   </head>
   <body>
     {% include "header.html" %}
+    {% include "get_connection.html" %}
+    {% include "about_us.html" %}
+    {% include "work_process.html" %}
+    {% include "offers.html" %}
+    {% include "plans.html" %}
+    {% include "contact_us.html" %}
+    {% include "footer.html" %}
+
   <!-- JavaScript & jQuery Plugins -->
     <!-- jQuery Load -->
     <script src="{% static 'js/jquery-min.js' %}">
@@ -92,9 +100,21 @@
     <script src="{% static 'js/jquery.slicknav.js' %}">
     </script>
     <!-- All JS plugin Triggers -->
-    <script src="{% static 'js/main.js' %}">
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/jquery.easing.min.js' %}"></script>
+    <script type="text/javascript">
+        //jQuery for page scrolling feature - requires jQuery Easing plugin
+$(function() {
+    $('a.page-scroll').bind('click', function(event) {
+        var $anchor = $(this);
+        $('html, body').stop().animate({
+            scrollTop: $($anchor.attr('href')).offset().top
+        }, 1500, 'easeInOutExpo');
+        event.preventDefault();
+    });
+});
+
     </script>
-    <script src="{% static 'djangular/js/django-angular.min.js' %}" type="text/javascript"></script>
     {% block scripts_extend %}{% endblock %}
   </body>
 

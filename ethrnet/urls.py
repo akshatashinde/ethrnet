@@ -17,7 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf.urls import url
 from django.views.generic import TemplateView
-
+from django.contrib.auth.decorators import login_required
 
 
 urlpatterns = [
@@ -28,5 +28,10 @@ urlpatterns = [
     # url(r'^plans/', include('plans.urls', namespace='plans')),
     # url(r'^reports/', include('reports.urls', namespace='reports')),
     # url(r'^advertisements/', include('advertisements.urls', namespace='advertisements')),
-    url(r'^', TemplateView.as_view(template_name="base.html")),
+    url(r'$^', TemplateView.as_view(template_name="base.html")),
+    url(r'^myadmin/$', login_required(TemplateView.as_view(template_name="admin_base.html"))),
+    url(r'^login/$', 'django.contrib.auth.views.login',
+        {'template_name': 'login.html'}),
+    url(r'^logout/$', 'django.contrib.auth.views.logout'),
+    url(r'^plan/', include('plans.urls', namespace='ethernet-plans')),
 ]

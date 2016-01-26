@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 from enum import Enum
 
@@ -14,17 +14,27 @@ class Plans(models.Model):
         COMMERTIAL = 'Commertial'
         PERSONAL = 'Personal'
 
+        @classmethod
+        def as_tuple(cls):
+            return ((item.value, item.name.replace('_', ' ')) for item in cls)
 
-    plan_type = models.CharField(null=True, max_length=20,
+
+    plan_type = models.CharField(blank=True, null=True, max_length=20,
                           choices=PlanType.as_tuple())
-    price = models.FloatField()
-    duration = models.IntegerField()
+    price = models.FloatField(blank=True, null=True,)
+    duration = models.IntegerField(blank=True, null=True,)
+    download_speed = models.IntegerField(blank=True, null=True,)
+    FUP_limit = models.IntegerField(blank=True, null=True,)
+    post_FUP_speed = models.IntegerField(blank=True, null=True,)
+    installation_charges = models.IntegerField(blank=True, null=True,)
+    subscription_amount = models.IntegerField(blank=True, null=True,)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(User, related_name='plans_created_by')
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, blank=True, null=True, related_name='plans_created_by')
     updated_by = models.ForeignKey(
-        User, blank=True, null=True, related_name='plans_modified_by')
+        settings.AUTH_USER_MODEL, blank=True, null=True, related_name='plans_modified_by')
     is_active = models.BooleanField(default=False)
 
     def __unicode__(self):
