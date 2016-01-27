@@ -84,10 +84,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ethernet',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '',
+        'USER': 'ethernet_user',
+        'PASSWORD': 'ethernet6',
+        'HOST': 'ethernet.ctjtg3cziby4.us-west-2.rds.amazonaws.com',
+        'PORT': '3306',
     }
 }
 
