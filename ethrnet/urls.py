@@ -28,7 +28,7 @@ urlpatterns = [
     # url(r'^plans/', include('plans.urls', namespace='plans')),
     # url(r'^reports/', include('reports.urls', namespace='reports')),
     # url(r'^advertisements/', include('advertisements.urls', namespace='advertisements')),
-    url(r'$^', TemplateView.as_view(template_name="base.html")),
+    url(r'$^', 'core.views.client'),
     url(r'^myadmin/$', login_required(TemplateView.as_view(template_name="admin_base.html"))),
     url(r'^login/$', 'django.contrib.auth.views.login',
         {'template_name': 'login.html'}),

@@ -56,7 +56,11 @@
     {% include "plans.html" %}
     {% include "contact_us.html" %}
     {% include "footer.html" %}
-
+<div style="display: none;" id="loader">
+    <div class="square-spin">
+        <img src="{% static 'img/preloader.gif' %}" alt="">
+    </div>
+</div>
   <!-- JavaScript & jQuery Plugins -->
     <!-- jQuery Load -->
     <script src="{% static 'js/jquery-min.js' %}">
