@@ -73,23 +73,44 @@ function get_notifications() {
             price : $('#id_price').val(),
             duration : $('#id_duration').val(),
             download_speed : $('#id_download_speed').val(),
+            FUP_limit : $('#id_FUP_limit').val(),
             post_FUP_speed : $('#id_post_FUP_speed').val(),
             installation_charges : $('#id_installation_charges').val(),
             subscription_amount : $('#id_subscription_amount').val()
          }, // data sent with the post request
         // handle a successful response
         success : function(response) {
-            if(response == 'Success'){
+            var response_dict = $.parseJSON(response)
+            if(response_dict['success'] == true){
+                delete response_dict['success']
+                var tds = '<tr>';
+                tds += '<td>' + response_dict['id'] + '</td>';
+                tds += '<td>' + response_dict['plan_type'] + '</td>';
+                tds += '<td>' + response_dict['price'] + '</td>';
+                if (response_dict['is_active'] == true){
+                    tds += '<td><span class="label label-primary">Acitve</span></td>';
+                }else{
+                    tds += '<td><span class="label label-danger">Deactive</span></td>';
+                }
+                tds += '<td>' + response_dict['FUP_limit'] + '</td>';
+                tds += '<td>' + response_dict['download_speed'] + '</td>';
+                tds += '<td>' + response_dict['installation_charges'] + '</td>';
+                tds += '<td>' + response_dict['subscription_amount'] + '</td>';
+                tds += '<td><button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>&nbsp;<button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button></td>'
+                tds += '</tr>';
+                $("tbody > tr:nth-child(1)").after(tds);
                 $('#plan_success').text("Plan added Successfully");
                 $("#plan_success").fadeToggle(100);
                 $("#plan_success").fadeOut(3000);
                 $('#plan_type').val("");
                 $('#id_price').val("");
                 $('#id_duration').val("");
+                $('#id_FUP_limit').val("");
                 $('#id_download_speed').val("");
                 $('#id_post_FUP_speed').val("");
                 $('#id_installation_charges').val("");
                 $('#id_subscription_amount').val("");
+
             }
             else{
                 $('#plan_error').text("Provide valid inputs.");

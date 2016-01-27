@@ -50,6 +50,13 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <label style="margin-top: 10px;">
+                                     FUP_limit:
+                                </label>
+                                {{ form.FUP_limit }}
+                                {{ form.FUP_limit.errors }}
+                            </div>
+                            <div class="col-md-3">
+                                <label style="margin-top: 10px;">
                                     Post FUP Speed
                                 </label>
                                 {{ form.post_FUP_speed }}
@@ -108,13 +115,14 @@
                     </div>
                 </div><!-- /.box-header -->
                 <div class="box-body table-responsive no-padding">
-                    <table class="table table-hover">
+                    <table class="table table-hover" id="plans_table">
                         <tbody>
                         <tr>
                             <th>ID</th>
                             <th>Type</th>
                             <th>Price</th>
                             <th>Status</th>
+                            <th>FUP</th>
                             <th>Speed</th>
                             <th>Installation</th>
                             <th>Subscription</th>
@@ -126,10 +134,17 @@
                             <td>{{ plan.id }}</td>
                             <td>{{ plan.plan_type }}</td>
                             <td>{{ plan.price }}</td>
-                            <td><span class="label {% if plan.is_active %} label-primary {% else %} label-danger {% endif %}">Denied</span></td>
+                            <td>
+                                {% if plan.is_active %}
+                                    <span class="label label-primary">Acitve</span>
+                                {% else %}
+                                    <span class="label label-danger">Deactive</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ plan.FUP_limit }}</td>
                             <td>{{ plan.download_speed }}</td>
-                            <td></td>
-                            <td></td>
+                            <td>{{ plan.installation_charges }}</td>
+                            <td>{{ plan.subscription_amount }}</td>
                             <td>
                                 <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
                                 <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
@@ -161,6 +176,9 @@
         width:26%;
     }
     #id_subscription_amount{
+        width:30%;
+    }
+    #id_FUP_limit{
         width:30%;
     }
 
