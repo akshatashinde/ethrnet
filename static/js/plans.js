@@ -124,3 +124,105 @@ function get_notifications() {
         // handle a non-successful response
     });
 };
+
+
+
+$("#submitclient").click(function()
+{
+    var error = ""
+    var name = $('#id_name').val();
+    var email = $('#id_email').val();
+    var phone_number = $('#id_phone_number').val();
+    var address = $('#id_address').val();
+    var city = $('#id_city').val();
+    var state = $('#id_state').val();
+    var country = $('#id_country').val();
+    var zipcode = $('#id_zipcode').val();
+    if(name == ""){
+        error = "Name not Provided";
+    }
+    else if(email == ""){
+        error = "Email not Provided";
+    }
+    else if(phone_number == ""){
+        error = "Phone Number not Provided";
+    }
+    else if(address == ""){
+        error = "Address not Provided";
+    }
+    else if(city == ""){
+        error = "City not Provided";
+    }
+    else if(state == ""){
+        error = "State not Provided";
+    }
+    else if(country == ""){
+        error = "Country not Provided";
+    }
+    else if(zipcode == ""){
+        error = "Zipcode not Provided";
+    }
+
+    if (error != ""){
+        $.toaster({ priority : 'danger', title : 'Client Failed', message : error});
+        error = "";
+    }
+    else{
+            create_client();
+    }
+});
+
+
+function create_client() {
+    var csrftoken = getCookie('csrftoken');
+
+    $.ajax({
+        url : "/client/new", // the endpoint
+        type : "POST", // http method
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        },
+        data : {
+            name : $('#id_name').val(),
+            email : $('#id_email').val(),
+            phone_number : $('#id_phone_number').val(),
+            address : $('#id_address').val(),
+            city : $('#id_city').val(),
+            state : $('#id_state').val(),
+            country : $('#id_country').val(),
+            zipcode : $('#id_zipcode').val()
+         }, // data sent with the post request
+        // handle a successful response
+        success : function(response) {
+            var response_dict = $.parseJSON(response)
+            if(response_dict['success'] == true){
+                delete response_dict['success']
+                var tds = '<tr>';
+                tds += '<td>' + response_dict['id'] + '</td>';
+                tds += '<td>' + response_dict['name'] + '</td>';
+                tds += '<td>' + response_dict['email'] + '</td>';
+                tds += '<td>' + response_dict['phone_number'] + '</td>';
+                tds += '<td><button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>&nbsp;<button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button></td>'
+                tds += '</tr>';
+                $("tbody > tr:nth-child(1)").after(tds);
+                $('#id_name').val("");
+                $('#id_email').val("");
+                $('#id_phone_number').val("");
+                $('#id_address').val("");
+                $('#id_city').val("");
+                $('#id_state').val("");
+                $('#id_country').val("");
+                $('#id_zipcode').val("");
+                $.toaster({ priority : 'success', title : 'Client Success', message : 'Client successfully created.'});
+            }
+            else{
+                $.toaster({ priority : 'danger', title : 'Client Failed', message : 'Client not created.'});
+            }
+        },
+        error: function(response) {
+
+                $.toaster({ priority : 'danger', title : 'Client Failed', message : 'Client not created.'});
+            },
+        // handle a non-successful response
+    });
+};

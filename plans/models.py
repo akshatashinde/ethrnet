@@ -38,4 +38,7 @@ class Plans(models.Model):
     is_active = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return self.plan_type
+        return str(self.plan_type) + ' '
+
+    def get_price(self):
+        return int(self.price)

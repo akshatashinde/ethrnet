@@ -31,7 +31,7 @@
                 <a title="sent invoice to user">Sent In mail</a>
                 {% endif %}
             </li>
-            <li title="download pdf of invoie"><a href="">Download pdf</a></li>
+            <li title="download pdf of invoie"><a href="{% url 'ethernet-invoice:pdf_view' invoice.id %}">Download pdf</a></li>
         </ul>
     </div>
 </nav>

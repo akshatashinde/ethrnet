@@ -32,7 +32,8 @@ urlpatterns = [
     url(r'^myadmin/$', login_required(TemplateView.as_view(template_name="admin_base.html"))),
     url(r'^login/$', 'django.contrib.auth.views.login',
         {'template_name': 'login.html'}),
-    url(r'^logout/$', 'django.contrib.auth.views.logout'),
+    url(r'^logout/$', 'django.contrib.auth.views.logout',{'next_page': '/login/'}, name='logout'),
     url(r'^plan/', include('plans.urls', namespace='ethernet-plans')),
     url(r'^invoice/', include('invoice.urls', namespace='ethernet-invoice')),
+    url(r'^client/', include('client.urls', namespace='ethernet-client')),
 ]
