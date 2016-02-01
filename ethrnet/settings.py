@@ -43,6 +43,9 @@ INSTALLED_APPS = (
     'djangular',
     'user_auth',
     'plans',
+    'client',
+    'invoice',
+    'account',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -131,13 +134,15 @@ MEDIA_URL = '/media/'
 # Email
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'ganesh.palkar.sid@gmail.com'
-EMAIL_HOST_PASSWORD = 'Poly@456'
+EMAIL_HOST_USER = 'sidvitechsolutions@gmail.com'
+EMAIL_HOST_PASSWORD = 'Sidvitech@6'
 EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL = 'ganesh.palkar.sid@gmail.com'
+DEFAULT_FROM_EMAIL = 'sidvitechsolutions@gmail.com'
 
 LOGIN_REDIRECT_URL = '/myadmin/'
 # Templates
 LOGIN_URL = '/login/'
 
 DJANGO_SETTINGS_MODULE = "ethernet"
+AUTH_PROFILE_MODULE = 'account.UserProfile'
+SITE_NAME = 'Ethernet'

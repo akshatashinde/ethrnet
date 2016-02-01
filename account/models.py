@@ -6,8 +6,29 @@ from django.dispatch import receiver
 
 from django_resized import ResizedImageField
 
-from django.contrib.auth.models import User
-from django.conf import settings
+from user_auth.models import User
+
+
+class UserAddress(models.Model):
+    address = models.CharField(max_length=120,)
+    address2 = models.CharField(max_length=120, null=True, blank=True)
+    city = models.CharField(max_length=120)
+    state = models.CharField(max_length=120, null=True, blank=True)
+    country = models.CharField(max_length=120,default="India")
+    zipcode = models.CharField(max_length=25)
+    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
+    updated = models.DateTimeField(auto_now_add=False, auto_now=True)
+    get_latest_by = "timestamp"
+
+    def __unicode__(self):
+        return self.get_address()
+
+    def get_address(self):
+        return "%s,<br/>%s - %s.<br/>%s, %s." %(self.address, self.zipcode, self.city, self.state, self.country)
+
+    class Meta:
+        ordering = ['-updated', '-timestamp']
+
 
 class UserProfile(models.Model):
 
@@ -71,9 +92,14 @@ class UserProfile(models.Model):
         blank=True,
         null=True
     )
+    addresses = models.ManyToManyField(UserAddress)
 
     def __unicode__(self):
         return u''.join((self.first_name, self.last_name))
+
+    @property
+    def address(self):
+        return self.addresses.latest(field_name="timestamp")
 
     @receiver(post_save, sender=User)
     def create_profile_for_user(sender, instance=None,
@@ -98,25 +124,3 @@ class UserProfile(models.Model):
         if instance:
             user_profile = UserProfile.objects.get(user=instance)
             user_profile.delete()
-
-class UserAddress(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    address = models.CharField(max_length=120,)
-    address2 = models.CharField(max_length=120, null=True, blank=True)
-    city = models.CharField(max_length=120)
-    state = models.CharField(max_length=120, null=True, blank=True)
-    country = models.CharField(max_length=120,default="India")
-    zipcode = models.CharField(max_length=25)
-    phone =  models.CharField(max_length=120)
-    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
-    updated = models.DateTimeField(auto_now_add=False, auto_now=True)
-
-    def __unicode__(self):
-        return self.get_address()
-
-    def get_address(self):
-        return "%s, %s, %s, %s, %s, %s" %(self.address, self.city, self.state, self.country, self.zipcode, self.phone)
-
-    class Meta:
-        ordering = ['-updated', '-timestamp']
-        

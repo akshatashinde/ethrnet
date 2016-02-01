@@ -1,0 +1,203 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+    <style>
+        @import url(http://fonts.googleapis.com/css?family=Bree+Serif);
+        body, h1, h2, h3, h4, h5, h6{
+        font-family: 'Bree Serif', serif;
+        }
+        #sent_mail{
+            cursor:pointer;
+        }
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'ethernet-invoice:list_invoice' %}" title="back to invoice list">Back</a>
+        </div>
+        <ul class="nav navbar-nav pull-right">
+            <li id="sent_mail">
+                {% if invoice.invoiced %}
+                <a title="re-sent invoice to user">Re-sent mail</a>
+                {% else %}
+                <a title="sent invoice to user">Sent In mail</a>
+                {% endif %}
+            </li>
+            <li title="download pdf of invoie"><a href="">Download pdf</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <h1>
+                <a href="#">
+                    <img src="{% static 'img/logo.png' %}">
+                </a>
+            </h1>
+        </div>
+        <div class="col-md-6">
+            <h1>INVOICE</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-right pull right" style="padding-right:35px;">
+            <h2>
+                <small>Invoice No. #{{ invoice.invoice_id }}</small>
+            </h2>
+            <span>Date: {{ invoice.invoice_date }}</span>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>From: <span style="color:#337AB7;">Ethernet Broadband Service Provider</span></h4>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        45/2, Indrayani Nagar,<br>
+                        near Priyadarshanai School,<br>
+                        Bhosari,Pune- 411026<br><br>
+                        Phone: +91-9130059956<br>
+                        Email: accounts@ethernetindia.com<br>
+                        Website: www.ethernetindia.com
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>To : <span style="color:#337AB7;">{{ client.name }}</span></h4>
+                </div>
+                <div class="panel-body">
+                    {% autoescape off %}
+                    <p>
+                        {{ address.get_address }}<br/><br/>
+                        Phone: +91-{{ client.phone_number }}<br/>
+                        Email: {{ client.email }}<br/>
+                        Website:
+                    </p>
+                    {% endautoescape %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / end client details section -->
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>
+                <h4>Iteam</h4>
+            </th>
+            <th>
+                <h4>Qty</h4>
+            </th>
+            <th>
+                <h4>Rate/Price</h4>
+            </th>
+            <th>
+                <h4>Sub Total</h4>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for invoice_item in invoice_items %}
+        <tr>
+            <td>{{ invoice_item.description }}</td>
+            <td class="text-right">{{ invoice_item.unit_price }}</td>
+            <td class="text-right">{{ invoice_item.quantity }}</td>
+            <td class="text-right">{% widthratio invoice_item.unit_price 1 invoice_item.quantity %}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="row text-right">
+        <div class="col-md-3 pull-right" style="padding-right:25px;">
+            <p>
+                <strong>
+                    Sub Total : {{ invoice.total_amount }}<br>
+                    TAX : N/A<br>
+                    Total : $1200.00<br>
+                </strong>
+            </p>
+        </div>
+    </div>
+</div>
+    <!-- jQuery Load -->
+    <script src="{% static 'js/jquery-min.js' %}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.toaster.js' %}"></script>
+
+<script type="text/javascript">
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+$('#sent_mail').click(function(){
+    send_mail();
+});
+function send_mail() {
+
+    var csrftoken = getCookie('csrftoken');
+    $('#sent_mail').html('<a><img src="/static/img/preloader.gif" height="20px" width="20px">Sending</a>');
+    $.ajax({
+        url: "{% url 'ethernet-invoice:invoice_send' invoice.id %}",
+        type: "GET",
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        },
+        data: {
+        },
+        success: function(response) {
+            if(response == 'success'){
+            $.toaster({ priority : 'success', title : 'Invoice Success', message : 'Invoice sent to {{ client.email }} here'});
+            $('#sent_mail').html('<a>Re-sent mail</a>');
+
+        }
+        else{
+            $.toaster({ priority : 'danger', title : 'Invoice Failed', message : 'Invoice failed to {{ client.email }} here'});
+            $('#sent_mail').html('<a>Sending Failed</a>');
+            $("#sent_mail").fadeToggle(100);
+            $("#sent_mail").fadeOut(3000);
+            $('#sent_mail').html('<a>Sent In mail</a>');
+        }
+          },
+        error: function(response) {
+        $.toaster({ priority : 'danger', title : 'Invoice Failed', message : 'Invoice failed to {{ client.email }} here'});
+        $('#sent_mail').html('<a>Sending Failed</a>');
+        $("#sent_mail").fadeToggle(100);
+        $("#sent_mail").fadeOut(3000);
+        $('#sent_mail').html('<a>Sent In mail</a>');
+        },
+        // handle a non-successful response
+        });
+};
+
+</script>
+</body>
+</html>

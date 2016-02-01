@@ -34,4 +34,5 @@ urlpatterns = [
         {'template_name': 'login.html'}),
     url(r'^logout/$', 'django.contrib.auth.views.logout'),
     url(r'^plan/', include('plans.urls', namespace='ethernet-plans')),
+    url(r'^invoice/', include('invoice.urls', namespace='ethernet-invoice')),
 ]

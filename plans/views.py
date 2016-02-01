@@ -13,7 +13,8 @@ def plan_list(request):
         request,
         'plans/plans_list.html',
         {
-            'plans': plans
+            'plans': plans,
+            'page': 'plans'
         })
 
 
@@ -47,7 +48,8 @@ def plan_create(request):
         'plans/plans_create.html',
         {
             'form': form,
-            'plans': plans
+            'plans': plans,
+            'page': 'plans'
         })
 
 
