@@ -23,7 +23,7 @@ from django.contrib.auth.decorators import login_required
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     #
-    # url(r'^connections/', include('connections.urls', namespace='connections')),
+    url(r'^connections/', include('connections.urls', namespace='connections')),
     # url(r'^enquiries/', include('enquiries.urls', namespace='enquiries')),
     # url(r'^plans/', include('plans.urls', namespace='plans')),
     # url(r'^reports/', include('reports.urls', namespace='reports')),

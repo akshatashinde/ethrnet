@@ -1,13 +1,16 @@
 from django.db import models
 from enum import Enum
+from plans.models import Plans
 
-
-class Connection(models.model):
+class Connection(models.Model):
 
     class Gender(Enum):
         MALE = 'Male'
         FEMALE = 'Female'
         OTHERS = 'Others'
+        @classmethod
+        def as_tuple(cls):
+            return ((item.value, item.name.replace('_', ' ')) for item in cls)
 
     class Id_proofs(Enum):
         PASSPORT = 'Passport'
@@ -15,6 +18,9 @@ class Connection(models.model):
         PAN = 'PAN'
         AADHAR = 'Aadhar'
         VOTER = 'Voter'
+        @classmethod
+        def as_tuple(cls):
+            return ((item.value, item.name.replace('_', ' ')) for item in cls)
 
     class Address_proofs(Enum):
         PASSPORT = 'Passport'
@@ -22,13 +28,16 @@ class Connection(models.model):
         ELECTRICITY_BILL = 'Electricity Bill'
         AADHAR = 'Aadhar'
         VOTER = 'Voter'
+        @classmethod
+        def as_tuple(cls):
+            return ((item.value, item.name.replace('_', ' ')) for item in cls)
 
     user_name = models.CharField(max_length=255)
     company_name = models.CharField(max_length=255)
     email = models.EmailField()
-    plan = models.ForeignKey()
+    plan = models.ForeignKey(Plans)
     address = models.TextField()
-    landmark = models.CharField()
+    landmark = models.CharField(max_length=255, blank=True, null=True)
     birth_date = models.DateTimeField()
     gender = models.CharField(null=True, max_length=20,
                               choices=Gender.as_tuple())
