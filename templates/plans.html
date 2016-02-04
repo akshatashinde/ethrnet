@@ -7,44 +7,62 @@
         </h1>
 
         <div class="row">
-            {% for plan in plans %}
-            <div class="col-md-3 wow fadeInUpQuick animated" data-wow-delay=".5s"
-                 style="visibility: visible;-webkit-animation-delay: .5s; -moz-animation-delay: .5s; animation-delay: .5s;">
-                <div class="pricing-table pricing-table-2 text-center">
-                    <div class="head">
-                        <h3 class="period">
-                            {{ plan.plan_type }}
-                        </h3>
+            <div class="scrollbar">
+                <div style="transform: translateZ(0px) translateX(0px); width: 71px;" class="handle">
+                    <div class="mousearea"></div>
+                </div>
+            </div>
+            <div class="frame oneperframe" id="oneperframe" style="height: 366px;overflow: hidden;">
+                <ul class="clearfix">
+                    {% for plan in plans %}
 
-                        <h3 class="price">
-                  <span style="margin-left: 95px;margin-top: 48px;">
+                    {% if forloop.counter0|divisibleby:4 %} <li {% if forloop.first %} class="active" {% endif %} style="background: none;">{% endif %}
+                        <div class="col-md-3 wow fadeInUpQuick animated" data-wow-delay=".5s"
+                             style="visibility: visible;-webkit-animation-delay: .5s; -moz-animation-delay: .5s; animation-delay: .5s;">
+                            <div class="pricing-table pricing-table-2" style="height: 370px;">
+                                <div class="head">
+                                    <h3 class="period text-center" style="font-weight: bold;">
+                                        {{ plan.plan_type }}
+                                    </h3>
+
+                                    <h5 class="price text-center" style="font-size: 60px;font-weight: bold;">
+                  <span style="margin-top: 52px;margin-left: 55px;font-size:15px;">
                     mbps
                   </span>
-                            {{ plan.download_speed }}
-                        </h3>
-                        <h3 class="price">
+                                        {{ plan.download_speed }}
+                                    </h5>
+                                    <h5 class="price" style="font-size: 60px;font-weight: bold; "><center>
                   <span>
                     Rs
                   </span>
-                            {{ plan.get_price }}
-                        </h3>
+                                        {{ plan.get_price }}
+                                        <span style="margin-top: 62px;margin-left: -34px;font-size:15px;">{{ plan.duration }}days</span>
 
-                        <p>
-                            Subscription Amount : {{plan.subscription_amount}} Rs<br/>
-                            Installation Amount : {{plan.installation_charges}} Rs<br/><br/>
-                            FUP : {{plan.FUP_limit}} <br/>Post FUP speed {{ plan.post_FUP_speed }}<br/>
+</center>
+                                    <span style="font-size: 14px;margin-top: 35px;margin-left: 37px;">
+                                        {% if plan.subscription_amount %}Subscription Amount : {{plan.subscription_amount}} Rs<br/>{% endif %}
+                                        {% if plan.installation_charges %}Installation Amount : {{plan.installation_charges}} Rs<br/><br/>{% endif %}
+                                        {% if plan.FUP_limit %}FUP : {{plan.FUP_limit}} <br/>{% endif %}
+                                        {% if plan.post_FUP_speed %}Post FUP speed {{ plan.post_FUP_speed }}<br/>{% endif %}
 
-                        </p>
-                    </div>
-                    <!--<a href="#" class="btn btn-border btn-lg">-->
-                        <!--Get Quotation-->
-                    <!--</a><br/>-->
-                    <!--<a href="#" class="btn btn-border btn-lg" style="margin-top:10px;">-->
-                        <!--Get connection-->
-                    <!--</a>-->
-                </div>
+                                    </span>
+                                        </h5>
+                                <!--<a href="#" class="btn btn-border btn-lg">-->
+                                <!--Get Quotation-->
+                                <!--</a><br/>-->
+                                <!--<a href="#" class="btn btn-border btn-lg" style="margin-top:10px;">-->
+                                <!--Get connection-->
+                                <!--</a>-->
+                            </div>
+                        </div></div>
+                    {% if forloop.counter|divisibleby:4 %}</li>{%endif%}
+                    {% endfor %}
+                </ul>
             </div>
-            {% endfor %}
+            <div class="controls center" style="margin:25px 0px -33px 0px">
+                <button class="btn prev" style="color:#000;"><i class="icon-chevron-left"></i> prev</button>
+                <button class="btn next" style="color:#000;">next <i class="icon-chevron-right"></i></button>
+            </div>
         </div>
     </div>
 </section>

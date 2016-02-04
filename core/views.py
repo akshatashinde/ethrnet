@@ -4,7 +4,7 @@ from plans.models import Plans
 
 
 def client(request):
-    plans = Plans.objects.all()[:4]
+    plans = Plans.objects.all()
     return render(
         request,
         'base.html',

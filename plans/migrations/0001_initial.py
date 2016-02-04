@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
             name='Plans',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('plan_type', models.CharField(blank=True, max_length=20, null=True, choices=[(b'Commertial', b'COMMERTIAL'), (b'Personal', b'PERSONAL')])),
+                ('plan_type', models.CharField(blank=True, max_length=20, null=True, choices=[(b'FUP', b'FUP'), (b'Limited', b'LIMITED'), (b'Unlimited', b'UNLIMITED')])),
                 ('price', models.FloatField(null=True, blank=True)),
                 ('duration', models.IntegerField(null=True, blank=True)),
                 ('download_speed', models.IntegerField(null=True, blank=True)),

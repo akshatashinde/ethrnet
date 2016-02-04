@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('created', django_extensions.db.fields.CreationDateTimeField(auto_now_add=True, verbose_name='created')),
                 ('modified', django_extensions.db.fields.ModificationDateTimeField(auto_now=True, verbose_name='modified')),
-                ('invoice_id', models.CharField(max_length=6, unique=True, null=True, editable=False, blank=True)),
+                ('invoice_id', models.CharField(max_length=12, unique=True, null=True, editable=False, blank=True)),
                 ('invoice_date', models.DateField(default=datetime.date.today)),
                 ('invoiced', models.BooleanField(default=False)),
                 ('draft', models.BooleanField(default=False)),

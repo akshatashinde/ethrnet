@@ -41,7 +41,7 @@ class Invoice(TimeStampedModel):
     user = models.ForeignKey(User)
     currency = models.ForeignKey(Currency, blank=True, null=True)
     address = models.ForeignKey(UserAddress, related_name='%(class)s_set')
-    invoice_id = models.CharField(unique=True, max_length=6, null=True,
+    invoice_id = models.CharField(unique=True, max_length=12, null=True,
                                   blank=True, editable=False)
     invoice_date = models.DateField(default=date.today)
     invoiced = models.BooleanField(default=False)
@@ -55,22 +55,6 @@ class Invoice(TimeStampedModel):
 
     class Meta:
         ordering = ('-invoice_date', 'id')
-
-    def save(self, *args, **kwargs):
-        try:
-            self.address
-        except UserAddress.DoesNotExist:
-            try:
-                self.address = self.user.get_profile().address
-            except User.DoesNotExist:
-                pass
-
-        super(Invoice, self).save(*args, **kwargs)
-
-        if not self.invoice_id:
-            self.invoice_id = 'ET000' + friendly_id.encode(self.pk)
-            kwargs['force_insert'] = False
-            super(Invoice, self).save(*args, **kwargs)
 
     def total_amount(self):
         return format_currency(self.total(), self.currency)

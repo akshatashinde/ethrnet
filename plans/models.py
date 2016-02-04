@@ -11,8 +11,9 @@ class Plans(models.Model):
     """
 
     class PlanType(Enum):
-        COMMERTIAL = 'Commertial'
-        PERSONAL = 'Personal'
+        LIMITED = 'Limited'
+        UNLIMITED = 'Unlimited'
+        FUP = 'FUP'
 
         @classmethod
         def as_tuple(cls):

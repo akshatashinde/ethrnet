@@ -21,20 +21,9 @@ $("#submitplans").click(function()
     else if(download_speed == ""){
         error = "Download speed not selected";
     }
-    else if(post_FUP_speed == ""){
-        error = "Post FUP speed not selected";
-    }
-    else if(installation_charges == ""){
-        error = "Installation charges not selected";
-    }
-    else if(subscription_amount == ""){
-        error = "Subscription amount not selected";
-    }
 
     if (error != ""){
-        $('#plan_error').text(error);
-        $("#plan_error").fadeToggle(100);
-        $("#plan_error").fadeOut(3000);
+        $.toaster({ priority : 'danger', title : 'Plan Failed', message : error});
         error = "";
     }
     else{
@@ -99,9 +88,6 @@ function get_notifications() {
                 tds += '<td><button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>&nbsp;<button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button></td>'
                 tds += '</tr>';
                 $("tbody > tr:nth-child(1)").after(tds);
-                $('#plan_success').text("Plan added Successfully");
-                $("#plan_success").fadeToggle(100);
-                $("#plan_success").fadeOut(3000);
                 $('#plan_type').val("");
                 $('#id_price').val("");
                 $('#id_duration').val("");
@@ -110,16 +96,15 @@ function get_notifications() {
                 $('#id_post_FUP_speed').val("");
                 $('#id_installation_charges').val("");
                 $('#id_subscription_amount').val("");
+                $.toaster({ priority : 'success', title : 'Plan Success', message : 'Plan successfully created.'});
 
             }
             else{
-                $('#plan_error').text("Provide valid inputs.");
-                $("#plan_error").fadeToggle(100);
-                $("#plan_error").fadeOut(3000);
+                $.toaster({ priority : 'danger', title : 'Plan Failed', message : 'Plan not created.'});
             }
         },
         error: function(response) {
-                $('#resultdisplay').html("");
+                $.toaster({ priority : 'danger', title : 'Plan Failed', message : 'Plan not created.'});
             },
         // handle a non-successful response
     });

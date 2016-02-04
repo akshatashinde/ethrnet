@@ -49,6 +49,9 @@ def create_invoice(request):
             invoice.address = invoice.user.Address
             invoice.currency = Currency.objects.all()[0]
             invoice.save()
+            invoice.invoice_id = 'EN0000' + str(invoice.id)
+            print invoice.id
+            invoice.save()
             for form in formset:
                 invoice_iteam = form.save(commit=False)
                 invoice_iteam.invoice = invoice
