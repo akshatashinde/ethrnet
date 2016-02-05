@@ -14,13 +14,8 @@ from invoice.utils import format_currency
 
 def draw_header(canvas):
     """ Draws the invoice header """
-    canvas.setStrokeColorRGB(0.9, 0.5, 0.2)
-    canvas.setFillColorRGB(0.2, 0.2, 0.2)
-    canvas.setFont('Helvetica', 16)
-    canvas.drawString(18 * cm, -1 * cm, 'Invoice')
-    canvas.drawInlineImage(settings.INV_LOGO, 1 * cm, -1 * cm, 100, 20)
-    canvas.setLineWidth(4)
-    canvas.line(0, -1.25 * cm, 21.7 * cm, -1.25 * cm)
+
+    canvas.drawInlineImage(settings.INV_LOGO, 0 * cm, -3.5 * cm, 600, 100)
 
 
 def draw_address(canvas):
@@ -41,7 +36,7 @@ def draw_address(canvas):
         u'Website: www.ethernetindia.com'
     )
     canvas.setFont('Helvetica', 9)
-    textobject = canvas.beginText(13 * cm, -2.5 * cm)
+    textobject = canvas.beginText(13 * cm, -5.5 * cm)
     for line in business_details:
         textobject.textLine(line)
     canvas.drawText(textobject)
@@ -83,7 +78,7 @@ def draw_pdf(buffer, invoice):
     canvas.restoreState()
 
     # Client address
-    textobject = canvas.beginText(1.5 * cm, -2.5 * cm)
+    textobject = canvas.beginText(1.5 * cm, -5.5 * cm)
     textobject.textLine(invoice.user.name)
     if invoice.address.address:
         textobject.textLine(invoice.address.address)
@@ -96,13 +91,13 @@ def draw_pdf(buffer, invoice):
     canvas.drawText(textobject)
 
     # Info
-    textobject = canvas.beginText(1.5 * cm, -6.75 * cm)
+    textobject = canvas.beginText(1.5 * cm, -8.75 * cm)
     textobject.textLine(u'Invoice ID: %s' % invoice.invoice_id)
     textobject.textLine(u'Invoice Date: %s' % invoice.invoice_date.strftime('%d %b %Y'))
     canvas.drawText(textobject)
 
     # Items
-    data = [[ u'Iteam', u'Quantity', u'Amount', u'Total'], ]
+    data = [[ u'Item', u'Quantity', u'Amount', u'Total'], ]
     for item in invoice.items.all():
         data.append([
             item.description,
@@ -110,9 +105,7 @@ def draw_pdf(buffer, invoice):
             format_currency(item.unit_price, invoice.currency),
             format_currency(item.total(), invoice.currency)
         ])
-    data.append([u'', u'', u'Total:', format_currency(invoice.total(), invoice.currency)])
-    data.append([u'', u'', u'Tax: 12%'])
-    data.append([u'', u'', u'Gross Total:', format_currency(invoice.total(), invoice.currency)])
+    data.append([u'', u'', u'Grand Total:', format_currency(invoice.total(), invoice.currency)])
     table = Table(data, colWidths=[11 * cm, 2 * cm, 3 * cm, 3 * cm])
     table.setStyle([
         ('FONT', (0, 0), (-1, -1), 'Helvetica'),
@@ -124,7 +117,7 @@ def draw_pdf(buffer, invoice):
         ('BACKGROUND', (0, 0), (-1, 0), (0.8, 0.8, 0.8)),
     ])
     tw, th, = table.wrapOn(canvas, 15 * cm, 19 * cm)
-    table.drawOn(canvas, 1 * cm, -8 * cm - th)
+    table.drawOn(canvas, 1 * cm, -11 * cm - th)
 
     canvas.showPage()
     canvas.save()

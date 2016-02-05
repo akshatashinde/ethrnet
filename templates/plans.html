@@ -27,7 +27,7 @@
 
                                     <h5 class="price text-center" style="font-size: 60px;font-weight: bold;">
                   <span style="margin-top: 52px;margin-left: 55px;font-size:15px;">
-                    mbps
+                    MBps
                   </span>
                                         {{ plan.download_speed }}
                                     </h5>
@@ -42,8 +42,8 @@
                                     <span style="font-size: 14px;margin-top: 35px;margin-left: 37px;">
                                         {% if plan.subscription_amount %}Subscription Amount : {{plan.subscription_amount}} Rs<br/>{% endif %}
                                         {% if plan.installation_charges %}Installation Amount : {{plan.installation_charges}} Rs<br/><br/>{% endif %}
-                                        {% if plan.FUP_limit %}FUP : {{plan.FUP_limit}} <br/>{% endif %}
-                                        {% if plan.post_FUP_speed %}Post FUP speed {{ plan.post_FUP_speed }}<br/>{% endif %}
+                                        {% if plan.FUP_limit %}Data Usage : {{plan.FUP_limit}} <br/>{% endif %}
+                                        {% if plan.post_FUP_speed %}After speed {{ plan.post_FUP_speed }} MBps<br/>{% endif %}
 
                                     </span>
                                         </h5>

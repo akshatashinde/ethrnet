@@ -133,12 +133,13 @@ MEDIA_ROOT = '/var/tmp/media/'
 MEDIA_URL = '/media/'
 
 # Email
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'sidvitechsolutions@gmail.com'
-EMAIL_HOST_PASSWORD = 'Sidvitech@6'
+EMAIL_USE_TLS = 1
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.zoho.com'
+EMAIL_HOST_USER = 'admin@ethernetindia.com'
+EMAIL_HOST_PASSWORD = 'ethernet'
 EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL = 'sidvitechsolutions@gmail.com'
+DEFAULT_FROM_EMAIL = 'admin@ethernetindia.com'
 
 LOGIN_REDIRECT_URL = '/myadmin/'
 # Templates
