@@ -15,7 +15,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('address', models.CharField(max_length=120)),
-                ('address2', models.CharField(max_length=120, null=True, blank=True)),
+                ('flat_no', models.CharField(max_length=120)),
+                ('society', models.CharField(max_length=120)),
+                ('area', models.CharField(max_length=120)),
                 ('city', models.CharField(max_length=120)),
                 ('state', models.CharField(max_length=120, null=True, blank=True)),
                 ('country', models.CharField(default=b'India', max_length=120)),

@@ -117,8 +117,12 @@ $("#submitclient").click(function()
     var error = ""
     var name = $('#id_name').val();
     var email = $('#id_email').val();
+    var client_id = $('#id_client_id').val();
     var phone_number = $('#id_phone_number').val();
     var address = $('#id_address').val();
+    var flat_no = $('#id_flat_no').val();
+    var society = $('#id_society').val();
+    var area = $('#id_area').val();
     var city = $('#id_city').val();
     var state = $('#id_state').val();
     var country = $('#id_country').val();
@@ -129,10 +133,22 @@ $("#submitclient").click(function()
     else if(email == ""){
         error = "Email not Provided";
     }
+    else if(client_id == ""){
+        error = "Email not Provided";
+    }
     else if(phone_number == ""){
         error = "Phone Number not Provided";
     }
     else if(address == ""){
+        error = "Address not Provided";
+    }
+    else if(flat_no == ""){
+        error = "Address not Provided";
+    }
+    else if(society == ""){
+        error = "Address not Provided";
+    }
+    else if(area == ""){
         error = "Address not Provided";
     }
     else if(city == ""){
@@ -170,8 +186,12 @@ function create_client() {
         data : {
             name : $('#id_name').val(),
             email : $('#id_email').val(),
+            client_id : $('#id_client_id').val(),
             phone_number : $('#id_phone_number').val(),
             address : $('#id_address').val(),
+            flat_no : $('#id_flat_no').val(),
+            society : $('#id_society').val(),
+            area : $('#id_area').val(),
             city : $('#id_city').val(),
             state : $('#id_state').val(),
             country : $('#id_country').val(),
@@ -183,7 +203,7 @@ function create_client() {
             if(response_dict['success'] == true){
                 delete response_dict['success']
                 var tds = '<tr>';
-                tds += '<td>' + response_dict['id'] + '</td>';
+                tds += '<td>' + response_dict['client_id'] + '</td>';
                 tds += '<td>' + response_dict['name'] + '</td>';
                 tds += '<td>' + response_dict['email'] + '</td>';
                 tds += '<td>' + response_dict['phone_number'] + '</td>';
@@ -194,6 +214,9 @@ function create_client() {
                 $('#id_email').val("");
                 $('#id_phone_number').val("");
                 $('#id_address').val("");
+                $('#id_flat_no').val("");
+                $('#id_society').val("");
+                $('#id_area').val("");
                 $('#id_city').val("");
                 $('#id_state').val("");
                 $('#id_country').val("");

@@ -17,6 +17,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=250)),
+                ('client_id', models.CharField(max_length=250)),
                 ('email', models.EmailField(max_length=255)),
                 ('phone_number', models.CharField(blank=True, max_length=b'15', validators=[django.core.validators.RegexValidator(regex=b'^\\+?1?\\d{9,15}$', message=b"Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")])),
                 ('created_at', models.DateTimeField(auto_now_add=True)),

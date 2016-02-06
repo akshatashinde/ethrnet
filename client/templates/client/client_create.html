@@ -26,12 +26,19 @@
                             </div>
                             <div class="col-md-3">
                                 <label style="margin-top: 10px;">
+                                    Client ID:
+                                </label>
+                                {{ client_form.client_id }}
+                                {{ client_form.client_id.errors }}
+                            </div>
+                            <div class="col-md-3">
+                                <label style="margin-top: 10px;">
                                     Email:
                                 </label>
                                 {{ client_form.email }}
                                 {{ client_form.email.errors }}
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label style="margin-top: 10px;">
                                     Phone No:
                                 </label>
@@ -51,7 +58,28 @@
                             </div>
                             <div class="col-md-3">
                                 <label style="margin-top: 10px;">
-                                    City
+                                    Flat No:
+                                </label>
+                                {{ address_form.flat_no }}
+                                {{ address_form.flat_no.errors }}
+                            </div>
+                            <div class="col-md-3">
+                                <label style="margin-top: 10px;">
+                                    Society:
+                                </label>
+                                {{ address_form.society }}
+                                {{ address_form.society.errors }}
+                            </div>
+                            <div class="col-md-3">
+                                <label style="margin-top: 10px;">
+                                    Area:
+                                </label>
+                                {{ address_form.area }}
+                                {{ address_form.area.errors }}
+                            </div><br/><br/>
+                            <div class="col-md-3">
+                                <label style="margin-top: 10px;">
+                                    City:
                                 </label>
                                 {{ address_form.city }}
                                 {{ address_form.city.errors }}
@@ -69,7 +97,7 @@
                                 </label>
                                 {{ address_form.country }}
                                 {{ address_form.country.errors }}
-                            </div><br/><br/>
+                            </div>
                             <div class="col-md-3">
                                 <label style="margin-top: 10px;">
                                     Zipcode:
@@ -127,7 +155,7 @@
                         </tr>
                         {% for client in clients %}
                         <tr>
-                            <td>{{ client.id }}</td>
+                            <td>{{ client.client_id }}</td>
                             <td>{{ client.name }}</td>
                             <td>{{ client.email }}</td>
                             <td>{{ client.phone_number }}</td>

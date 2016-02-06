@@ -30,7 +30,7 @@ def client_create(request):
 
             response = {}
             response['success'] = True
-            response['id'] = client.id
+            response['client_id'] = client.client_id
             response['name'] = client.name
             response['email'] = client.email
             response['phone_number'] = client.phone_number
