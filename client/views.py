@@ -17,6 +17,7 @@ def client_list(request):
 
 
 def client_create(request):
+    import pdb;pdb.set_trace()
     if request.method == "POST":
         client_form = ClientForm(request.POST)
         address_form = AddressForm(request.POST)
@@ -35,6 +36,8 @@ def client_create(request):
             response['email'] = client.email
             response['phone_number'] = client.phone_number
             return HttpResponse(json.dumps(response))
+        else:
+            print "ganesh"
     else:
         client_form = ClientForm()
         address_form = AddressForm()

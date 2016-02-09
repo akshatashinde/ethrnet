@@ -30,11 +30,11 @@ def draw_footer(canvas):
     note = (
         u'*Note: This is computer generated document',
     )
-    textobject = canvas.beginText(1 * cm, -27 * cm)
+    textobject = canvas.beginText(1 * cm, -26 * cm)
     for line in note:
         textobject.textLine(line)
     canvas.drawText(textobject)
-    canvas.drawInlineImage(settings.FOOTER_LOGO, 0 * cm, -30 * cm, 600, 70)
+    canvas.drawInlineImage(settings.FOOTER_LOGO, 0 * cm, -30 * cm, 600, 90)
 
 
 inv_module = importlib.import_module(settings.INV_MODULE)
@@ -94,7 +94,7 @@ def draw_pdf(buffer, invoice):
             format_currency(item.unit_price, invoice.currency),
             format_currency(item.total(), invoice.currency)
         ])
-    spaces_count = 26 - len(invoice_list)
+    spaces_count = 25 - len(invoice_list)
     space_str = ""
     for i in range(0, spaces_count):
         space_str += '\n'
