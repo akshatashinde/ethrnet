@@ -84,27 +84,27 @@ WSGI_APPLICATION = 'ethrnet.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'ethernet',
-#         'USER': 'root',
-#         'PASSWORD': 'root',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ethernet',
-        'USER': 'ethernet_user',
-        'PASSWORD': 'ethernet6',
-        'HOST': 'ethernet.ctjtg3cziby4.us-west-2.rds.amazonaws.com',
-        'PORT': '3306',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'ethernet',
+#         'USER': 'ethernet_user',
+#         'PASSWORD': 'ethernet6',
+#         'HOST': 'ethernet.ctjtg3cziby4.us-west-2.rds.amazonaws.com',
+#         'PORT': '3306',
+#     }
+# }
 
 
 # Internationalization

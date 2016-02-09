@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+from django.conf import settings
 import django.core.validators
 
 
@@ -9,6 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('account', '0001_initial'),
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
@@ -23,6 +25,7 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('Address', models.ForeignKey(to='account.UserAddress')),
+                ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

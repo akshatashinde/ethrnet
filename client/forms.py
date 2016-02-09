@@ -12,4 +12,4 @@ class ClientForm(forms.ModelForm):
 class AddressForm(forms.ModelForm):
     class Meta:
         model = UserAddress
-        fields = ["address", "flat_no", "society", "area", "city", "state", "country", "zipcode"]
+        fields = ["flat_no", "society", "area", "city", "state", "country", "zipcode"]
