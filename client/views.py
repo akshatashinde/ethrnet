@@ -17,7 +17,6 @@ def client_list(request):
 
 
 def client_create(request):
-    import pdb;pdb.set_trace()
     if request.method == "POST":
         client_form = ClientForm(request.POST)
         address_form = AddressForm(request.POST)

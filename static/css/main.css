@@ -18,7 +18,7 @@ h1,
 h2,
 h3,
 h4 {
-    font-family: "Roboto",sans-serif !important;
+  font-family: "loveloblack";
 }
 a {
   color: #e74c3c;
@@ -217,7 +217,7 @@ li.search .open-search i {
   position: relative;
   letter-spacing: 1px;
   padding-bottom: 30px;
-
+  text-transform: uppercase;
   font-family: 'loveloblack';
   text-align: left;
   font-size: 24px;
@@ -357,6 +357,7 @@ li.search .open-search i {
   font-size: 15px;
   margin-top: 0px;
   text-align: center;
+  text-transform: uppercase;
   margin-bottom: 10px;
   font-weight: bold;
 }
@@ -509,6 +510,7 @@ li.search .open-search i {
 #carousel-area .item .carousel-caption h2 {
   font-family: 'loveloblack';
   font-size: 70px;
+  text-transform: uppercase;
   -webkit-animation-name: fadeInDown;
   animation-name: fadeInDown;
   -webkit-animation-duration: 0.8s;
@@ -637,6 +639,7 @@ li.search .open-search i {
   margin: 20px;
   outline: 0;
   color: #666;
+  text-transform: uppercase;
   font-weight: 400;
   background: transparent;
 }
@@ -1003,6 +1006,7 @@ ul li > ul > li.active > a {
 #portfolio figure.effect-layla:hover .portfolio-category {
   opacity: 1;
   z-index: 9999;
+  text-transform: uppercase;
 }
 #portfolio .portfolio-items .mix:before {
   content: '';
@@ -1357,7 +1361,8 @@ ul li > ul > li.active > a {
 #testimonial .item blockquote small span {
   padding-right: 15px;
   font-size: 14px;
-  }
+  text-transform: uppercase;
+}
 #testimonial .item blockquote small:before {
   display: none;
 }
@@ -1414,6 +1419,7 @@ ul li > ul > li.active > a {
 #blog .blog-item-img .blog-category {
   color: #FFF;
   background: #e74c3c;
+  text-transform: uppercase;
   padding: 5px 10px;
   position: absolute;
   bottom: 15px;
@@ -1575,6 +1581,7 @@ ul li > ul > li.active > a {
 #team-block-2 .team-member .member-info .position {
   color: #999;
   font-size: 16px;
+  text-transform: uppercase;
   color: rgba(255, 255, 255, 0.5);
 }
 #team-block-2 .team-member .member-info .social-team {
@@ -1805,6 +1812,7 @@ ul li {
   color: #cccccc;
   font-weight: 700;
   font-size: 20px;
+  text-transform: uppercase;
 }
 #blog-page {
   background: #ecf0f1;
@@ -2051,6 +2059,7 @@ ul li {
   position: relative;
   letter-spacing: 1px;
   padding-bottom: 15px;
+  text-transform: uppercase;
   color: #666666;
   font-family: 'loveloblack';
   text-align: left;
@@ -2648,6 +2657,7 @@ ul li {
 }
 #tabs .nav-tabs li a {
   font-size: 14px;
+  text-transform: uppercase;
   border-radius: 0px;
   padding: 12px 25px;
   display: block;
@@ -2749,6 +2759,7 @@ ul li {
   border: 1px solid transparent;
   color: #666;
   font-size: 14px;
+  text-transform: uppercase;
   font-weight: 700;
 }
 #tabs .pills .nav-pills li a i {
@@ -2812,6 +2823,7 @@ ul li {
   padding: 10px 15px;
   color: #666;
   font-weight: 700;
+  text-transform: uppercase;
   border: 1px solid transparent;
 }
 .sidebar .nav-pills li.active a,
@@ -3004,7 +3016,7 @@ ul li {
 .pricing-table-1 .plan .period {
   font-size: 18px;
   color: #999;
-
+  text-transform: uppercase;
 }
 .pricing-table-1 .plan-info {
   margin-top: 30px;
@@ -3047,7 +3059,7 @@ ul li {
 .pricing-table-x .plan .period {
   font-size: 18px;
   color: rgba(231, 76, 60, 0.7);
-
+  text-transform: uppercase;
 }
 .pricing-table-x .plan-info {
   margin-top: 30px;
@@ -3070,7 +3082,7 @@ ul li {
 .pricing-table-2 {
   background: rgba(255, 255, 255, 0.11);
   padding: 30px 0;
-
+  text-transform: uppercase;
 }
 .pricing-table-2 .period {
   position: relative;
@@ -3087,7 +3099,7 @@ ul li {
 }
 .pricing-table-2 .price {
   font-size: 90px;
-  font-family: "Roboto",sans-serif;
+  font-family: loveloblack;
 }
 .pricing-table-2 .price span {
   position: absolute;

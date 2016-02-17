@@ -6,7 +6,8 @@ from django.views.generic import CreateView, DeleteView, ListView
 from .models import Picture
 from .response import JSONResponse, response_mimetype
 from .serialize import serialize
-
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 class PictureCreateView(CreateView):
     model = Picture
@@ -42,6 +43,10 @@ class jQueryVersionCreateView(PictureCreateView):
 
 class PictureDeleteView(DeleteView):
     model = Picture
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(PictureDeleteView, self).dispatch(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
