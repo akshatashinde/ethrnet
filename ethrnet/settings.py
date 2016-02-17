@@ -46,6 +46,8 @@ INSTALLED_APPS = (
     'client',
     'invoice',
     'account',
+    'fileupload',
+    'connections',
 )
 
 MIDDLEWARE_CLASSES = (
