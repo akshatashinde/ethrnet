@@ -403,7 +403,6 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{% static 'dist/js/demo.js' %}"></script>
 <script src="{% static 'js/jquery.toaster.js' %}"></script>
-<script src="{% static 'js/client.js' %}"></script>
 <script src="{% static 'js/plans.js' %}"></script>
 <script src="{% static 'js/dynamic-formset.js' %}"></script>
 <script type="text/javascript">
@@ -420,6 +419,7 @@
     {% if flag %}
         $.toaster({ priority : 'success', title : 'Invoice Success', message : '{{ msg }}'});
     {% endif %}
+
 </script>
 {% block script %}
 {% endblock script %}

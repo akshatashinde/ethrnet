@@ -15,6 +15,8 @@
             <div>
                 <form method="post">
                     {% csrf_token %}
+                    <input id="new_client_id" type="hidden" name="new_client_id">
+                    <input id="new_address_id" type="hidden" name="new_address_id">
                     <div class="box box-solid">
                         <div class="box-body">
                             <div class="box-group" id="accordion">
@@ -87,6 +89,7 @@
                                                style="color:#fff;" id="collapseTwoClick">
                                                 Address
                                             </a>
+                                            <span id="advance_info" class="pull-right"></span>
                                         </h4>
                                     </div>
                                     <div id="collapseTwo" class="panel-collapse collapse">
@@ -254,8 +257,9 @@
 {% upload_js %}
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="{% static 'js/client.js' %}"></script>
 <script>
-    var jq110 = jQuery.noConflict(false);
+var jq110 = jQuery.noConflict(false);
 </script>
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 <script src="{% static 'js/vendor/jquery.ui.widget.js' %}"></script>
@@ -293,5 +297,9 @@
 <!--[if gte IE 8]>
 <script src="{% static 'js/cors/jquery.xdr-transport.js' %}"></script>
 <![endif]-->
-
+<script type="text/javascript">
+    $('#id_birth_date').datepicker({
+				format: 'mm-dd-yyyy'
+			});
+</script>
 {% endblock script %}

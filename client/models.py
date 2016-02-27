@@ -53,9 +53,9 @@ class Client(models.Model):
     gender = models.CharField(null=True, max_length=20, default='Other',
                               choices=Gender.as_tuple())
 
-    id_proof_types = models.CharField(null=True, max_length=20, default='Other',
+    id_proof_types = models.CharField(null=True, blank=True, max_length=20, default='Other',
                                       choices=Id_proofs.as_tuple())
-    address_proof_types = models.CharField(null=True, max_length=20,  default='Other',
+    address_proof_types = models.CharField(null=True, blank=True, max_length=20,  default='Other',
                                            choices=Address_proofs.as_tuple())
 
     attachments = models.ForeignKey(Picture, null=True, blank=True)
