@@ -127,14 +127,7 @@ $('#id_id_proof_types').blur(function(){
 
 function create_client() {
     var csrftoken = getCookie('csrftoken');
-
-    $.ajax({
-        url : "/client/new", // the endpoint
-        type : "POST", // http method
-        beforeSend: function(xhr, settings){
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        },
-        data : {
+    data = {
             name : $('#id_name').val(),
             client_id: $('#id_client_id').val(),
             email : $('#id_email').val(),
@@ -142,7 +135,18 @@ function create_client() {
             gender : $('#id_gender').val(),
             birth_date : (($('#id_birth_date').val()).replace("-", "/")).replace("-", "/"),
 
-         }, // data sent with the post request
+         };
+    if($('#new_client_id').val().length==0){}
+    else{
+    data['id_client'] = $('#new_client_id').val();
+    }
+    $.ajax({
+        url : "/client/new", // the endpoint
+        type : "POST", // http method
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        },
+        data : data, // data sent with the post request
         // handle a successful response
         success : function(response) {
             console.log(response)
@@ -170,14 +174,7 @@ function create_client() {
 
 function create_address() {
     var csrftoken = getCookie('csrftoken');
-
-    $.ajax({
-        url : "/client/address/new", // the endpoint
-        type : "POST", // http method
-        beforeSend: function(xhr, settings){
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        },
-        data : {
+    data = {
             flat_no : $('#id_flat_no').val(),
             society: $('#id_society').val(),
             area : $('#id_area').val(),
@@ -186,7 +183,18 @@ function create_address() {
             country : $('#id_country').val(),
             zipcode : $('#id_zipcode').val(),
 
-         }, // data sent with the post request
+         };
+    if($('#new_address_id').val().length==0){}
+    else{
+    data['id_address'] = $('#new_address_id').val();
+    }
+    $.ajax({
+        url : "/client/address/new", // the endpoint
+        type : "POST", // http method
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        },
+        data : data, // data sent with the post request
         // handle a successful response
         success : function(response) {
             console.log(response)
@@ -200,13 +208,78 @@ function create_address() {
                 $('#advance_info').html('<b>Saved...</b>');
             }
             else{
-                $.toaster({ priority : 'danger', title : 'Client Failed', message : 'Client not created.'});
+                $.toaster({ priority : 'danger', title : 'Address Failed', message : 'Address not created.'});
             }
         },
         error: function(response) {
 
-                $.toaster({ priority : 'danger', title : 'Client Failed', message : 'Client not created.'});
+                $.toaster({ priority : 'danger', title : 'Address Failed', message : 'Address not created.'});
             },
         // handle a non-successful response
     });
 };
+
+
+function create_image_id_list(){
+    var length = $('tr > td > p > a')['length'];
+    console.log(length)
+    var full_string = "";
+    for (i = 0; i < length; i++) {
+    var link = $('tr > td > button[class*="btn btn-danger"]')[i].getAttribute('data-url');
+    var link_list = link.split('/');
+        full_string = full_string + link_list[link_list.length-1] + ',';
+    }
+    full_string = full_string.substring(0, full_string.length - 1);
+    console.log(full_string)
+    return full_string;
+};
+
+$('#submitall').click(function(e){
+   e.preventDefault();
+    var img_list = create_image_id_list();
+    var client_id = $('#new_client_id').val();
+    var address_id = $('#new_address_id').val();
+    var id_proof_types = $('#id_id_proof_types').val()
+    var id_address_proof_types = $('#id_address_proof_types').val()
+    if( id_proof_types.length == 0 || id_address_proof_types.length == 0){
+        $.toaster({ priority : 'danger', title : 'Client Failed', message : 'Address or ID Proofs missing.'});
+    }
+    else if (img_list.length == 0 || client_id.length == 0 || address_id.length == 0){
+        $.toaster({ priority : 'danger', title : 'Client Failed', message : 'Client Address or images completed.'});
+    }
+    else{
+        var csrftoken = getCookie('csrftoken');
+        data = {
+            id_client : client_id,
+            id_address: address_id,
+            id_images : img_list,
+            id_proof_types: id_proof_types,
+            address_proof_types: id_address_proof_types
+         };
+        $.ajax({
+            url : "/client/all/link", // the endpoint
+            type : "POST", // http method
+            beforeSend: function(xhr, settings){
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+            data : data, // data sent with the post request
+            // handle a successful response
+            success : function(response) {
+                console.log(response)
+                var response_dict = $.parseJSON(response)
+                if(response_dict['success'] == true){
+                    $.toaster({ priority : 'success', title : 'Client Success', message : 'Client successfully created.'});
+                    window.location=response_dict['url'] ;
+                }
+                else{
+                    $.toaster({ priority : 'danger', title : 'Client Failed', message : 'Client not created.'});
+                }
+            },
+            error: function(response) {
+
+                    $.toaster({ priority : 'danger', title : 'Client Failed', message : 'Client not created.'});
+                },
+            // handle a non-successful response
+        });
+    }
+});

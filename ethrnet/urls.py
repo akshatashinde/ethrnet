@@ -30,7 +30,7 @@ urlpatterns = [
     # url(r'^reports/', include('reports.urls', namespace='reports')),
     # url(r'^advertisements/', include('advertisements.urls', namespace='advertisements')),
     url(r'$^', 'core.views.client'),
-    url(r'^myadmin/$', login_required(TemplateView.as_view(template_name="admin_base.html"))),
+    url(r'^myadmin/$', login_required(TemplateView.as_view(template_name="admin_base.html")), name='dashboard'),
     url(r'^login/$', 'django.contrib.auth.views.login',
         {'template_name': 'login.html'}),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/login/'}, name='logout'),

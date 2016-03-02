@@ -58,7 +58,7 @@ class Client(models.Model):
     address_proof_types = models.CharField(null=True, blank=True, max_length=20,  default='Other',
                                            choices=Address_proofs.as_tuple())
 
-    attachments = models.ForeignKey(Picture, null=True, blank=True)
+    attachments = models.ManyToManyField(Picture, null=True, blank=True)
 
     created_by = models.ForeignKey(User)
 

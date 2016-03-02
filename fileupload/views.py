@@ -8,6 +8,7 @@ from .response import JSONResponse, response_mimetype
 from .serialize import serialize
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from client.models import Client
 
 class PictureCreateView(CreateView):
     model = Picture
@@ -65,3 +66,21 @@ class PictureListView(ListView):
         response = JSONResponse(data, mimetype=response_mimetype(self.request))
         response['Content-Disposition'] = 'inline; filename=files.json'
         return response
+
+    def get_queryset(self):
+        client_id = self.request.GET.get('client_id')
+        if client_id != 'undefined':
+            try:
+                client = Client.objects.get(id=client_id)
+
+                try:
+                    data = client.attachments.all()
+                except Picture.DoesNotExist:
+                    data = Picture.objects.none()
+
+            except Client.DoesNotExist:
+                data = Picture.objects.none()
+
+            return data
+        else:
+            return Picture.objects.none()

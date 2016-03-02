@@ -46,11 +46,12 @@ jq110(function () {
     } else {
         // Load existing files:
         jq110('#fileupload').addClass('fileupload-processing');
+        var client_id = $('#new_client_id').val();
         jq110.ajax({
             // Uncomment the following to send cross-domain cookies:
             //xhrFields: {withCredentials: true},
             //url: jq110('#fileupload').fileupload('option', 'url'),
-            url: '/upload/view/',
+            url: '/upload/view/?client_id='+client_id,
             dataType: 'json',
             context: jq110('#fileupload')[0]
         }).always(function () {
