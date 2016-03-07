@@ -18,3 +18,4 @@ class Connection(models.Model):
         editable=True,
     )
     expired_on = models.DateTimeField()
+    
