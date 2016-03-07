@@ -1,7 +1,7 @@
 from django.core.validators import RegexValidator
 from django.db import models
 from enum import Enum
-from account.models import UserAddress
+from account.models import UserAddress, Branch
 from user_auth.models import User
 from fileupload.models import Picture
 
@@ -61,6 +61,7 @@ class Client(models.Model):
     attachments = models.ManyToManyField(Picture, null=True, blank=True)
 
     created_by = models.ForeignKey(User)
+    branch = models.ForeignKey(Branch)
 
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated_at = models.DateTimeField(auto_now_add=False, auto_now=True)

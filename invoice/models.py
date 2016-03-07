@@ -12,7 +12,7 @@ from django.template import TemplateDoesNotExist, Context
 from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
 
-from account.models import UserAddress
+from account.models import UserAddress, Branch
 from .utils import format_currency, friendly_id
 from .conf import settings as app_settings
 from .pdf import draw_pdf
@@ -47,6 +47,7 @@ class Invoice(TimeStampedModel):
     invoiced = models.BooleanField(default=False)
     draft = models.BooleanField(default=False)
     paid_date = models.DateField(blank=True, null=True)
+    branch = models.ForeignKey(Branch)
 
     objects = InvoiceManager()
 

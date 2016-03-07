@@ -7,8 +7,8 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('client', '0002_auto_20160217_1401'),
-        ('plans', '0001_initial'),
+        ('account', '0001_initial'),
+        ('client', '0001_initial'),
     ]
 
     operations = [
@@ -20,8 +20,8 @@ class Migration(migrations.Migration):
                 ('created_on', models.DateTimeField(auto_now_add=True)),
                 ('updated_on', models.DateTimeField(auto_now_add=True)),
                 ('expired_on', models.DateTimeField()),
+                ('branch', models.ForeignKey(to='account.Branch')),
                 ('client', models.ForeignKey(to='client.Client')),
-                ('plan', models.ForeignKey(to='plans.Plans')),
             ],
         ),
     ]

@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{% static 'dist/css/skins/_all-skins.min.css' %}">
     <!-- iCheck -->
     <link rel="stylesheet" href="{% static 'plugins/iCheck/flat/blue.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/iCheck/all.css' %}">
     <!-- Morris chart -->
     <link rel="stylesheet" href="{% static 'plugins/morris/morris.css' %}">
     <!-- jvectormap -->
@@ -396,6 +397,7 @@
 <script src="{% static 'plugins/slimScroll/jquery.slimscroll.min.js' %}"></script>
 <!-- FastClick -->
 <script src="{% static 'plugins/fastclick/fastclick.min.js' %}"></script>
+<script src="{% static 'plugins/iCheck/icheck.min.js' %}"></script>
 <!-- AdminLTE App -->
 <script src="{% static 'dist/js/app.min.js' %}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
@@ -416,9 +418,16 @@
     })
     $('select').addClass('form-control');
     $('input').addClass('form-control');
+    $('input:checkbox').removeClass('form-control');
+    $('input:checkbox').addClass('flat-red');
     {% if flag %}
         $.toaster({ priority : 'success', title : 'Invoice Success', message : '{{ msg }}'});
     {% endif %}
+    //Flat red color scheme for iCheck
+        $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+          checkboxClass: 'icheckbox_flat-green',
+          radioClass: 'iradio_flat-green'
+        });
 
 </script>
 {% block script %}

@@ -35,6 +35,7 @@ class Migration(migrations.Migration):
                 ('draft', models.BooleanField(default=False)),
                 ('paid_date', models.DateField(null=True, blank=True)),
                 ('address', models.ForeignKey(related_name='invoice_set', to='account.UserAddress')),
+                ('branch', models.ForeignKey(to='account.Branch')),
                 ('currency', models.ForeignKey(blank=True, to='invoice.Currency', null=True)),
                 ('user', models.ForeignKey(to='client.Client')),
             ],

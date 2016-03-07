@@ -9,6 +9,15 @@ from django_resized import ResizedImageField
 from user_auth.models import User
 
 
+class Branch(models.Model):
+    name = models.CharField(max_length=120,)
+    code = models.CharField(max_length=120,)
+    pincodes = models.TextField(null=True, blank=True)
+
+    def __unicode__(self):
+        return self.name
+
+
 class UserAddress(models.Model):
     address = models.CharField(max_length=120,)
     flat_no = models.CharField(max_length=120,)
@@ -43,21 +52,7 @@ class UserProfile(models.Model):
         """
         ADMINISTRATOR = 'Administrator'
         MASTER = 'Master'
-        UI_MASTER = 'UI Master'
-        MARKETING_MASTER = 'Marketing Master'
-        DISPATCHER_MASTER = 'Dispatcher Master'
         NORMAL_USER = 'Normal User'
-
-        @classmethod
-        def as_tuple(cls):
-            return ((item.value, item.name.replace('_', ' ')) for item in cls)
-
-    class Gender(Enum):
-        """
-        This class creates enum for gender field of UserProfile.
-        """
-        MALE = 'Male'
-        FEMALE = 'Female'
 
         @classmethod
         def as_tuple(cls):
@@ -70,10 +65,7 @@ class UserProfile(models.Model):
                                  choices=UserTypes.as_tuple(),
                                  default=UserTypes.NORMAL_USER.value
                                  )
-    mobile_no = models.CharField(blank=True, max_length=10)
-    gender = models.CharField(blank=True, max_length=20,
-                              choices=Gender.as_tuple())
-    dob = models.DateField(blank=True, null=True)
+    branch = models.ForeignKey(Branch, null=True, blank=True)
     profile_picture = models.ImageField(
         upload_to='profile_picture/',
         blank=True,
@@ -94,14 +86,9 @@ class UserProfile(models.Model):
         blank=True,
         null=True
     )
-    addresses = models.ManyToManyField(UserAddress)
 
     def __unicode__(self):
         return u''.join((self.first_name, self.last_name))
-
-    @property
-    def address(self):
-        return self.addresses.latest(field_name="timestamp")
 
     @receiver(post_save, sender=User)
     def create_profile_for_user(sender, instance=None,

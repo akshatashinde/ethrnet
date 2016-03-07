@@ -3,6 +3,8 @@ from django.conf import settings
 
 from enum import Enum
 
+from account.models import Branch
+
 
 class Plans(models.Model):
     """
@@ -29,6 +31,8 @@ class Plans(models.Model):
     post_FUP_speed = models.IntegerField(blank=True, null=True,)
     installation_charges = models.IntegerField(blank=True, null=True,)
     subscription_amount = models.IntegerField(blank=True, null=True,)
+    branch = models.ForeignKey(Branch)
+
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
