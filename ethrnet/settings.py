@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'account',
     'fileupload',
     'connections',
+    'core',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -91,7 +92,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ethernet',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'mypass',
         'HOST': 'localhost',
         'PORT': '',
     }

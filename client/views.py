@@ -41,6 +41,7 @@ def client_create(request):
         if client_form.is_valid():
             client = client_form.save(commit=False)
             client.created_by = request.user
+            client.branch = request.user.userprofile.branch
             client.save()
 
             response = {}

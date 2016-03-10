@@ -100,6 +100,9 @@ class Invoice(TimeStampedModel):
         self.invoiced = True
         self.save()
 
+    def client_id(self):
+        return self.user.client_id
+
 
 class InvoiceItem(models.Model):
     invoice = models.ForeignKey(Invoice, related_name='items', unique=False)
