@@ -17,7 +17,7 @@ def client(request):
 
 def dashboard(request):
     context = {}
-    clients = Client.objects.all().count()
+    clients = Client.objects.all(request.user).count()
     invoices = Invoice.objects.all().count()
     latest_invoice = Invoice.objects.all().order_by('id')[:7]
     connections = Connection.objects.all().count()

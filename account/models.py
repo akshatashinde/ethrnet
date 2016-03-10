@@ -90,26 +90,24 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return u''.join((self.first_name, self.last_name))
 
-    @receiver(post_save, sender=User)
-    def create_profile_for_user(sender, instance=None,
-                                created=False, **kwargs):
-        """
-        When a new user is created this fuctions creates a userprofile
-        for that particular user.
-        """
-        if created:
-            UserProfile.objects.create(user=instance)
+@receiver(post_save, sender=User)
+def create_profile_for_user(sender, instance=None,
+                            created=False, **kwargs):
+    """
+    When a new user is created this fuctions creates a userprofile
+    and associates it with the newly created user.
+    """
+    if created:
+            UserProfile.objects.create(
+                user=instance)
 
-        if instance.is_staff:
-            instance.userprofile.user_type = UserProfile.UserTypes.ADMINISTRATOR.value
-            instance.userprofile.save()
 
-    @receiver(pre_delete, sender=User)
-    def delete_profile_for_user(sender, instance=None, **kwargs):
-        """
-        When a user is deleted this fuctions deletes the userprofile
-        of that particular user.
-        """
-        if instance:
+@receiver(pre_delete, sender=User)
+def delete_profile_for_user(sender, instance=None, **kwargs):
+    """
+    When a user is deleted this fuctions deletes the userprofile
+    of that particular user.
+    """
+    if instance:
             user_profile = UserProfile.objects.get(user=instance)
             user_profile.delete()

@@ -12,7 +12,7 @@ from fileupload.models import Picture
 
 
 def client_list(request):
-    clients = Client.objects.all()
+    clients = Client.objects.all(request.user)
     return render(
         request,
         'client/client_list.html',
@@ -24,7 +24,7 @@ def client_list(request):
 
 def client_create(request):
     print "client hit"
-    clients = Client.objects.all().order_by('-id')[:5]
+    clients = Client.objects.all(request.user).order_by('-id')[:5]
     client = []
     address = []
     address_id = request.POST.get('id_address')

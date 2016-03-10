@@ -4,6 +4,7 @@ from enum import Enum
 from account.models import UserAddress, Branch
 from user_auth.models import User
 from fileupload.models import Picture
+from ethrnet.branch_manager import BranchWiseObjectManager
 
 
 class Client(models.Model):
@@ -68,3 +69,5 @@ class Client(models.Model):
 
     def __unicode__(self):
         return self.client_id
+
+    objects = BranchWiseObjectManager()
