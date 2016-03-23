@@ -42,7 +42,7 @@ class Client(models.Model):
             return ((item.value, item.name.replace('_', ' ')) for item in cls)
 
     name = models.CharField(max_length=250)
-    client_id = models.CharField(max_length=250)
+    client_id = models.CharField(max_length=250, null=True, blank=True)
     email = models.EmailField(max_length=255)
     Address = models.ForeignKey(UserAddress, null=True, blank=True)
 

@@ -14,3 +14,15 @@ class AddressForm(forms.ModelForm):
     class Meta:
         model = UserAddress
         fields = ["flat_no", "society", "area", "city", "state", "country", "zipcode"]
+
+
+class ClientFormMin(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = ["name", "email", "phone_number", "id_proof_types", "address_proof_types"]
+
+
+class AddressFormMin(forms.ModelForm):
+    class Meta:
+        model = UserAddress
+        fields = ["flat_no", "society", "area", "city", "zipcode"]
