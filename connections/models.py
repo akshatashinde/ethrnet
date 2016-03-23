@@ -3,13 +3,16 @@ from django.db import models
 from account.models import Branch
 from client.models import Client
 from plans.models import Plans
+from django.db.models.signals import post_save
+from ethrnet.branch_manager import BranchWiseObjectManager
+from django.dispatch import receiver
 
 
 class Connection(models.Model):
     client = models.ForeignKey(Client)
     plan = models.ForeignKey(Plans)
     is_active = models.BooleanField(default=False)
-    branch = models.ForeignKey(Branch)
+    branch = models.ForeignKey(Branch, null=True, blank=True)
     created_on = models.DateTimeField(
         auto_now_add=True,
         null=False,
@@ -20,4 +23,35 @@ class Connection(models.Model):
         null=False,
         editable=True,
     )
-    expired_on = models.DateTimeField()
+    expired_on = models.DateField()
+
+    objects = BranchWiseObjectManager()
+
+
+class ConnectionHistory(models.Model):
+    client = models.ForeignKey(Client)
+    plan = models.ForeignKey(Plans)
+    is_active = models.BooleanField(default=False)
+    branch = models.ForeignKey(Branch, null=True, blank=True)
+    created_on = models.DateTimeField(
+        null=False,
+        editable=True,
+    )
+    updated_on = models.DateTimeField(
+        null=False,
+        editable=True,
+    )
+    expired_on = models.DateField()
+
+    objects = BranchWiseObjectManager()
+
+
+@receiver(post_save, sender=Connection)
+def connection_post_saved_receiver(sender, instance, created, *args, **kwargs):
+    conn_hist = ConnectionHistory(client=instance.client)
+    conn_hist.plan = instance.plan
+    conn_hist.is_active = instance.is_active
+    conn_hist.created_on = instance.created_on
+    conn_hist.updated_on = instance.updated_on
+    conn_hist.expired_on = instance.expired_on
+    conn_hist.save()

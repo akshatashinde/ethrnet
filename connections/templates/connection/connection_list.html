@@ -6,7 +6,7 @@
         <div class="col-xs-12">
             <div class="box box-info">
                 <div class="box-header">
-                    <h3 class="box-title"><b>Clients</b></h3>
+                    <h3 class="box-title"><b>Connections</b></h3>
 
                     <div class="box-tools">
                         <div class="input-group" style="width: 150px;">
@@ -25,17 +25,25 @@
                         <tbody>
                         <tr>
                             <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone No</th>
+                            <th>Client</th>
+                            <th>Plan</th>
+                            <th>Status</th>
+                            <th>Expired on</th>
                             <th></th>
                         </tr>
-                        {% for client in clients %}
+                        {% for connection in connections %}
                         <tr>
-                            <td>{{ client.id }}</td>
-                            <td>{{ client.name }}</td>
-                            <td>{{ client.email }}</td>
-                            <td>{{ client.phone_number }}</td>
+                            <td>{{ connection.id }}</td>
+                            <td>{{ connection.client }}</td>
+                            <td>{{ connection.plan }}</td>
+                            <td>
+                                {% if connection.is_active %}
+                                    <span class="label label-primary">Active</span>
+                                {% else %}
+                                    <span class="label label-danger">Deactive</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ connection.expired_on }}</td>
                             <td>
                                 <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
                                 <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>

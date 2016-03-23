@@ -47,7 +47,7 @@ class Invoice(TimeStampedModel):
     invoiced = models.BooleanField(default=False)
     draft = models.BooleanField(default=False)
     paid_date = models.DateField(blank=True, null=True)
-    branch = models.ForeignKey(Branch)
+    branch = models.ForeignKey(Branch, blank=True, null=True)
 
     objects = InvoiceManager()
 
@@ -69,7 +69,7 @@ class Invoice(TimeStampedModel):
     def file_name(self):
         return u'Invoice %s.pdf' % self.invoice_id
 
-    def send_invoice(self):
+    def send_invoice_link(self):
         pdf = StringIO()
         draw_pdf(pdf, self)
         pdf.seek(0)
@@ -95,6 +95,32 @@ class Invoice(TimeStampedModel):
         email = EmailMultiAlternatives(subject=subject, body=strip_tags(body), to=[self.user.email])
         email.attach_alternative(body, "text/html")
         email.attach(attachment)
+        email.send()
+
+        self.invoiced = True
+        self.save()
+
+    def send_invoice(self):
+        subject = app_settings.INV_EMAIL_SUBJECT % {"invoice_id": self.invoice_id}
+        email_kwargs = {
+            "invoice": self,
+            "SITE_NAME": settings.SITE_NAME,
+            "INV_CURRENCY": app_settings.INV_CURRENCY,
+            "INV_CURRENCY_SYMBOL": app_settings.INV_CURRENCY_SYMBOL,
+            "SUPPORT_EMAIL": 'support@ethernetindia.com',
+            "template_redirect" : '127.0.0.1:8000/invoice/get/'
+        }
+        try:
+            template = get_template("invoice/invoice_email.html")
+            body = template.render(Context(email_kwargs))
+      #       html_content = render_to_string(
+      #     'app/includes/get/',
+      #     {'id': invoice.id}
+      # )
+        except TemplateDoesNotExist:
+            body = render_to_string("invoice/invoice_email.txt", email_kwargs)
+        email = EmailMultiAlternatives(subject=subject, body=strip_tags(body), to=[self.user.email])
+        email.attach_alternative(body, "text/html")
         email.send()
 
         self.invoiced = True

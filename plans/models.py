@@ -31,7 +31,7 @@ class Plans(models.Model):
     post_FUP_speed = models.IntegerField(blank=True, null=True,)
     installation_charges = models.IntegerField(blank=True, null=True,)
     subscription_amount = models.IntegerField(blank=True, null=True,)
-    branch = models.ForeignKey(Branch)
+    branch = models.ForeignKey(Branch, blank=True, null=True,)
 
 
     created_at = models.DateTimeField(auto_now_add=True)

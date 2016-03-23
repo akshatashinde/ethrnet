@@ -15,44 +15,60 @@
           <!-- Info boxes -->
           <div class="row">
             <div class="col-md-3 col-sm-6 col-xs-12">
+              <a href="/client/list/" class="logo">
               <div class="info-box">
                 <span class="info-box-icon bg-aqua" style="padding-top: 18px;"><i class="glyphicon glyphicon-user"></i></span>
+                
                 <div class="info-box-content">
                   <span class="info-box-text">Clients</span>
                   <span class="info-box-number">{{client}}</span>
                 </div><!-- /.info-box-content -->
+                
               </div><!-- /.info-box -->
+              </a>
             </div><!-- /.col -->
             <div class="col-md-3 col-sm-6 col-xs-12">
+              <a href="/invoice/list/" class="logo">
               <div class="info-box">
                 <span class="info-box-icon bg-red" style="padding-top: 18px;"><i class="glyphicon glyphicon-list-alt"></i></span>
+                
                 <div class="info-box-content">
                   <span class="info-box-text">Invoice</span>
                   <span class="info-box-number">{{invoice}}</span>
                 </div><!-- /.info-box-content -->
+                
               </div><!-- /.info-box -->
+              </a>
             </div><!-- /.col -->
 
             <!-- fix for small devices only -->
             <div class="clearfix visible-sm-block"></div>
 
             <div class="col-md-3 col-sm-6 col-xs-12">
+              <a href="/connections/list/" class="logo">
               <div class="info-box">
                 <span class="info-box-icon bg-green" style="padding-top: 18px;"><i class="glyphicon glyphicon-transfer"></i></span>
+                
                 <div class="info-box-content">
                   <span class="info-box-text">Connections</span>
                   <span class="info-box-number">{{connection}}</span>
                 </div><!-- /.info-box-content -->
+                
               </div><!-- /.info-box -->
+              </a>
             </div><!-- /.col -->
             <div class="col-md-3 col-sm-6 col-xs-12">
+              <a href="/connections/list/" class="logo">
               <div class="info-box">
                 <span class="info-box-icon bg-yellow" style="padding-top: 18px;"><i class="glyphicon glyphicon-tags"></i></span>
+                
                 <div class="info-box-content">
                   <span class="info-box-text">Enquiries</span>
                   <span class="info-box-number">{{enquiry}}</span>
                 </div><!-- /.info-box-content -->
+                
               </div><!-- /.info-box -->
+              </a>
             </div><!-- /.col -->
           </div><!-- /.row -->
 
@@ -96,8 +112,8 @@
                   </div><!-- /.table-responsive -->
                 </div><!-- /.box-body -->
                 <div class="box-footer clearfix">
-                  <a href="javascript::;" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</a>
-                  <a href="javascript::;" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
+                  <a href="/invoice/create/" class="btn btn-sm btn-info btn-flat pull-left">Create New Invoice</a>
+                  <a href="/invoice/list/" class="btn btn-sm btn-default btn-flat pull-right">View All Invoice</a>
                 </div><!-- /.box-footer -->
               </div>
 

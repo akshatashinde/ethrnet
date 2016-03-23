@@ -20,7 +20,7 @@ def dashboard(request):
     clients = Client.objects.all(request.user).count()
     invoices = Invoice.objects.all().count()
     latest_invoice = Invoice.objects.all().order_by('id')[:7]
-    connections = Connection.objects.all().count()
+    connections = Connection.objects.all(request.user).count()
     #enquiries = Enquiries.objects.all().count()
 
     context['client'] = clients
