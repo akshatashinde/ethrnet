@@ -50,7 +50,7 @@
   </head>
   <body>
     {% include "header.html" %}
-
+    {% include "get_connection.html" %}
     {% include "about_us.html" %}
     {% include "work_process.html" %}
     {% include "plans.html" %}
@@ -61,6 +61,8 @@
         <img src="{% static 'img/preloader.gif' %}" alt="">
     </div>
 </div>
+{% include "new_client_modal.html" %}
+
   <!-- JavaScript & jQuery Plugins -->
     <!-- jQuery Load -->
     <script src="{% static 'js/jquery-min.js' %}">

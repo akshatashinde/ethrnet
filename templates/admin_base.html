@@ -440,7 +440,17 @@
           checkboxClass: 'icheckbox_flat-green',
           radioClass: 'iradio_flat-green'
         });
-
+$('tr[data-href]').on("click", function() {
+    document.location = $(this).data('href');
+});
+</script>
+<script type="text/javascript">
+    $('#id_purchased_at').datepicker({
+				format: 'yyyy-mm-dd'
+			});
+	$('#id_delivered_at').datepicker({
+				format: 'yyyy-mm-dd'
+			});
 </script>
 {% block script %}
 {% endblock script %}

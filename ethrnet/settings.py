@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'fileupload',
     'connections',
     'core',
+    'inventory',
 )
 
 MIDDLEWARE_CLASSES = (

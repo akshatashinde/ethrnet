@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/login/'}, name='logout'),
     url(r'^plan/', include('plans.urls', namespace='ethernet-plans')),
     url(r'^invoice/', include('invoice.urls', namespace='ethernet-invoice')),
+    url(r'^inventory/', include('inventory.urls', namespace='ethernet-inventory')),
     url(r'^client/', include('client.urls', namespace='ethernet-client')),
 
     url(r'^$', lambda x: HttpResponseRedirect('/upload/new/')),
