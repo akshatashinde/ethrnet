@@ -10,7 +10,7 @@
 
                     <div class="box-tools">
                         <div class="input-group" style="width: 150px;">
-                            <input name="table_search" class="form-control input-sm pull-right" placeholder="Search"
+                            <input id="table_search" name="table_search" class="form-control input-sm pull-right" placeholder="Search"
                                    type="text">
 
                             <div class="input-group-btn">
@@ -22,7 +22,7 @@
                 </div><!-- /.box-header -->
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover" id="plans_table">
-                        <tbody>
+                        <thead/>
                         <tr>
                             <th>ID</th>
                             <th>Type</th>
@@ -35,6 +35,8 @@
                             <th></th>
                             <th></th>
                         </tr>
+                        <thead/>
+                        <tbody>
                         {% for plan in plans %}
                         <tr>
                             <td>{{ plan.id }}</td>
@@ -52,8 +54,9 @@
                             <td>{{ plan.installation_charges }}</td>
                             <td>{{ plan.subscription_amount }}</td>
                             <td>
-                                <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                                <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                <a href="{% url 'ethernet-plans:plan_delete' plan.id %}"><button class="btn btn-default btn-sm pull-right"><i class="fa fa-trash-o"></i></button></a>
+                                <span class="pull-right" style="width:20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <a href="{% url 'ethernet-plans:plan_edit' plan.id %}"><button class="btn btn-default btn-sm pull-right"><i class="fa fa-edit"></i></button></a>
                             </td>
                         </tr>
                         {% endfor %}

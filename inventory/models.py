@@ -2,7 +2,8 @@ from enum import Enum
 from datetime import date
 from django.db import models
 from dateutil.relativedelta import relativedelta
-
+from ethrnet.branch_manager import BranchWiseObjectManager
+from account.models import Branch
 
 class Supplier(models.Model):
     """
@@ -13,6 +14,7 @@ class Supplier(models.Model):
     company = models.CharField(max_length=255, blank=True, null=True)
     # eg. DLink - RK Enterprises
     code = models.CharField(max_length=255, blank=True, null=True)
+    branch = models.ForeignKey(Branch, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.code:
@@ -26,6 +28,9 @@ class Supplier(models.Model):
     def __unicode__(self):
         return self.code
 
+    objects = BranchWiseObjectManager()
+
+
 
 class InventoryItem(models.Model):
     """
@@ -34,9 +39,12 @@ class InventoryItem(models.Model):
     """
     name = models.CharField(max_length=255, blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True)
+    branch = models.ForeignKey(Branch, blank=True, null=True)
 
     def __unicode__(self):
         return self.name
+
+    objects = BranchWiseObjectManager()
 
 
 class IteamVariation(models.Model):
@@ -70,6 +78,7 @@ class IteamVariation(models.Model):
     warrenty_period = models.IntegerField(blank=True, null=True)
     expiry_date = models.DateField(blank=True, null=True)
     supplier = models.ForeignKey(Supplier)
+    branch = models.ForeignKey(Branch, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.code:
@@ -86,3 +95,5 @@ class IteamVariation(models.Model):
 
     def __unicode__(self):
         return self.code
+
+    objects = BranchWiseObjectManager()

@@ -14,7 +14,7 @@
         <div style="display: block;" class="box-body" id="plan_form">
             <div>
                 <form method="post">
-                {% csrf_token %}
+                    {% csrf_token %}
                     <div class="form-group" style="margin:20px;">
                         <div class="row">
                             <div class="col-md-3">
@@ -46,11 +46,12 @@
                                 {{ form.download_speed.errors }}
                             </div>
                         </div>
-                        <br />
+                        <br/>
+
                         <div class="row">
                             <div class="col-md-3">
                                 <label style="margin-top: 10px;">
-                                     FUP_limit:
+                                    FUP_limit:
                                 </label>
                                 {{ form.FUP_limit }}
                                 {{ form.FUP_limit.errors }}
@@ -78,12 +79,26 @@
                             </div>
                         </div>
                     </div>
+                    {% if edit %}
+                    <div class="row" style="padding-top:30px;padding-left:20px;border-top:1px solid #f4f4f4;">
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary">
+                                Submit
+                            </button>
+
+                        </div>
+                    </div>
+                    {% endif %}
                 </form>
+                {% if not edit %}
                 <div class="row" style="padding-top:30px;padding-left:20px;border-top:1px solid #f4f4f4;">
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary" id="submitplans">Submit</button>
+                        <button type="submit" class="btn btn-primary" id="submitplans">
+                            Submit
+                        </button>
                     </div>
                 </div>
+                {% endif %}
                 <div class="row">
                     <sapan id="plan_error" class="col-md-12 callout callout-danger" style="display:none;"></sapan>
                 </div>
@@ -136,9 +151,9 @@
                             <td>{{ plan.price }}</td>
                             <td>
                                 {% if plan.is_active %}
-                                    <span class="label label-primary">Active</span>
+                                <span class="label label-primary">Active</span>
                                 {% else %}
-                                    <span class="label label-danger">Deactive</span>
+                                <span class="label label-danger">Deactive</span>
                                 {% endif %}
                             </td>
                             <td>{{ plan.FUP_limit }}</td>
@@ -146,8 +161,15 @@
                             <td>{{ plan.installation_charges }}</td>
                             <td>{{ plan.subscription_amount }}</td>
                             <td>
-                                <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                                <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                <a href="{% url 'ethernet-plans:plan_delete' plan.id %}">
+                                    <button class="btn btn-default btn-sm pull-right"><i class="fa fa-trash-o"></i>
+                                    </button>
+                                </a>
+                                <span class="pull-right" style="width:20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <a href="{% url 'ethernet-plans:plan_edit' plan.id %}">
+                                    <button class="btn btn-default btn-sm pull-right"><i class="fa fa-edit"></i>
+                                    </button>
+                                </a>
                             </td>
                         </tr>
                         {% endfor %}

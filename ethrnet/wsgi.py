@@ -3,14 +3,14 @@ import sys
 import site
 
 
-site.addsitedir('/home/sid-1/.virtualenvs/ethernet/local/lib/python2.7/site-packages')
+site.addsitedir('/home/vishal/.virtualenvs/ethernet/local/lib/python2.7/site-packages')
 
 sys.path.append('/var/www/ethernet/ethrnet')
 sys.path.append('/var/www/ethernet/ethrnet/ethrnet')
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'ethrnet.settings'
 
-activate_env = os.path.expanduser('/home/sid-1/.virtualenvs/ethernet/bin/activate_this.py')
+activate_env = os.path.expanduser('/home/vishal/.virtualenvs/ethernet/bin/activate_this.py')
 
 execfile(activate_env, dict(__file__=activate_env))
 

@@ -7,12 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('inventory', '0001_initial'),
+        ('client', '0002_client_created_by'),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='iteamvariation',
-            name='company',
+        migrations.AddField(
+            model_name='client',
+            name='is_active',
+            field=models.BooleanField(default=False),
         ),
     ]

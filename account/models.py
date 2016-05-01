@@ -22,7 +22,7 @@ class UserAddress(models.Model):
     address = models.CharField(max_length=120,)
     flat_no = models.CharField(max_length=120,)
     society = models.CharField(max_length=120,)
-    area = models.CharField(max_length=120,)
+    area = models.ForeignKey(Branch, null=True, blank=True)
     city = models.CharField(max_length=120, default="Pune")
     state = models.CharField(max_length=120, null=True, blank=True, default="Maharashtra")
     country = models.CharField(max_length=120,default="India")
@@ -35,7 +35,28 @@ class UserAddress(models.Model):
         return self.get_address()
 
     def get_address(self):
-        return "%s,<br/>%s - %s.<br/>%s, %s." %(self.address, self.zipcode, self.city, self.state, self.country)
+        address = ""
+        if self.flat_no:
+            address += "Flat No. " + self.flat_no
+        if self.society:
+            address += " " + self.society + ",<br/>"
+        else:
+            address += "<br/>"
+        if self.area:
+            address += self.area.name
+        if self.city:
+            address += " ," + self.city + ",<br/>"
+        else:
+            address += "<br/>"
+        if self.state:
+            address += self.state
+        if self.country:
+            address += " ," + self.country + ",<br/>"
+        else:
+            address += "<br/>"
+        if self.zipcode:
+            address += "Pincode - " +self.zipcode
+        return address
 
     class Meta:
         ordering = ['-updated', '-timestamp']

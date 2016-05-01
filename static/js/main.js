@@ -284,3 +284,57 @@ $(document).ready(function() {
     }
   });
 });
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+$('#id_area').blur(function(){
+    console.log('blur');
+
+//    a = $(this).parent().siblings();
+//    c = $('>.prices', a[3]);
+//    c.val(10);
+
+    get_plan_list($(this).val(), this);
+});
+
+function get_plan_list(branch_id, obj) {
+    console.log(branch_id)
+    var options = "";
+    var csrftoken = getCookie('csrftoken');
+    $.ajax({
+        url : "/plan/get/list/", // the endpoint
+        type : "POST", // http method
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        },
+        data : {
+            area : branch_id,
+         }, // data sent with the post request
+        // handle a successful response
+        success : function(response) {
+                console.log(response)
+                $('#id_plan').empty();
+                $.each( response, function( key, value ) {
+                    options = options + '<option value="' + key + '">' + value + '</option>'
+                 });
+                 $('#id_plan').append(options);
+        },
+        error: function(response) {
+
+                $.toaster({ priority : 'danger', title : 'Error', message : 'Select valid Plan or Device or keep it blank.'});
+            },
+        // handle a non-successful response
+    });
+};

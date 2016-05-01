@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^invoice/', include('invoice.urls', namespace='ethernet-invoice')),
     url(r'^inventory/', include('inventory.urls', namespace='ethernet-inventory')),
     url(r'^client/', include('client.urls', namespace='ethernet-client')),
+    url(r'^reports/', include('reports.urls', namespace='ethernet-reports')),
 
     url(r'^$', lambda x: HttpResponseRedirect('/upload/new/')),
     url(r'^upload/', include('fileupload.urls')),

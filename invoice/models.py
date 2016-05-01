@@ -2,7 +2,6 @@ from datetime import date
 from decimal import Decimal
 from StringIO import StringIO
 from email.mime.application import MIMEApplication
-
 from django.db import models
 from client.models import Client as User
 from django.conf import settings
@@ -11,11 +10,14 @@ from django.template.loader import render_to_string, get_template
 from django.template import TemplateDoesNotExist, Context
 from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
-
 from account.models import UserAddress, Branch
 from .utils import format_currency, friendly_id
 from .conf import settings as app_settings
 from .pdf import draw_pdf
+from inventory.models import IteamVariation
+from django.core.exceptions import ValidationError
+from plans.models import Plans
+from django.core.validators import MinValueValidator
 
 
 class Currency(models.Model):
@@ -36,6 +38,11 @@ class InvoiceManager(models.Manager):
                            invoiced=False,
                            draft=False)
 
+    def all(self, user):
+        if user.is_staff:
+            return super(InvoiceManager, self).get_queryset()
+        return super(InvoiceManager, self).get_queryset().filter(branch=user.userprofile.branch)
+
 
 class Invoice(TimeStampedModel):
     user = models.ForeignKey(User)
@@ -46,7 +53,7 @@ class Invoice(TimeStampedModel):
     invoice_date = models.DateField(default=date.today)
     invoiced = models.BooleanField(default=False)
     draft = models.BooleanField(default=False)
-    paid_date = models.DateField(blank=True, null=True)
+    paid_date = models.CharField(max_length=200, blank=True, null=True)
     branch = models.ForeignKey(Branch, blank=True, null=True)
 
     objects = InvoiceManager()
@@ -69,7 +76,7 @@ class Invoice(TimeStampedModel):
     def file_name(self):
         return u'Invoice %s.pdf' % self.invoice_id
 
-    def send_invoice_link(self):
+    def send_invoice(self):
         pdf = StringIO()
         draw_pdf(pdf, self)
         pdf.seek(0)
@@ -100,7 +107,7 @@ class Invoice(TimeStampedModel):
         self.invoiced = True
         self.save()
 
-    def send_invoice(self):
+    def send_invoice_link(self):
         subject = app_settings.INV_EMAIL_SUBJECT % {"invoice_id": self.invoice_id}
         email_kwargs = {
             "invoice": self,
@@ -108,15 +115,15 @@ class Invoice(TimeStampedModel):
             "INV_CURRENCY": app_settings.INV_CURRENCY,
             "INV_CURRENCY_SYMBOL": app_settings.INV_CURRENCY_SYMBOL,
             "SUPPORT_EMAIL": 'support@ethernetindia.com',
-            "template_redirect" : '127.0.0.1:8000/invoice/get/'
+            "template_redirect": '127.0.0.1:8000/invoice/get/'
         }
         try:
             template = get_template("invoice/invoice_email.html")
             body = template.render(Context(email_kwargs))
-      #       html_content = render_to_string(
-      #     'app/includes/get/',
-      #     {'id': invoice.id}
-      # )
+            #       html_content = render_to_string(
+            #     'app/includes/get/',
+            #     {'id': invoice.id}
+            # )
         except TemplateDoesNotExist:
             body = render_to_string("invoice/invoice_email.txt", email_kwargs)
         email = EmailMultiAlternatives(subject=subject, body=strip_tags(body), to=[self.user.email])
@@ -132,9 +139,11 @@ class Invoice(TimeStampedModel):
 
 class InvoiceItem(models.Model):
     invoice = models.ForeignKey(Invoice, related_name='items', unique=False)
+    item = models.ForeignKey(IteamVariation, null=True, blank=True)
+    plan = models.ForeignKey(Plans, null=True, blank=True)
     description = models.CharField(max_length=100)
     unit_price = models.DecimalField(max_digits=8, decimal_places=2)
-    quantity = models.IntegerField()
+    quantity = models.PositiveIntegerField(validators=[MinValueValidator(1)], default=1)
 
     def total(self):
         total = Decimal(str(self.unit_price * self.quantity))
@@ -142,3 +151,19 @@ class InvoiceItem(models.Model):
 
     def __unicode__(self):
         return self.description
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            if self.item:
+                item = self.item
+                self.unit_price = item.sale_price
+                if item.status == item.StockStatusChoices.OUT_OF_STOCK.value:
+                    raise ValidationError
+                else:
+                    item.quantity = int(item.quantity) - int(self.quantity)
+                    item.save()
+            if self.plan:
+                self.unit_price = self.plan.price
+        else:
+            pass
+        super(InvoiceItem, self).save(*args, **kwargs)
