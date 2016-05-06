@@ -1,0 +1,166 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+<section class="content" style="min-height:10px; padding-bottom:0px;">
+    <div class="box box-info" style="margin-bottom: 0px;">
+        <div class="box-header with-border">
+            <h3 class="box-title"><b>Add New Plan</b></h3>
+
+            <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+            </div>
+        </div><!-- /.box-header -->
+        <div style="display: block;" class="box-body" id="plan_form">
+            <div>
+                <form method="post">
+                {% csrf_token %}
+                    <div class="form-group" style="margin:20px;">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label style="margin-top: 10px;">
+                                    Plan Type
+                                </label>
+                                {{ form.plan_type }}
+                                {{ form.plan_type.errors }}
+                            </div>
+                            <div class="col-md-3">
+                                <label style="margin-top: 10px;">
+                                    Price:
+                                </label>
+                                {{ form.price }}
+                                {{ form.price.errors }}
+                            </div>
+                            <div class="col-md-3">
+                                <label style="margin-top: 10px;">
+                                    Duration:
+                                </label>
+                                {{ form.duration }}
+                                {{ form.duration.errors }}
+                            </div>
+                            <div class="col-md-3">
+                                <label style="margin-top: 10px;">
+                                    Download Speed:
+                                </label>
+                                {{ form.download_speed }}
+                                {{ form.download_speed.errors }}
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label style="margin-top: 10px;">
+                                     FUP_limit:
+                                </label>
+                                {{ form.FUP_limit }}
+                                {{ form.FUP_limit.errors }}
+                            </div>
+                            <div class="col-md-3">
+                                <label style="margin-top: 10px;">
+                                    Post FUP Speed
+                                </label>
+                                {{ form.post_FUP_speed }}
+                                {{ form.post_FUP_speed.errors }}
+                            </div>
+                            <div class="col-md-3">
+                                <label style="margin-top: 10px;">
+                                    Installation Charges:
+                                </label>
+                                {{ form.installation_charges }}
+                                {{ form.installation_charges.errors }}
+                            </div>
+                            <div class="col-md-3">
+                                <label style="margin-top: 10px;">
+                                    Subscription Amount:
+                                </label>
+                                {{ form.subscription_amount }}
+                                {{ form.subscription_amount.errors }}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row" style="padding-top:30px;padding-left:20px;border-top:1px solid #f4f4f4;">
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary" id="submitplans">Submit</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <sapan id="plan_error" class="col-md-12 callout callout-danger" style="display:none;"></sapan>
+                </div>
+                <div class="row">
+                    <sapan id="plan_success" class="col-md-12 callout callout-info" style="display:none;"></sapan>
+                </div>
+
+            </div>
+        </div><!-- /.box-body -->
+    </div>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title"><b>Plans</b></h3>
+
+                    <div class="box-tools">
+                        <div class="input-group" style="width: 150px;">
+                            <input name="table_search" class="form-control input-sm pull-right" placeholder="Search"
+                                   type="text">
+
+                            <div class="input-group-btn">
+                                <button class="btn btn-sm btn-default" style="height: 30px;"><i
+                                        class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover" id="plans_table">
+                        <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>FUP</th>
+                            <th>Speed</th>
+                            <th>Installation</th>
+                            <th>Subscription</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        {% for plan in plans %}
+                        <tr>
+                            <td>{{ plan.id }}</td>
+                            <td>{{ plan.plan_type }}</td>
+                            <td>{{ plan.price }}</td>
+                            <td>
+                                {% if plan.is_active %}
+                                    <span class="label label-primary">Active</span>
+                                {% else %}
+                                    <span class="label label-danger">Deactive</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ plan.FUP_limit }}</td>
+                            <td>{{ plan.download_speed }}</td>
+                            <td>{{ plan.installation_charges }}</td>
+                            <td>{{ plan.subscription_amount }}</td>
+                            <td>
+                                <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </div>
+    </div>
+</section>
+
+<style>
+
+</style>
+{% endblock content %}
+

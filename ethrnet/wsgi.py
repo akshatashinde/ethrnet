@@ -1,13 +1,18 @@
-"""
-WSGI config for ethrnet project.
-
-It exposes the WSGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.8/howto/deployment/wsgi/
-"""
-
 import os
+import sys
+import site
+
+
+site.addsitedir('/home/single/.virtualenvs/ethernet/local/lib/python2.7/site-packages')
+
+sys.path.append('/var/www/ethernet/ethrnet')
+sys.path.append('/var/www/ethernet/ethrnet/ethrnet')
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'ethrnet.settings'
+
+activate_env = os.path.expanduser('/home/single/.virtualenvs/ethernet/bin/activate_this.py')
+
+execfile(activate_env, dict(__file__=activate_env))
 
 from django.core.wsgi import get_wsgi_application
 

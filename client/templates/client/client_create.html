@@ -1,0 +1,305 @@
+{% extends "admin_base.html" %}
+{% load staticfiles %}
+{% block content %}
+<section class="content" style="min-height:10px; padding-bottom:0px;">
+    <div class="box box-info" style="margin-bottom: 0px;">
+        <div class="box-header with-border">
+            <h3 class="box-title"><b>Add New Client</b></h3>
+
+            <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+            </div>
+        </div><!-- /.box-header -->
+        <div style="display: block;" class="box-body" id="plan_form">
+            <div>
+                <form method="post">
+                    {% csrf_token %}
+                    <input id="new_client_id" type="hidden" name="new_client_id">
+                    <input id="new_address_id" type="hidden" name="new_address_id">
+                    <div class="box box-solid">
+                        <div class="box-body">
+                            <div class="box-group" id="accordion">
+                                <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+                                <div class="panel box box-primary">
+                                    <div class="box-header with-border" style="background:#333;">
+                                        <h4 class="box-title" style="width:100%">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                                               style="color:#fff;">
+                                                Basic Information
+                                            </a>
+                                            <span id="basic_info" class="pull-right"></span>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse in">
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label style="margin-top: 10px;">
+                                                        Name
+                                                    </label>
+                                                    {{ client_form.name }}
+                                                    {{ client_form.name.errors }}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label style="margin-top: 10px;">
+                                                        Client ID:
+                                                    </label>
+                                                    {{ client_form.client_id }}
+                                                    {{ client_form.client_id.errors }}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label style="margin-top: 10px;">
+                                                        Email:
+                                                    </label>
+                                                    {{ client_form.email }}
+                                                    {{ client_form.email.errors }}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label style="margin-top: 10px;">
+                                                        Phone No:
+                                                    </label>
+                                                    {{ client_form.phone_number }}
+                                                    {{ client_form.phone_number.errors }}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label style="margin-top: 10px;">
+                                                        Gender:
+                                                    </label>
+                                                    {{ client_form.gender }}
+                                                    {{ client_form.gender.errors }}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label style="margin-top: 10px;">
+                                                        Birth Date:
+                                                    </label>
+                                                    {{ client_form.birth_date }}
+                                                    {{ client_form.birth_date.errors }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel box box-danger">
+                                    <div class="box-header with-border" style="background:#333;">
+                                        <h4 class="box-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"
+                                               style="color:#fff;" id="collapseTwoClick">
+                                                Address
+                                            </a>
+                                            <span id="advance_info" class="pull-right"></span>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseTwo" class="panel-collapse collapse">
+                                        <div class="box-body">
+                                            <div class="col-md-3">
+                                                <label style="margin-top: 10px;width:60px;">
+                                                    Flat No:
+                                                </label>
+                                                {{ address_form.flat_no }}
+                                                {{ address_form.flat_no.errors }}
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label style="margin-top: 10px;width: 60px;">
+                                                    Society:
+                                                </label>
+                                                {{ address_form.society }}
+                                                {{ address_form.society.errors }}
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label style="margin-top: 10px; width: 60px;">
+                                                    Area:
+                                                </label>
+                                                {{ address_form.area }}
+                                                {{ address_form.area.errors }}
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label style="margin-top: 10px;width: 60px;">
+                                                    City:
+                                                </label>
+                                                {{ address_form.city }}
+                                                {{ address_form.city.errors }}
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label style="margin-top: 10px;width: 60px;">
+                                                    State:
+                                                </label>
+                                                {{ address_form.state }}
+                                                {{ address_form.state.errors }}
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label style="margin-top: 10px;width: 60px;">
+                                                    Country:
+                                                </label>
+                                                {{ address_form.country }}
+                                                {{ address_form.country.errors }}
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label style="margin-top: 10px;width: 60px;">
+                                                    Zipcode:
+                                                </label>
+                                                {{ address_form.zipcode }}
+                                                {{ address_form.zipcode.errors }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><br>
+                                <h4 class="box-title"><b>Extra Information</b></h4>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label style="margin-top: 10px;">
+                                            Identity Proof:
+                                        </label>
+                                        {{ client_form.id_proof_types }}
+                                        {{ client_form.id_proof_types.errors }}
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label style="margin-top: 10px;">
+                                             Address Proof:
+                                        </label>
+                                        {{ client_form.address_proof_types }}
+                                        {{ client_form.address_proof_types.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- /.box-body -->
+                    </div>
+
+                </form>
+                <div id="uploader">
+                    {% include 'fileupload/picture_form.html' %}
+                </div>
+                <button type="submit" class="btn btn-primary" id="submitall">Submit</button>
+            </div>
+        </div><!-- /.box-body -->
+    </div>
+
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title"><b>Clients</b></h3>
+
+                    <div class="box-tools">
+                        <div class="input-group" style="width: 150px;">
+                            <input name="table_search" class="form-control input-sm pull-right" placeholder="Search"
+                                   type="text">
+
+                            <div class="input-group-btn">
+                                <button class="btn btn-sm btn-default" style="height: 30px;"><i
+                                        class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover" id="client_table">
+                        <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone No</th>
+                            <th></th>
+                        </tr>
+                        {% for client in clients %}
+                        <tr>
+                            <td>{{ client.client_id }}</td>
+                            <td>{{ client.name }}</td>
+                            <td>{{ client.email }}</td>
+                            <td>{{ client.phone_number }}</td>
+                            <td>
+                                <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </div>
+    </div>
+</section>
+
+<style>
+    #plan_type, #id_duration{
+    width:100%;
+    }
+    #id_price{
+    width:100%;
+    }
+    #id_download_speed{
+    width:100%;
+    }
+    #id_post_FUP_speed{
+    width:100%;
+    }
+    #id_installation_charges{
+    width:100%;
+    }
+    #id_subscription_amount{
+    width:100%;
+    }
+    #id_FUP_limit{
+    width:100%;
+    }
+</style>
+{% endblock content %}
+
+{% block script %}
+
+{% load upload_tags %}
+{% upload_js %}
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="{% static 'js/client.js' %}"></script>
+<script>
+var jq110 = jQuery.noConflict(false);
+</script>
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="{% static 'js/vendor/jquery.ui.widget.js' %}"></script>
+<!-- The Templates plugin is included to render the upload/download listings -->
+<script src="{% static 'js/tmpl.min.js' %}"></script>
+<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+<script src="{% static 'js/load-image.min.js' %}"></script>
+<!-- The Canvas to Blob plugin is included for image resizing functionality -->
+<script src="{% static 'js/canvas-to-blob.min.js' %}"></script>
+<!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- blueimp Gallery script -->
+<script src="{% static 'js/jquery.blueimp-gallery.min.js' %}"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="{% static 'js/jquery.iframe-transport.js' %}"></script>
+<!-- The basic File Upload plugin -->
+<script src="{% static 'js/jquery.fileupload.js' %}"></script>
+<!-- The File Upload processing plugin -->
+<script src="{% static 'js/jquery.fileupload-process.js' %}"></script>
+<!-- The File Upload image preview & resize plugin -->
+<script src="{% static 'js/jquery.fileupload-image.js' %}"></script>
+<!-- The File Upload audio preview plugin -->
+<script src="{% static 'js/jquery.fileupload-audio.js' %}"></script>
+<!-- The File Upload video preview plugin -->
+<script src="{% static 'js/jquery.fileupload-video.js' %}"></script>
+<!-- The File Upload validation plugin -->
+<script src="{% static 'js/jquery.fileupload-validate.js' %}"></script>
+<!-- The File Upload user interface plugin -->
+<script src="{% static 'js/jquery.fileupload-ui.js' %}"></script>
+<!-- The main application script -->
+<script src="{% static 'js/main1.js' %}"></script>
+<script src="{% static 'js/locale.js' %}"></script>
+<script src="{% static 'js/csrf.js' %}"></script>
+<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
+<!--[if gte IE 8]>
+<script src="{% static 'js/cors/jquery.xdr-transport.js' %}"></script>
+<![endif]-->
+<script type="text/javascript">
+    $('#id_birth_date').datepicker({
+				format: 'mm-dd-yyyy'
+			});
+</script>
+{% endblock script %}
