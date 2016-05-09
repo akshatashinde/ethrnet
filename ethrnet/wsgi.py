@@ -12,7 +12,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'ethrnet.settings'
 
 activate_env = os.path.expanduser('/home/single/.virtualenvs/ethernet/bin/activate_this.py')
 
-execfile(activate_env, dict(__file__=activate_env))
+# execfile(activate_env, dict(__file__=activate_env))
 
 from django.core.wsgi import get_wsgi_application
 

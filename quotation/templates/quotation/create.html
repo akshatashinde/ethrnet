@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Create Item</title>
+</head>
+<body>
+<div class="row">
+	<div class='col-md-3'>
+	</div>
+	<div class='col-md-6'>
+		<h1 align='center' style="color:Green;">Create Item</h1>
+
+
+
+
+		<script type='text/javascript'>
+			$('input[type="text"]').addClass('form-control');
+			$('textarea').addClass('form-control');
+		</script>
+
+		<div class="container">
+			<div class='col-md-6'>
+			<div class="panel panel-default">
+				<div align='center' class="panel-body">
+					<form action="" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						{{user_form.as_p}}
+						{{item_form.as_p}}
+						<input type='submit' value='Save' class='btn btn-primary btn-lg btn-block'/>
+						</br>
+						</br>
+				 		<a href="{% url 'quotation:home' %}">GOTO HOME</a>
+					</form>
+				</div>
+			</div>
+			</div>	
+		</div>
+	</div>
+	<div class='col-md-3'>
+	</div>
+</div>
+</body>
+</html>
