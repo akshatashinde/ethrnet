@@ -1,0 +1,16 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+<head>
+	<title></title>
+	<h1 align='center' style="color:Blue;"><b><i>Welcome to Quotation App</i></b></h1>
+</head>
+
+<ul>
+	<li><p style="font-size:150%;"><a href="{% url 'quotation:create_item' %}">Create Item</a></p></li>
+	</br>
+	<li><p style="font-size:150%;"><a href="{% url 'quotation:list_item' %}">List of Item</a></p></li>
+	</br>
+	<li><p style="font-size:150%;"><a href="{% url 'quotation:create_item1' %}">Create Multiple Items</a></p></li>
+</ul>
+{% endblock content %}

@@ -1,0 +1,66 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+<head>
+	<title>Create Item</title>
+</head>
+<div class="row">
+	<div class='col-md-3'>
+	</div>
+	<div class='col-md-6'>
+		<h1 align='center' style="color:Blue;">Create Item</h1>
+		<script type='text/javascript'>
+			$('input[type="text"]').addClass('form-control');
+			$('textarea').addClass('form-control');
+		</script>
+
+		<div class="container">
+			<div class='col-md-6'>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<form action="{% url 'quotation:create_item' %}" method="post" enctype="form-horizontal">
+						{% csrf_token %}
+							
+						{{user_form.as_p}}
+						{{item_form.as_p}}
+						<!-- <div class="form-group">
+								<div class="col-md-12">
+								<input type="text" id="id_client" name="client_name" class="form-control" placeholder="Enter client name" required />
+								</div>
+						</div>
+				
+						<div class="form-group">
+								<div class="col-md-12">
+								<input type="text" id="id_quotation" name="quotation_no" class="form-control" placeholder="Enter quotation no" required />
+								</div>
+						</div>
+						<div class="form-group">
+								<div class="col-md-12">
+								<input type="text" id="id_itemname" name="item_name" class="form-control" placeholder="enter item name" required />
+								</div>
+						</div>
+						<div class="form-group">
+								<div class="col-md-12">
+								<input type="text" id="id_quantity" name="quantity" class="form-control" placeholder="Enter quantity" required />
+								</div>
+						</div>
+						<div class="form-group">
+								<div class="col-md-12">
+								<input type="text" id="id_price" name="price" class="form-control" placeholder="Enter price" required />
+								</div>
+						</div> -->
+						
+						<input type='submit' value='Save' class='btn btn-primary btn-lg bt'/>
+						</br>
+						</br>
+				 		<a href="{% url 'quotation:home' %}">GOTO HOME</a>
+					</form>
+				</div>
+			</div>
+			</div>	
+		</div>
+	</div>
+	<div class='col-md-3'>
+	</div>
+</div>
+{% endblock content %}
