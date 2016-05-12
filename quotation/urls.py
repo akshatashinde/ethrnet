@@ -9,4 +9,5 @@ urlpatterns = [
 	url(r'^createm/$', views.createitem_formset, name='create_item1'),
 	url(r'^list/$',views.itemlist, name='list_item'),
 	url(r'^(?P<pk>[0-9]+)/$',views.detailitem, name='item_detail'),
+	url(r'^tablelist/$',views.tablelist, name='tablelist'),
 	]

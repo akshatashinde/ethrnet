@@ -1,0 +1,69 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+<head>
+	<title></title>
+</head>
+<h1 align="center">Item Details</h1>
+<script type='text/javascript'>
+		$('input[type="text"]').addClass('form-control');
+		$('textarea').addClass('form-control');
+</script>
+
+<div>
+	{% if item_list %}
+			<table class="table table-bordered">
+			
+				<tr background-color: black;>
+					<th >Quotation No </th>
+					<th>Item </th>
+					<th>Quantity</th>
+					<th>Price</th>
+					<th>Total Price</th>
+				</tr>	
+				{% for item in item_list %}
+					<tr>
+						<td>{{item.quotation_no}}</td>
+						<td>{{item.item}}</td>
+						<td>{{item.quantity}}</td>
+						<td>{{item.price}}</td>
+						<td>{{item.total}}</td>
+					<tr>
+				{% endfor %}
+			</table>	
+	{% else %}
+		<p>No content in Table</p>
+	{% endif %}	
+	</div>		
+{% endblock content %}
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+	<title>item Details</title>
+	<h1>ItemDetails</h1><h1>Hi</h1>
+	<hr/>
+
+<script type='text/javascript'>
+	$('input[type="text"]').addClass('form-control');
+	$('textarea').addClass('form-control');
+</script>
+</head>
+<body>
+<form>
+<div>
+	{% if item_list %}
+	<h1>Hello</h1>
+		{% for item in item_list %}
+		<ul>
+		<li> Item:	{{item.item}}</li>
+		<li> Price:	{{item.price}}</li>		
+		<li> Quantity:	{{item.quantity}}</li>
+		</ul>
+			{% endfor %}
+		{% endif %}	
+</div>
+</form>
+</body>
+</html> -->

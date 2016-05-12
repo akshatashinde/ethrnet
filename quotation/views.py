@@ -91,3 +91,8 @@ def createitem_formset(request):
 		formset = ItemFormSet()
 
 	return render (request,'quotation/fcreate.html',{'user_form':user_form, 'formset':formset})			
+
+def tablelist(request):
+	item_list = Item.objects.all()
+	
+	return render(request,'quotation/tablelist.html', {'item_list': item_list})
