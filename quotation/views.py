@@ -5,12 +5,12 @@ from .forms import QuotationForm,ItemForm
 from django.contrib.auth.decorators import login_required
 from .models import Quotation, Item
 from django.forms import formset_factory
+# from .serializers import ReportNestedSerializer, ReportSerializer
 
 # Create your views here.
 def home(request):
 	return render(request, 'quotation/home.html',{})
 
-@login_required(login_url='/admin/login/')
 def createitem(request):
 	if request.method == 'POST':
 		user_form = QuotationForm(request.POST)
@@ -26,16 +26,14 @@ def createitem(request):
 			user_form = QuotationForm()
 			item_form = ItemForm()
 		else:
-			messages.error(request,"Properly fill info....")
-			return HttpResponseRedirect('')
+			HttpResponse('errors availabe on same page...goto the same page again.')
 
 	else:
 		user_form = QuotationForm()
 		item_form = ItemForm()
 
-	return render (request,'quotation/create.html',{'user_form':user_form, 'item_form':item_form})		
+	return render (request,'quotation/create.html',{'user_form':user_form, 'item_form':item_form})	
 
-@login_required(login_url='/admin/login/')
 def itemlist(request):
 	context = {}
 	Quotation_list = Quotation.objects.all()
@@ -43,7 +41,6 @@ def itemlist(request):
 	context = {'Quotation_list':Quotation_list}
 	return render(request,'quotation/view.html',context)
 
-@login_required(login_url='/admin/login/')
 def detailitem(request,pk):
 	context ={}
 	quot = get_object_or_404(Quotation,pk=pk)
@@ -88,7 +85,8 @@ def createitem_formset(request):
 
 	return render (request,'quotation/create1.html',{'user_form':user_form, 'formset':formset})			
 
-@login_required(login_url='/admin/login/')
 def tablelist(request):
 	item_list = Item.objects.all()
-	return render(request,'quotation/list.html', {'item_list': item_list})
+	
+	return render(request,'quotation/tablelist.html', {'item_list': item_list})
+

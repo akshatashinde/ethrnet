@@ -18,3 +18,9 @@ class Item(models.Model):
 
 	def __unicode__(self):
 		return self.item
+
+	class ReportBuilder:
+		fields = ('item', 'quantity','price','total')
+	
+
+		

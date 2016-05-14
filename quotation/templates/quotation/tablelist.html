@@ -1,69 +1,57 @@
 {% extends "admin_base.html" %}
 
 {% block content %}
-<head>
-	<title></title>
-</head>
-<h1 align="center">Item Details</h1>
-<script type='text/javascript'>
-		$('input[type="text"]').addClass('form-control');
-		$('textarea').addClass('form-control');
-</script>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title"><b>List of Items</b></h3>
 
-<div>
-	{% if item_list %}
-			<table class="table table-bordered">
-			
-				<tr background-color: black;>
-					<th >Quotation No </th>
-					<th>Item </th>
-					<th>Quantity</th>
-					<th>Price</th>
-					<th>Total Price</th>
-				</tr>	
-				{% for item in item_list %}
-					<tr>
-						<td>{{item.quotation_no}}</td>
-						<td>{{item.item}}</td>
-						<td>{{item.quantity}}</td>
-						<td>{{item.price}}</td>
-						<td>{{item.total}}</td>
-					<tr>
-				{% endfor %}
-			</table>	
-	{% else %}
-		<p>No content in Table</p>
-	{% endif %}	
-	</div>		
+                    <!-- <div class="box-tools">
+                        <div class="input-group" style="width: 150px;">
+                            <input name="table_search" class="form-control input-sm pull-right" placeholder="Search"
+                                   type="text">
+
+                            <div class="input-group-btn">
+                                <button class="btn btn-sm btn-default" style="height: 30px;"><i
+                                        class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div> -->
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover" id="plans_table">
+                        <tbody>
+                        <tr>
+                            
+                            <th>Client Name</th>
+                            <th>Item name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total Amount</th>
+                            <th></th>
+                        </tr>
+                        {% for item in item_list %}
+                        
+                            <td>{{ item.quotation_no }}</td>
+                            
+                           
+                            
+                            <td>{{ item.item }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.price }}</td>
+                            <td>{{ item.total }}</td>
+                            <td>
+                                <button class="btn btn-default btn-sm" title="delete invoice"><i class="fa fa-trash-o"></i></button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </div>
+    </div>
+</section>
 {% endblock content %}
-
-
-<!-- <!DOCTYPE html>
-<html>
-<head>
-	<title>item Details</title>
-	<h1>ItemDetails</h1><h1>Hi</h1>
-	<hr/>
-
-<script type='text/javascript'>
-	$('input[type="text"]').addClass('form-control');
-	$('textarea').addClass('form-control');
-</script>
-</head>
-<body>
-<form>
-<div>
-	{% if item_list %}
-	<h1>Hello</h1>
-		{% for item in item_list %}
-		<ul>
-		<li> Item:	{{item.item}}</li>
-		<li> Price:	{{item.price}}</li>		
-		<li> Quantity:	{{item.quantity}}</li>
-		</ul>
-			{% endfor %}
-		{% endif %}	
-</div>
-</form>
-</body>
-</html> -->

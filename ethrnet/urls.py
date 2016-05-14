@@ -43,5 +43,6 @@ urlpatterns = [
     url(r'^media/(.*)$', 'django.views.static.serve',
                          {'document_root': settings.MEDIA_ROOT}),
     url(r'^quotation/',include('quotation.urls',namespace='quotation', app_name='quotation')),
+    url(r'^report_builder/', include('report_builder.urls')),
 ]
 
