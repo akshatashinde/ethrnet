@@ -7,7 +7,7 @@ from django.db.models import Count
 # Create your views here.
 def client_reports(request):
     clients = Client.objects.all(request.user)
-    return render(request, 'reports/report.html', {})
+    return render(request, 'reports/report.html', {'clients':clients})
 
 
 def inventory_reports(request):
