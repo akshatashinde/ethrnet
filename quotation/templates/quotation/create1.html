@@ -19,7 +19,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <label style="margin-top: 10px;">
-                                    Client
+                                    Client:
                                 </label>
                                 {{ user_form.client }}
                                 {{ user_form.client.errors }}
@@ -32,8 +32,13 @@
                                 {{ user_form.quotation_no.errors }}
                             </div>
                             <div class="col-md-4">
-                                
+                                <label style="margin-top: 10px;">
+                                    Date:
+                                </label>
+                                {{ user_form.created }}
+                                {{ user_form.created.errors }}
                             </div>
+                            
                         </div>
                         <br/>
 

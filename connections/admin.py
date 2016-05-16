@@ -1,3 +1,6 @@
 from django.contrib import admin
+from connections.models import Connection, ConnectionHistory
 
-# Register your models here.
+
+admin.site.register(Connection)
+admin.site.register(ConnectionHistory)

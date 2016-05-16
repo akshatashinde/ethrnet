@@ -26,7 +26,6 @@ class Migration(migrations.Migration):
                 ('address', models.CharField(max_length=120)),
                 ('flat_no', models.CharField(max_length=120)),
                 ('society', models.CharField(max_length=120)),
-                ('area', models.CharField(max_length=120)),
                 ('city', models.CharField(default=b'Pune', max_length=120)),
                 ('state', models.CharField(default=b'Maharashtra', max_length=120, null=True, blank=True)),
                 ('country', models.CharField(default=b'India', max_length=120)),

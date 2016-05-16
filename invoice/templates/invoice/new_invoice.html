@@ -69,7 +69,8 @@
                             <tbody id="invoice_table_body">
                             <tr>
                                 <th>ID</th>
-                                <th>Item</th>
+                                <th>Name</th>
+                                <th>Description</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
                                 <th></th>
@@ -80,6 +81,7 @@
                             {% for form in formset.forms %}
                             <tr id="{{ form.prefix }}-row" class="dynamic-form">
                                 <td></td>
+                                <td>{{ form.item }}</td>
                                 <td>{{ form.description }}</td>
                                 <td>{{ form.quantity }}</td>
                                 <td>{{ form.unit_price }}</td>

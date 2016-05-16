@@ -1,4 +1,3 @@
-
 $("#submitplans").click(function()
 {
     var error = ""
@@ -21,16 +20,6 @@ $("#submitplans").click(function()
     else if(download_speed == ""){
         error = "Download speed not selected";
     }
-    else if(post_FUP_speed == ""){
-        error = "Post FUP speed not selected";
-    }
-    else if(installation_charges == ""){
-        error = "Installation charges not selected";
-    }
-    else if(subscription_amount == ""){
-        error = "Subscription amount not selected";
-    }
-
     if (error != ""){
         $('#plan_error').text(error);
         $("#plan_error").fadeToggle(100);
@@ -96,7 +85,7 @@ function get_notifications() {
                 tds += '<td>' + response_dict['download_speed'] + '</td>';
                 tds += '<td>' + response_dict['installation_charges'] + '</td>';
                 tds += '<td>' + response_dict['subscription_amount'] + '</td>';
-                tds += '<td><button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>&nbsp;<button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button></td>'
+                tds += '<td><button class="btn btn-default btn-sm pull-right"><i class="fa fa-trash-o"></i></button>&nbsp;<button class="btn btn-default btn-sm pull-right"><i class="fa fa-edit"></i></button></td>'
                 tds += '</tr>';
                 $("tbody > tr:nth-child(1)").after(tds);
                 $('#plan_success').text("Plan added Successfully");
@@ -226,3 +215,74 @@ function create_client() {
         // handle a non-successful response
     });
 };
+
+$('.items').blur(function(){
+    console.log('blur');
+
+//    a = $(this).parent().siblings();
+//    c = $('>.prices', a[3]);
+//    c.val(10);
+
+    get_price($(this).val(), this);
+});
+
+function get_price(item, obj) {
+    var csrftoken = getCookie('csrftoken');
+
+    $.ajax({
+        url : "/invoice/get/price/", // the endpoint
+        type : "POST", // http method
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        },
+        data : {
+            item : item,
+         }, // data sent with the post request
+        // handle a successful response
+        success : function(response) {
+            var response_dict = $.parseJSON(response)
+                console.log(response)
+                a = $(obj).parent().siblings();
+                c = $('>.prices', a[3]);
+                c.val(response);
+        },
+        error: function(response) {
+
+                $.toaster({ priority : 'danger', title : 'Error', message : 'Select valid Plan or Device or keep it blank.'});
+            },
+        // handle a non-successful response
+    });
+};
+//
+//$('.edit').click(function(){
+//    a = $(this).parent().siblings()[0];
+//    a = $(a).text();
+//    console.log(a)
+//    get_plan(a);
+//});
+//
+//function get_plan(id) {
+//    var csrftoken = getCookie('csrftoken');
+//
+//    $.ajax({
+//        url : "/plan/get/", // the endpoint
+//        type : "POST", // http method
+//        beforeSend: function(xhr, settings){
+//            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+//        },
+//        data : {
+//            id : id,
+//         }, // data sent with the post request
+//        // handle a successful response
+//        success : function(response) {
+//                console.log(response)
+//                response = response[0]
+//                console.log(response.duration)
+//        },
+//        error: function(response) {
+//
+//                $.toaster({ priority : 'danger', title : 'Error', message : 'Select valid Plan or Device or keep it blank.'});
+//            },
+//        // handle a non-successful response
+//    });
+//};

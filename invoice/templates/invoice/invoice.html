@@ -114,9 +114,13 @@
         <tbody>
         {% for invoice_item in invoice_items %}
         <tr>
-            <td>{{ invoice_item.description }}</td>
-            <td class="text-right">{{ invoice_item.unit_price }}</td>
+            <td>
+                {% if invoice_item.item %}{{ invoice_item.item }}
+                {% elif invoice_item.plan %}{{ invoice_item.plan }}{% else %}
+                {{ invoice_item.description }}{% endif %}
+            </td>
             <td class="text-right">{{ invoice_item.quantity }}</td>
+            <td class="text-right">{{ invoice_item.unit_price }}</td>
             <td class="text-right">{% widthratio invoice_item.unit_price 1 invoice_item.quantity %}</td>
         </tr>
         {% endfor %}

@@ -3,14 +3,14 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import datetime
+import django.core.validators
 import django_extensions.db.fields
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('account', '0001_initial'),
-        ('client', '0001_initial'),
+        ('inventory', '0001_initial'),
     ]
 
     operations = [
@@ -33,11 +33,7 @@ class Migration(migrations.Migration):
                 ('invoice_date', models.DateField(default=datetime.date.today)),
                 ('invoiced', models.BooleanField(default=False)),
                 ('draft', models.BooleanField(default=False)),
-                ('paid_date', models.DateField(null=True, blank=True)),
-                ('address', models.ForeignKey(related_name='invoice_set', to='account.UserAddress')),
-                ('branch', models.ForeignKey(to='account.Branch')),
-                ('currency', models.ForeignKey(blank=True, to='invoice.Currency', null=True)),
-                ('user', models.ForeignKey(to='client.Client')),
+                ('paid_date', models.CharField(max_length=200, null=True, blank=True)),
             ],
             options={
                 'ordering': ('-invoice_date', 'id'),
@@ -49,8 +45,9 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('description', models.CharField(max_length=100)),
                 ('unit_price', models.DecimalField(max_digits=8, decimal_places=2)),
-                ('quantity', models.IntegerField()),
+                ('quantity', models.PositiveIntegerField(default=1, validators=[django.core.validators.MinValueValidator(1)])),
                 ('invoice', models.ForeignKey(related_name='items', to='invoice.Invoice')),
+                ('item', models.ForeignKey(blank=True, to='inventory.IteamVariation', null=True)),
             ],
         ),
     ]

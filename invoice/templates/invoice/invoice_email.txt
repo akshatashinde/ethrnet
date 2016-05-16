@@ -5,6 +5,7 @@ Your invoice is now ready. Please see attached PDF.
 
 If you have any questions or concerns, please contact: {{ SUPPORT_EMAIL }}
 <br>
+
 Thank you,
 Ethernet Broadband Service Provider
 <br><br>

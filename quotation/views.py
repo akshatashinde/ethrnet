@@ -5,12 +5,12 @@ from .forms import QuotationForm,ItemForm
 from django.contrib.auth.decorators import login_required
 from .models import Quotation, Item
 from django.forms import formset_factory
-# from .serializers import ReportNestedSerializer, ReportSerializer
 
 # Create your views here.
 def home(request):
 	return render(request, 'quotation/home.html',{})
 
+@login_required(login_url='/admin/login/')
 def createitem(request):
 	if request.method == 'POST':
 		user_form = QuotationForm(request.POST)
@@ -26,14 +26,16 @@ def createitem(request):
 			user_form = QuotationForm()
 			item_form = ItemForm()
 		else:
-			HttpResponse('errors availabe on same page...goto the same page again.')
+			messages.error(request,"Properly fill info....")
+			return HttpResponseRedirect('')
 
 	else:
 		user_form = QuotationForm()
 		item_form = ItemForm()
 
-	return render (request,'quotation/create.html',{'user_form':user_form, 'item_form':item_form})	
+	return render (request,'quotation/create.html',{'user_form':user_form, 'item_form':item_form})		
 
+@login_required(login_url='/admin/login/')
 def itemlist(request):
 	context = {}
 	Quotation_list = Quotation.objects.all()
@@ -41,35 +43,37 @@ def itemlist(request):
 	context = {'Quotation_list':Quotation_list}
 	return render(request,'quotation/view.html',context)
 
+@login_required(login_url='/admin/login/')
 def detailitem(request,pk):
 	context ={}
 	quot = get_object_or_404(Quotation,pk=pk)
 	item = Item.objects.all()
-	context ={'quot':quot,'item':item}
-	return render(request,'quotation/detail_item.html',context)
+	start_date = 'May 16, 2016 '
+	end_date = 'May 17, 2016 '
+	# obj_list = Quotation.objects.unsettled.filter(
+            # created_on__range=[start_date, end_date]
+	last_month = Quotation.objects.filter(created__month='05',client=quot.client)
+	print last_month
+	context = {'quot':quot,
+				'item':item,
+				'last_month':last_month
+			}
+	return render(request,'quotation/bt.html',context)
 
 @login_required(login_url='/admin/login/')
 def createitem_formset(request):
 	ItemFormSet = formset_factory(ItemForm, extra=3, can_delete=True)
-	print 1
 	if request.method == 'POST':
-		print 'a'
 		user_form = QuotationForm(request.POST)
-		print 'a1'
 		formset = ItemFormSet(request.POST, request.FILES)
-		print 2
 		if user_form.is_valid() and formset.is_valid() :
-			print 3
 			quotation_no =  user_form.save(commit=False)
-			print quotation_no	
 			quotation_no.save()
-			print 4
 			for form in formset:
 			    item = form.save(commit=False)
 			    item.quotation_no = quotation_no
 			    item.total= item.quantity * item.price
 			    item.save()
-			    print item.item
 
 			messages.add_message(request, messages.INFO, 'user added details!')
 			
@@ -85,8 +89,7 @@ def createitem_formset(request):
 
 	return render (request,'quotation/create1.html',{'user_form':user_form, 'formset':formset})			
 
+@login_required(login_url='/admin/login/')
 def tablelist(request):
 	item_list = Item.objects.all()
-	
-	return render(request,'quotation/tablelist.html', {'item_list': item_list})
-
+	return render(request,'quotation/list.html', {'item_list': item_list})

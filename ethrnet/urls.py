@@ -24,7 +24,7 @@ from django.conf import settings
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     #
-    # url(r'^connections/', include('connections.urls', namespace='connections')),
+    url(r'^connections/', include('connections.urls', namespace='connections')),
     # url(r'^enquiries/', include('enquiries.urls', namespace='enquiries')),
     # url(r'^plans/', include('plans.urls', namespace='plans')),
     # url(r'^reports/', include('reports.urls', namespace='reports')),
@@ -36,13 +36,14 @@ urlpatterns = [
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/login/'}, name='logout'),
     url(r'^plan/', include('plans.urls', namespace='ethernet-plans')),
     url(r'^invoice/', include('invoice.urls', namespace='ethernet-invoice')),
+    url(r'^inventory/', include('inventory.urls', namespace='ethernet-inventory')),
     url(r'^client/', include('client.urls', namespace='ethernet-client')),
+    url(r'^reports/', include('reports.urls', namespace='ethernet-reports')),
 
     url(r'^$', lambda x: HttpResponseRedirect('/upload/new/')),
     url(r'^upload/', include('fileupload.urls')),
     url(r'^media/(.*)$', 'django.views.static.serve',
                          {'document_root': settings.MEDIA_ROOT}),
-    url(r'^quotation/',include('quotation.urls',namespace='quotation', app_name='quotation')),
-    url(r'^report_builder/', include('report_builder.urls')),
+    url(r'^quotation/',include('quotation.urls', namespace='quotation')),
 ]
 

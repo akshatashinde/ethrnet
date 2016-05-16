@@ -1,0 +1,187 @@
+<!-- Modal -->
+<div class="modal fade" id="myModalNorm" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h3 class="modal-title" id="myModalLabel">
+                    Connection Request
+                </h3>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+
+                <div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input id="new_client_id" type="hidden" name="new_client_id">
+                        <input id="new_address_id" type="hidden" name="new_address_id">
+
+                        <div class="box box-solid">
+                            <div class="box-body">
+                                <div class="box-group" id="accordion">
+                                    <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+                                    <div class="panel box box-primary">
+                                        <h4 class="box-title"
+                                            style="font-family:sans-serif;font-weight:normal;fornt-size:16px;">
+                                            Basic Information
+                                            <span id="basic_info" class="pull-right"></span>
+                                        </h4>
+
+                                        <div class="box-body">
+                                            <div class="row" style="padding: 0px 0 0px;">
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        Name
+                                                    </label>
+                                                    {{ client_form.name }}
+                                                    {{ client_form.name.errors }}
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        Email:
+                                                    </label>
+                                                    {{ client_form.email }}
+                                                    {{ client_form.email.errors }}
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        Phone No:
+                                                    </label>
+                                                    {{ client_form.phone_number }}
+                                                    {{ client_form.phone_number.errors }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel box box-danger">
+                                        <h4 class="box-title"
+                                            style="font-weight:normal;fornt-size:16px;font-family:sans-serif;">
+                                            Address
+                                            <span id="advance_info" class="pull-right"></span>
+                                        </h4>
+
+                                        <div class="box-body">
+                                            <div class="row" style="padding: 0px 0 0px;">
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        Flat No:
+                                                    </label>
+                                                    {{ address_form.flat_no }}
+                                                    {{ address_form.flat_no.errors }}
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        Society:
+                                                    </label>
+                                                    {{ address_form.society }}
+                                                    {{ address_form.society.errors }}
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        Area:
+                                                    </label>
+                                                    {{ address_form.area }}
+                                                    {{ address_form.area.errors }}
+                                                </div>
+                                            </div>
+                                            <div class="row" style="padding: 0px 0 0px;">
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        City:
+                                                    </label>
+                                                    {{ address_form.city }}
+                                                    {{ address_form.city.errors }}
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        Zipcode:
+                                                    </label>
+                                                    {{ address_form.zipcode }}
+                                                    {{ address_form.zipcode.errors }}
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        Prefered Plan:
+                                                    </label>
+                                                    {{ plan_form.plan }}
+                                                    {{ plan_form.plan.errors }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel box box-danger">
+                                        <h4 class="box-title"
+                                            style="font-weight:normal;fornt-size:16px;font-family:sans-serif;">Extra
+                                            Information</h4>
+
+                                        <div class="box-body">
+                                            <div class="row" style="padding: 0px 0 0px;">
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        Identity Proof:
+                                                    </label>
+                                                    {{ client_form.id_proof_types }}
+                                                    {{ client_form.id_proof_types.errors }}
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <label>
+                                                        Proof:
+                                                    </label>
+                                                    {{ pic1.file }}
+                                                    {{ pic1.file.errors }}
+                                                </div>
+                                            </div>
+                                            <div class="row" style="padding: 0px 0 0px;">
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        Address Proof:
+                                                    </label>
+                                                    {{ client_form.address_proof_types }}
+                                                    {{ client_form.address_proof_types.errors }}
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <label style="margin-top: 10px;">
+                                                        Proof:
+                                                    </label>
+                                                    {{ pic2.file }}
+                                                    {{ pic2.file.errors }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding: 25px 0 0px;">
+                                        <div class="pull-right" style="margin-right: 20px;">
+                                            <span  style="display: inline;">
+                                            <button type="button" class="btn btn-default btn-danger"
+                                                    data-dismiss="modal">
+                                                Close
+                                            </button>&nbsp;&nbsp;
+                                            <button type="button" class="btn btn-primary btn-success">
+                                                Save changes
+                                            </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
