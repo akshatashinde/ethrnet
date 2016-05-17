@@ -8,7 +8,7 @@
                 <div class="box-header">
                     <h3 class="box-title"><b>List of Items</b></h3>
 
-                    <!-- <div class="box-tools">
+                    <div class="box-tools">
                         <div class="input-group" style="width: 150px;">
                             <input name="table_search" class="form-control input-sm pull-right" placeholder="Search"
                                    type="text">
@@ -18,14 +18,15 @@
                                         class="fa fa-search"></i></button>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                 </div><!-- /.box-header -->
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover" id="plans_table">
                         <tbody>
                         <tr>
                             
-                            <th>Client Name</th>
+                            <th>Client ID</th>
+                            <th>quotation no</th>
                             <th>Item name</th>
                             <th>Quantity</th>
                             <th>Price</th>
@@ -33,7 +34,7 @@
                             <th></th>
                         </tr>
                         {% for item in item_list %}
-                        
+                            <td>{{ item.client }}</td>
                             <td>{{ item.quotation_no }}</td>
                             
                            

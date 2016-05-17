@@ -2,6 +2,7 @@ from django import template
 
 register = template.Library()
 from quotation.models import Quotation,Item
+from client.models import Client
 
 def get_item(value):
 	try:
@@ -14,3 +15,16 @@ def get_item(value):
 	return data
 
 register.filter('get_item', get_item)
+
+
+def get_client(value):
+	try:
+		profile = Quotation.objects.get(client = value)
+		print profile,value
+		data = Item.objects.filter(client = profile)
+		print data
+	except:
+		data = []
+	return data
+
+register.filter('get_client', get_client)

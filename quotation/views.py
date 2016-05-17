@@ -5,6 +5,7 @@ from .forms import QuotationForm,ItemForm
 from django.contrib.auth.decorators import login_required
 from .models import Quotation, Item
 from django.forms import formset_factory
+from client.models import Client
 
 # Create your views here.
 def home(request):
@@ -53,7 +54,6 @@ def detailitem(request,pk):
 	# obj_list = Quotation.objects.unsettled.filter(
             # created_on__range=[start_date, end_date]
 	last_month = Quotation.objects.filter(created__month='05',client=quot.client)
-	print last_month
 	context = {'quot':quot,
 				'item':item,
 				'last_month':last_month
@@ -69,9 +69,13 @@ def createitem_formset(request):
 		if user_form.is_valid() and formset.is_valid() :
 			quotation_no =  user_form.save(commit=False)
 			quotation_no.save()
+			clientid = request.POST.get('clientid')
+			client = Client.objects.get(client_id=clientid)
+			print client
 			for form in formset:
 			    item = form.save(commit=False)
 			    item.quotation_no = quotation_no
+			    item.client = client
 			    item.total= item.quantity * item.price
 			    item.save()
 
@@ -80,7 +84,7 @@ def createitem_formset(request):
 			user_form = QuotationForm()
 			formset = ItemFormSet()
 		else:
-			messages.error(request,"Properly fill information....")
+			messages.error(request,"Properly fill information....entered another quotation no")
 			return HttpResponseRedirect('')
 
 	else:
