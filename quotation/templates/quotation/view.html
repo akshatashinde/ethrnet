@@ -13,8 +13,8 @@
 		<form action="" method="post" >
 			<div class="container" style="margin-top: 50px;">
 			<h2 style="color:blue;"><i><b>client list</b></i></h2>
-			{% if Quotation_list %}
-				{% for q in Quotation_list %}
+			{% if clients %}
+				{% for q in clients %}
 					<ul>
 						<li><h3 style="color:green;">{{q.client}}</h3></li>
 						<p><a href="{% url 'quotation:item_detail' q.pk %}" class="btn btn-primary" role="button">View</a></p>
