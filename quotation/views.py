@@ -41,40 +41,40 @@ def createitem(request):
 @login_required(login_url='/admin/login/')
 def itemlist(request):
 	context = {}
-	# clients = Client.objects.all(request.user)
-	clients = Quotation.objects.all()
+	clients = Client.objects.all(request.user)
+	# clients = Quotation.objects.all()
 	context = {'clients':clients}
 	return render(request,'quotation/view.html',context)
 
 @login_required(login_url='/admin/login/')
-# def detailitem(request,pk):
-# 	context ={}
-	
-# 	client = get_object_or_404(Client, pk=pk, email=request.user)
-# 	all_list = Item.objects.filter(client=client.client_id)
-# 	print all_list
-# 	context = {'client':client,
-# 				'item':item,
-# 				'all_list':all_list
-# 			}
-# 	return render(request,'quotation/bt.html',context)
-
 def detailitem(request,pk):
 	context ={}
 	
-	client = get_object_or_404(Quotation, pk=pk)
-	all_list = Item.objects.filter(client=client.client)
-	month = datetime.now() - timedelta(days = 30)
-	last_month = Item.objects.filter(client=client.client,created__lt=month)
-	print last_month
-	months = datetime.month
-	print months
+	client = get_object_or_404(Client, pk=pk, email=request.user)
+	all_list = Item.objects.filter(client=client.client_id)
+	print all_list
 	context = {'client':client,
-				'all_list':all_list,
-				'last_month':last_month,
-				'months': months
+				'item':item,
+				'all_list':all_list
 			}
-	return render(request,'quotation/bt.html',context)	
+	return render(request,'quotation/bt.html',context)
+
+# def detailitem(request,pk):
+# 	context ={}
+	
+# 	client = get_object_or_404(Quotation, pk=pk)
+# 	all_list = Item.objects.filter(client=client.client)
+# 	month = datetime.now() - timedelta(days = 30)
+# 	last_month = Item.objects.filter(client=client.client,created__lt=month)
+# 	print last_month
+# 	months = datetime.month
+# 	print months
+# 	context = {'client':client,
+# 				'all_list':all_list,
+# 				'last_month':last_month,
+# 				'months': months
+# 			}
+# 	return render(request,'quotation/bt.html',context)	
 
 @login_required(login_url='/admin/login/')
 def createitem_formset(request):

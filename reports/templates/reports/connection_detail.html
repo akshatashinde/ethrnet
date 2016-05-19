@@ -1,0 +1,198 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title"><b>Details of client </b></h3>
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover" id="client_table">
+                        <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone No</th>
+                            <th></th>
+                        </tr>
+                        {% for client in clients %}
+                        <tr>
+                            <td>{{ client.id }}</td>
+                            <td>{{ client.name }}</td>
+                            <td>{{ client.email }}</td>
+                            <td>{{ client.phone_number }}</td>
+                            
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title"><b>Connection History</b></h3>
+                </div>    
+                
+            
+
+                <div class="container">
+                  <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#home">All</a></li>
+                    <li><a data-toggle="tab" href="#menu1">Last_Month</a></li>
+                    <li><a data-toggle="tab" href="#menu2">Custom</a></li>
+                    <li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
+                    <li class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Month_wise <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Jan</a></li>
+                                            <li><a href="#">Feb</a></li>
+                                            <li><a href="#">March</a></li>                        
+                                        </ul>
+                                    </li>
+                  </ul>
+
+                  <div class="tab-content">
+                    <div id="home" class="tab-pane fade in active">
+                        <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover" id="client_table">
+                                            <tbody>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Client</th>
+                                                <th>Plan</th>
+                                                <th>Status</th>
+                                                <th>Created On</th>
+                                                <th>Expired on</th>
+                                                <th></th>
+                                            </tr>
+                                            {% for connection in all_list %}
+                                            <tr>
+                                                <td>{{ connection.id }}</td>
+                                                <td>{{ connection.client }}</td>
+                                                <td>{{ connection.plan }}</td>
+                                                <td>
+                                                    {% if connection.is_active %}
+                                                        <span class="label label-primary">Active</span>
+                                                    {% else %}
+                                                        <span class="label label-danger">Deactive</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ connection.created_on }}</td>
+                                                <td>{{ connection.expired_on }}</td>
+                                                <td>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                            </div>    
+                    </div>
+                    <div id="menu1" class="tab-pane fade">
+                      <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover" id="client_table">
+                                            <tbody>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Client</th>
+                                                <th>Plan</th>
+                                                <th>Status</th>
+                                                <th>Created on</th>
+                                                <th>Expired on</th>
+                                                <th></th>
+                                            </tr>
+                                            {% for connection in last_month %}
+                                            <tr>
+                                                <td>{{ connection.id }}</td>
+                                                <td>{{ connection.client }}</td>
+                                                <td>{{ connection.plan }}</td>
+                                                <td>
+                                                    {% if connection.is_active %}
+                                                        <span class="label label-primary">Active</span>
+                                                    {% else %}
+                                                        <span class="label label-danger">Deactive</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ connection.created_on }}</td>
+                                                <td>{{ connection.expired_on }}</td>
+                                                <td>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                            </div>    
+                    </div>
+                    <div id="menu2" class="tab-pane fade">
+                      <h3>Menu 2</h3>
+                     
+                      <div class="container">
+                        <div class="row">
+                            <div class="col-sm-4" style="height:130px;">
+                            Start Date:
+                                <div class="form-group">
+                                    <div class='input-group date' id='datetimepicker8'>
+
+                                        <input type='text' class="form-control"  />
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-calendar">
+                                            </span>
+                                        </span>
+                                    </div>    
+                                </div>
+                            </div>
+                            <div class="col-sm-4" style="height:130px;">
+                                Last date:
+                                <div class="form-group">
+                                    <div class='input-group date' id='datetimepicker8'>
+                                        <input type='text' class="form-control" />
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-calendar">
+                                            </span>
+                                        </span>
+                                    </div>    
+                                </div>
+                            </div>
+                        </div>    
+                        </div>        
+                        </div>
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker8').datetimepicker({
+                icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-arrow-up",
+                    down: "fa fa-arrow-down"
+                }
+            });
+        });
+    </script>
+</div>
+
+                    </div>
+                    <div id="menu3" class="tab-pane fade">
+                      <h3>Menu 3</h3>
+                      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                    </div>
+                  </div>
+                </div>
+            </div>    
+        </div>
+    </div>
+
+</section>
+{% endblock content %}

@@ -1,7 +1,9 @@
-from django.shortcuts import render, HttpResponse, render_to_response
+from django.shortcuts import render, HttpResponse, render_to_response, get_object_or_404
 from client.models import Client
-from connections.models import Connection
+from connections.models import Connection, ConnectionHistory
 from django.db.models import Count
+from datetime import datetime, timedelta, date
+from dateutil.relativedelta import relativedelta
 
 
 # Create your views here.
@@ -43,3 +45,26 @@ def barchart(request):
     chart2.buildhtml()
     context['html_data2'] = chart2.htmlcontent
     return render(request, 'reports/barchart.html', context)
+
+def client_list(request):
+    context = {}
+    clients = Client.objects.all(request.user)
+    context = {'clients':clients}
+    return render(request,'reports/client_view.html',context)    
+
+def connecntion_detail(request,pk):
+    clients = Client.objects.filter(pk=pk)
+    # clients = get_object_or_404(Client, pk=pk, email = request.user)
+    all_list = ConnectionHistory.objects.filter(client=clients)
+    print all_list
+    month = datetime.now() - timedelta(days = 30)
+    last_month = ConnectionHistory.objects.filter(client=clients,created_on__lt=month)
+    return render(
+        request,
+        'reports/connection_detail.html',
+        {
+            'clients': clients,
+            'page': 'client',
+            'all_list':all_list,
+            'last_month':last_month
+        }) 
