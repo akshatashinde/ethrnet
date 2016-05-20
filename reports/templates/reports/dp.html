@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script>
+$(function() {
+   $(document).ready(function(){
+    $('#row_may').hide(); 
+ $('#row_june').hide();
+ $('#row_jully').hide();  
+
+ $("#a1").click(function(){
+  $('#row_may').show(); 
+});
+$("#a2").click(function(){
+$('#row_june').show();
+});
+  $("#a3").click(function(){
+ $('#row_jully').show();  
+              });      
+   });
+});
+</script>
+
+<body>
+<div class="container">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#home">All</a></li>
+                        <li><a data-toggle="tab" href="#">Last_Month</a></li>
+                        <li><a data-toggle="tab" href="#">Custom</a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="main">Month_wise <span class="caret"></span></a>
+                            <ul name="type" id="type" class="dropdown-menu">
+                                <li value="may"><a href = "#"  id ="a1">May</li>
+                                <li value="june"><a href="#" id="a2">june</a></li>
+                                <li value="jully"><a href="#" id="a3">jully</a></li>                        
+                            </ul>
+                        </li>
+                       
+                    </ul>
+                </div>
+<div class="row" id="row_may">
+                    Dimensions
+                        <input type="text" name="length" class="dimension" value="may">
+                        <input type="text" name="width" class="dimension" placeholder="Width">
+                </div>
+<div class="row" id="row_june">
+                  June
+                        <input type="text" name="length" class="dimension" placeholder="Length">
+                        <input type="text" name="width" class="dimension" placeholder="Width">
+                </div>
+<div class="row" id="row_jully">
+                    jully
+                        <input type="text" name="length" class="dimension" placeholder="Length">
+                        <input type="text" name="width" class="dimension" placeholder="Width">
+                </div>
+
+</body>
+</html>

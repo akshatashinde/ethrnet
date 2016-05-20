@@ -23,29 +23,38 @@
     </div>
 </section>
 <section class="content">
-
     <div class="row">
         <div class="col-xs-12">
-            <div class="box">
+            <div class="box box-info">
                 <div class="box-header">
-                    <h3 class="box-title">List of Clients</h3>
+                    <h3 class="box-title"><b>List of client </b></h3>
                 </div><!-- /.box-header -->
-                   <div>
-						<form action="" method="post" >
-							<div class="container" style="margin-top: 50px;">
-								{% if clients %}
-									{% for q in clients %}
-										<ul>
-											<li><h4 style="color:green;">{{q.name}}</h4></li>
-										</ul>	
-										<p><a href="{% url 'ethernet-reports:connection_detail' q.pk %}" class="btn btn-primary" role="button">View</a></p>
-									{% endfor %}	
-								{% endif %}	
-							</div>
-							
-						</form>
-					</div>
-            </div>
+                <form action="" method="post" >
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover" id="client_table">
+                        <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone No</th>
+                            <th></th>
+                        </tr>
+                        {% for client in clients %}
+                        <tr>
+                            <td>{{ client.id }}</td>
+                            <td>{{ client.name }}</td>
+                            <td>{{ client.email }}</td>
+                            <td>{{ client.phone_number }}</td>
+                            <td><p><a href="{% url 'ethernet-reports:connection_detail' client.pk %}" class="btn btn-primary" role="button">View</a></p></td>
+                            
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div><!-- /.box-body -->
+                </form>
+            </div><!-- /.box -->
         </div>
     </div>
 </section>

@@ -1,40 +1,79 @@
 {% extends "admin_base.html" %}
 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    
+    // <script>
+    //         jQuery.noConflict();
+
+    //     // Code that uses other library's $ can follow here.
+    // </script>
+        
+        
+
+
 {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#menu1").hide();
+    $("#row_may").hide();
+    $("#a1").click(function(){
+       alert("hii");
+       $("#row_may").show();
+   });
+});
+</script>
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-info">
                 <div class="box-header">
-                    <h3 class="box-title"><b>Details of client </b></h3>
+                    <h3 class="box-title"><b>current Connection </b></h3>
                 </div><!-- /.box-header -->
+                <form action="" method="post" >
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover" id="client_table">
                         <tbody>
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone No</th>
-                            <th></th>
+                            <th>Plan</th>
+                            <th>Status</th>
+                            <th>Creation Date</th>
+                            <th>Expired date</th>
                         </tr>
-                        {% for client in clients %}
+                        {% for current in conn %}
                         <tr>
-                            <td>{{ client.id }}</td>
-                            <td>{{ client.name }}</td>
-                            <td>{{ client.email }}</td>
-                            <td>{{ client.phone_number }}</td>
+                            <td>{{ current.id }}</td>
+                            <td>{{ current.client }}</td>
+                            <td>{{ current.plan }}</td>
+                            <td>
+                                {% if current.is_active %}
+                                    <span class="label label-primary">Active</span>
+                                {% else %}
+                                    <span class="label label-danger">Deactive</span>
+                                {% endif %}
+                            </td>
+                            
+                            <td>{{ current.created_on }}</td>
+                            <td>{{ current.expired_on }}</td>
+                            
                             
                         </tr>
                         {% endfor %}
                         </tbody>
                     </table>
-                </div><!-- /.box-body -->
-            </div><!-- /.box -->
+                </div>
+                            <input type="submit" value="Send" id ="bt">
+                                </form>
+            </div>
         </div>
     </div>
 </section>
-
+-->
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
@@ -45,23 +84,34 @@
                 
             
 
-                <div class="container">
-                  <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#home">All</a></li>
-                    <li><a data-toggle="tab" href="#menu1">Last_Month</a></li>
-                    <li><a data-toggle="tab" href="#menu2">Custom</a></li>
-                    <li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
-                    <li class="dropdown">
-                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Month_wise <span class="caret"></span></a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#">Jan</a></li>
-                                            <li><a href="#">Feb</a></li>
-                                            <li><a href="#">March</a></li>                        
-                                        </ul>
-                                    </li>
-                  </ul>
 
-                  <div class="tab-content">
+                <div class="container">
+                    <ul class="nav nav-tabs">
+                        <li><a data-toggle="tab" href="#home">All</a></li>
+                        <li><a data-toggle="tab" href="#menu1">Last_Month</a></li>
+                        <li><a data-toggle="tab" href="#menu2">Custom</a></li>
+                        <li><a data-toggle="tab" href="#month">Month_wise</a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Month_wise <span class="caret"></span></a>
+                            <ul name="type" id="type" class="dropdown-menu">
+                                <li value="may"><a href="/reports/1/" id="a1">May</a></li>
+                                <li value="june"><a href="#" id="a2">june</a></li>
+                                <li value="jully"><a href="#" id="a3">jully</a></li>                        
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                
+
+                <div class="row" id="row_may">
+                    Dimensions
+                        <input type="text" name="length" class="dimension" placeholder="Length">
+                        <input type="text" name="width" class="dimension" placeholder="Width">
+                </div>
+
+
+
+                <div class="tab-content">
                     <div id="home" class="tab-pane fade in active">
                         <div class="box-body table-responsive no-padding">
                                         <table class="table table-hover" id="client_table">
@@ -97,10 +147,10 @@
                                             {% endfor %}
                                             </tbody>
                                         </table>
-                            </div>    
+                        </div>    
                     </div>
                     <div id="menu1" class="tab-pane fade">
-                      <div class="box-body table-responsive no-padding">
+                        <div class="box-body table-responsive no-padding">
                                         <table class="table table-hover" id="client_table">
                                             <tbody>
                                             <tr>
@@ -134,65 +184,69 @@
                                             {% endfor %}
                                             </tbody>
                                         </table>
-                            </div>    
+                        </div>    
                     </div>
                     <div id="menu2" class="tab-pane fade">
-                      <h3>Menu 2</h3>
-                     
-                      <div class="container">
-                        <div class="row">
-                            <div class="col-sm-4" style="height:130px;">
-                            Start Date:
-                                <div class="form-group">
-                                    <div class='input-group date' id='datetimepicker8'>
-
-                                        <input type='text' class="form-control"  />
-                                        <span class="input-group-addon">
-                                            <span class="fa fa-calendar">
-                                            </span>
-                                        </span>
-                                    </div>    
+                        <h4>Enter Date for Searching records</h4>
+                        
+                        <form action=" " method= "post">{% csrf_token %}
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    
+                                    <input id="id_s_date" type="date" name="s_date">
                                 </div>
-                            </div>
-                            <div class="col-sm-4" style="height:130px;">
-                                Last date:
-                                <div class="form-group">
-                                    <div class='input-group date' id='datetimepicker8'>
-                                        <input type='text' class="form-control" />
-                                        <span class="input-group-addon">
-                                            <span class="fa fa-calendar">
-                                            </span>
-                                        </span>
-                                    </div>    
+                                <div class="col-xs-3">
+                                    <input id= "id_l_date" type="date" name="l_date">
                                 </div>
+                                <div class="col-xs-2">
+                                    <input type="submit" value="Send">
+                                </div>    
                             </div>
-                        </div>    
-                        </div>        
-                        </div>
-    <script type="text/javascript">
-        $(function () {
-            $('#datetimepicker8').datetimepicker({
-                icons: {
-                    time: "fa fa-clock-o",
-                    date: "fa fa-calendar",
-                    up: "fa fa-arrow-up",
-                    down: "fa fa-arrow-down"
-                }
-            });
-        });
-    </script>
-</div>
-
+                            <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover" id="custom_table">
+                                            <tbody>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Client</th>
+                                                <th>Plan</th>
+                                                <th>Status</th>
+                                                <th>Created on</th>
+                                                <th>Expired on</th>
+                                                <th></th>
+                                            </tr>
+                                            {% for connection in custom %}
+                                            <tr>
+                                                <td>{{ connection.id }}</td>
+                                                <td>{{ connection.client }}</td>
+                                                <td>{{ connection.plan }}</td>
+                                                <td>
+                                                    {% if connection.is_active %}
+                                                        <span class="label label-primary">Active</span>
+                                                    {% else %}
+                                                        <span class="label label-danger">Deactive</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ connection.created_on }}</td>
+                                                <td>{{ connection.expired_on }}</td>
+                                                <td>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                            </div>
+                        </form>   
                     </div>
-                    <div id="menu3" class="tab-pane fade">
-                      <h3>Menu 3</h3>
-                      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                    </div>
-                  </div>
+                    
+                    
+                    
                 </div>
             </div>    
         </div>
     </div>
-
+ 
 </section>
+
 {% endblock content %}

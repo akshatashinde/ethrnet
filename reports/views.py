@@ -54,17 +54,26 @@ def client_list(request):
 
 def connecntion_detail(request,pk):
     clients = Client.objects.filter(pk=pk)
-    # clients = get_object_or_404(Client, pk=pk, email = request.user)
+    conn =Connection.objects.filter(client = clients)
     all_list = ConnectionHistory.objects.filter(client=clients)
-    print all_list
     month = datetime.now() - timedelta(days = 30)
     last_month = ConnectionHistory.objects.filter(client=clients,created_on__lt=month)
+    sdate = request.POST.get('s_date')
+    ldate = request.POST.get('l_date')
+    custom = ConnectionHistory.objects.filter(client = clients,created_on__range=(sdate,ldate))
+    print sdate , ldate
+    print custom
     return render(
         request,
         'reports/connection_detail.html',
         {
             'clients': clients,
             'page': 'client',
+            'conn':conn,
             'all_list':all_list,
-            'last_month':last_month
+            'last_month':last_month,
+            'custom':custom
         }) 
+
+# def ex(request):
+#     return render(request,'reports/')
