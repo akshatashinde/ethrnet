@@ -55,3 +55,5 @@ def connection_post_saved_receiver(sender, instance, created, *args, **kwargs):
     conn_hist.updated_on = instance.updated_on
     conn_hist.expired_on = instance.expired_on
     conn_hist.save()
+
+    

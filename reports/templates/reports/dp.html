@@ -1,62 +1,108 @@
-<!DOCTYPE html>
 <html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script>
-$(function() {
-   $(document).ready(function(){
-    $('#row_may').hide(); 
- $('#row_june').hide();
- $('#row_jully').hide();  
 
- $("#a1").click(function(){
-  $('#row_may').show(); 
-});
-$("#a2").click(function(){
-$('#row_june').show();
-});
-  $("#a3").click(function(){
- $('#row_jully').show();  
-              });      
-   });
-});
-</script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>   
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script> -->
 
 <body>
 <div class="container">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#home">All</a></li>
-                        <li><a data-toggle="tab" href="#">Last_Month</a></li>
-                        <li><a data-toggle="tab" href="#">Custom</a></li>
+                        <li><a data-toggle="tab" href="#home">All</a></li>
+                        <li><a data-toggle="tab" href="#menu1">Last_Month</a></li>
+                        <li><a data-toggle="tab" href="#menu2">Custom</a></li>
+                        <li><a data-toggle="tab" href="#year">Year_wise</a></li>
                         <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="main">Month_wise <span class="caret"></span></a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Month_wise <span class="caret"></span></a>
                             <ul name="type" id="type" class="dropdown-menu">
-                                <li value="may"><a href = "#"  id ="a1">May</li>
-                                <li value="june"><a href="#" id="a2">june</a></li>
-                                <li value="jully"><a href="#" id="a3">jully</a></li>                        
+                                <li value="may"><a  id="a1">May</a></li>
+                                <li value="june"><a  id="id_April" name="April" >April</a></li>
+                                <li value="jully"><a  id="a3">jully</a></li>                        
                             </ul>
                         </li>
-                       
                     </ul>
-                </div>
+</div>
+<div>
+  <input type="text" id="idfname" name ="fname" value="05">
+</div>
+
+
+<div class="container">
+    <div class='col-md-5'>
+        <div class="form-group">
+            <div class='input-group date' id='datetimepicker6'>
+                <input type='text' class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>    
+    </div>
+</div>
+
+<div class="row" id="row_april">
+    <input type="text" id="idfname" name ="fname" value="05">
+
+</div>    
 <div class="row" id="row_may">
-                    Dimensions
-                        <input type="text" name="length" class="dimension" value="may">
-                        <input type="text" name="width" class="dimension" placeholder="Width">
-                </div>
-<div class="row" id="row_june">
-                  June
-                        <input type="text" name="length" class="dimension" placeholder="Length">
-                        <input type="text" name="width" class="dimension" placeholder="Width">
-                </div>
-<div class="row" id="row_jully">
-                    jully
-                        <input type="text" name="length" class="dimension" placeholder="Length">
-                        <input type="text" name="width" class="dimension" placeholder="Width">
-                </div>
+  <div class="col-xs-3">
+    Dimensions
+                        <!-- <input type="text" name="length" class="dimension" value="5"> -->
+                       
+  </div>    
+</div>
+      
+
+    
+       
+<script>
+$(document).ready(function(){
+    $("#row_april").hide();
+    $("#row_may").hide();
+    $("#a1").click(function(){
+       
+       $("#maintab").hide();
+       $("#row_april").hide();
+       $("#row_may").show();
+       
+   });
+    $("#id_April").click(function(){
+       
+       $("#maintab").hide();
+       $("#row_may").hide();
+       $("#row_april").show();
+       
+   });
+    $(function () {
+                                    $('#datetimepicker6').datetimepicker({
+                                       viewMode : 'years',
+                                       format :'YYYY'
+                                   });
+                                   
+                                    $("#datetimepicker6").on("dp.change", function (e) {
+                                        //alert("Changed/,,");
+                                      //$('#datetimepicker6').datetimepicker();
+                                    });
+                                  
+                                });
+    
+});
+</script>
+
+
 
 </body>
+
+
 </html>
