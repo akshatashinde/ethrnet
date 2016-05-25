@@ -60,10 +60,19 @@ def connecntion_detail(request,pk):
     last_month = ConnectionHistory.objects.filter(client=clients,created_on__lt=month)
     sdate = request.POST.get('s_date')
     ldate = request.POST.get('l_date')
+    mnth = request.POST.get('fname')
+    print mnth
     year= request.POST.get('currentDate')
     print year
     custom = ConnectionHistory.objects.filter(client = clients,created_on__range=(sdate,ldate))
-    monthwise = ConnectionHistory.objects.filter(client = clients,created_on__month = 4)
+    if mnth is None:
+        monthwise = 0
+        pass
+    else :
+        monthwise = ConnectionHistory.objects.filter(client = clients,created_on__month = mnth)
+        print monthwise
+
+
     if year is None:
         yearwise = 0
         pass

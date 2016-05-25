@@ -26,19 +26,65 @@
 
         
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-
+<script>
+    .scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
+</script>
 
 <script>
 $(document).ready(function(){
-    $("#row_april").hide();
+
+
+
+    $("#row_jan").hide();
+    $("#row_feb").hide();
+    $("#row_march").hide();
+    $("#row_april").hide(); 
     $("#row_may").hide();
-    $("#a1").click(function(){
+    $("#row_june").hide();
+    $("#row_jully").hide();
+    $("#row_august").hide();
+    $("#row_september").hide();
+    $("#row_octomber").hide();
+    $("#row_november").hide();
+    $("#row_december").hide();
+
+    $("#id_jan").click(function(){
        
        $("#maintab").hide();
+       $("#row_feb").hide();
+       $("#row_march").hide();
        $("#row_april").hide();
-       $("#row_may").show();
+       $("#row_may").hide();
+
+       $("#row_jan").show();
        
-   });
+    });
+    $("#id_feb").click(function(){
+       
+       $("#maintab").hide();
+       $("#row_jan").hide();
+       $("#row_march").hide();
+       $("#row_april").hide();
+       $("#row_may").hide();
+
+       $("#row_feb").show();
+       
+    });
+    $("#id_march").click(function(){
+       
+       $("#maintab").hide();
+       $("#row_jan").hide();
+       $("#row_march").hide();
+       $("#row_april").hide();
+       $("#row_may").hide();
+
+       $("#row_march").show();
+       
+    });
     $("#id_April").click(function(){
        
        $("#maintab").hide();
@@ -46,6 +92,82 @@ $(document).ready(function(){
        $("#row_april").show();
        
    });
+    $("#id_may").click(function(){
+       
+       $("#maintab").hide();
+       $("#row_april").hide();
+       $("#row_may").show();
+       
+    });
+    $("#id_june").click(function(){
+       
+       $("#maintab").hide();
+       $("#row_may").hide();
+       $("#row_june").show();
+       
+   });
+    $("#id_jully").click(function(){
+       
+       $("#maintab").hide();
+       $("#row_may").hide();
+       $("#row_jully").show();
+       
+   });
+    $("#id_august").click(function(){
+       
+       $("#maintab").hide();
+       $("#row_jan").hide();
+       $("#row_march").hide();
+       $("#row_april").hide();
+       $("#row_may").hide();
+
+       $("#row_august").show();
+       
+    });
+    $("#id_september").click(function(){
+       
+       $("#maintab").hide();
+       $("#row_jan").hide();
+       $("#row_march").hide();
+       $("#row_april").hide();
+       $("#row_may").hide();
+
+       $("#row_september").show();
+       
+    });
+    $("#id_octomber").click(function(){
+       
+       $("#maintab").hide();
+       $("#row_jan").hide();
+       $("#row_march").hide();
+       $("#row_april").hide();
+       $("#row_may").hide();
+
+       $("#row_octomber").show();
+       
+    });
+    $("#id_november").click(function(){
+       
+       $("#maintab").hide();
+       $("#row_jan").hide();
+       $("#row_march").hide();
+       $("#row_april").hide();
+       $("#row_may").hide();
+
+       $("#row_november").show();
+       
+    });
+    $("#id_december").click(function(){
+       
+       $("#maintab").hide();
+       $("#row_jan").hide();
+       $("#row_march").hide();
+       $("#row_april").hide();
+       $("#row_may").hide();
+
+       $("#row_december").show();
+       
+    });
     
 });
 </script>
@@ -116,18 +238,203 @@ $(document).ready(function(){
                         <li><a data-toggle="tab" href="#year">Year_wise</a></li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Month_wise <span class="caret"></span></a>
-                            <ul name="type" id="type" class="dropdown-menu">
-                                <li value="may"><a  id="a1">May</a></li>
-                                <li value="june"><a  id="id_April" name="April" >April</a></li>
-                                <li value="jully"><a  id="a3">jully</a></li>                        
+                            <ul name="type" id="type" class="dropdown-menu scrollable-menu" role="menu">
+                                <li value="jan"><a  id="id_jan" name="jan" >January</a></li>
+                                <li value="feb"><a  id="id_feb" name="feb" >February</a></li>
+                                <li value="march"><a  id="id_march" name="march" >March</a></li>
+                                <li value="april"><a  id="id_April" name="April" >April</a></li>
+                                <li value="may"><a  id="id_may" name="may">May</a></li>
+                                <li value="june"><a  id="id_june" name="june">June</a></li>
+                                <li value="jully"><a  id="id_jully" name="jully">jully</a></li>
+                                <li value="august"><a  id="id_august" name="august">August</a></li>
+                                <li value="september"><a  id="id_september" name="september">September</a></li>
+                                <li value="octomber"><a  id="id_octomber" name="octomber">Octomber</a></li>
+                                <li value="november"><a  id="id_november" name="november">November</a></li>
+                                <li value="november"><a  id="id_december" name="december">December</a></li>                        
                             </ul>
                         </li>
                     </ul>
                 </div>
                                 
-                <div class="row" id="row_april">
-                        <input type="text" id="idfname" name ="fname" value="05">
+                <div id="row_jan">
+                    <form action=" " method= "post">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <input type="hidden" id="idfname" name ="fname" value="01">
+                            </div>
+                            <div class="col-xs-2">
+                                <input type="submit" value="Submit">
+                            </div>
+                        </div>                
+                        {% if monthwise %}
+                        <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover" id="client_jan">
+                                            <tbody>
+                                            <tr>
+                                                <th></th>
+                                                <th>ID</th>
+                                                <th>Client</th>
+                                                <th>Plan</th>
+                                                <th>Status</th>
+                                                <th>Created on</th>
+                                                <th>Expired on</th>
+                                                <th></th>
+                                            </tr>
+                                            {% for connection in monthwise %}
+                                            <tr>
+                                                <td></td>
+                                                <td>{{ connection.id }}</td>
+                                                <td>{{ connection.client }}</td>
+                                                <td>{{ connection.plan }}</td>
+                                                <td>
+                                                    {% if connection.is_active %}
+                                                        <span class="label label-primary">Active</span>
+                                                    {% else %}
+                                                        <span class="label label-danger">Deactive</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ connection.created_on }}</td>
+                                                <td>{{ connection.expired_on }}</td>
+                                                <td>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                        </div>
+                        {% else %}
+                            <p><strong>No data available</strong></p>
+                        {% endif %}    
+                        
+                       
+                    </form>    
+                </div>
 
+                <div id="row_feb">
+                    <form action=" " method= "post">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <input type="hidden" id="idfname" name ="fname" value="02">
+                            </div>
+                            <div class="col-xs-2">
+                                <input type="submit" value="Submit">
+                            </div>
+                        </div>                
+                        {% if monthwise %}
+                        <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover" id="client_feb">
+                                            <tbody>
+                                            <tr>
+                                                <th></th>
+                                                <th>ID</th>
+                                                <th>Client</th>
+                                                <th>Plan</th>
+                                                <th>Status</th>
+                                                <th>Created on</th>
+                                                <th>Expired on</th>
+                                                <th></th>
+                                            </tr>
+                                            {% for connection in monthwise %}
+                                            <tr>
+                                                <td></td>
+                                                <td>{{ connection.id }}</td>
+                                                <td>{{ connection.client }}</td>
+                                                <td>{{ connection.plan }}</td>
+                                                <td>
+                                                    {% if connection.is_active %}
+                                                        <span class="label label-primary">Active</span>
+                                                    {% else %}
+                                                        <span class="label label-danger">Deactive</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ connection.created_on }}</td>
+                                                <td>{{ connection.expired_on }}</td>
+                                                <td>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                        </div>
+                        {% else %}
+                            <p><strong>No data available</strong></p>
+                        {% endif %}    
+                        
+                       
+                    </form>    
+                </div>
+                
+                <div id="row_march">
+                    <form action=" " method= "post">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <input type="hidden" id="idfname" name ="fname" value="03">
+                            </div>
+                            <div class="col-xs-2">
+                                <input type="submit" value="Submit">
+                            </div>
+                        </div>                
+                        {% if monthwise %}
+                        <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover" id="client_jan">
+                                            <tbody>
+                                            <tr>
+                                                <th></th>
+                                                <th>ID</th>
+                                                <th>Client</th>
+                                                <th>Plan</th>
+                                                <th>Status</th>
+                                                <th>Created on</th>
+                                                <th>Expired on</th>
+                                                <th></th>
+                                            </tr>
+                                            {% for connection in monthwise %}
+                                            <tr>
+                                                <td></td>
+                                                <td>{{ connection.id }}</td>
+                                                <td>{{ connection.client }}</td>
+                                                <td>{{ connection.plan }}</td>
+                                                <td>
+                                                    {% if connection.is_active %}
+                                                        <span class="label label-primary">Active</span>
+                                                    {% else %}
+                                                        <span class="label label-danger">Deactive</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ connection.created_on }}</td>
+                                                <td>{{ connection.expired_on }}</td>
+                                                <td>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                        </div>
+                        {% else %}
+                            <p><strong>No data available</strong></p>
+                        {% endif %}    
+                        
+                       
+                    </form>    
+                </div>
+
+                <div id="row_april">
+                    <form action=" " method= "post">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <input type="hidden" id="idfname" name ="fname" value="04">
+                            </div>
+                            <div class="col-xs-2">
+                                <input type="submit" value="Submit">
+                            </div>
+                        </div>                
+                        {% if monthwise %}
                         <div class="box-body table-responsive no-padding">
                                         <table class="table table-hover" id="client_april">
                                             <tbody>
@@ -165,18 +472,453 @@ $(document).ready(function(){
                                             </tbody>
                                         </table>
                         </div>
+                        {% else %}
+                            <p><strong>No data available</strong></p>
+                        {% endif %}    
+                        
                        
-                    </div>    
+                    </form>    
                 </div>
-                <div class="row" id="row_may">
-                    <div class="col-xs-3">
-                    Dimensions
-                        <!-- <input type="text" name="length" class="dimension" value="5"> -->
+                <div id="row_may">
+                    <form action=" " method= "post">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <input type="hidden" id="idfname" name ="fname" value="05">
+                            </div>
+                            <div class="col-xs-2">
+                                <input type="submit" value="Submit">
+                            </div>
+                        </div>                
+                        {% if monthwise %}
+                        <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover" id="client_april">
+                                            <tbody>
+                                            <tr>
+                                                <th></th>
+                                                <th>ID</th>
+                                                <th>Client</th>
+                                                <th>Plan</th>
+                                                <th>Status</th>
+                                                <th>Created on</th>
+                                                <th>Expired on</th>
+                                                <th></th>
+                                            </tr>
+                                            {% for connection in monthwise %}
+                                            <tr>
+                                                <td></td>
+                                                <td>{{ connection.id }}</td>
+                                                <td>{{ connection.client }}</td>
+                                                <td>{{ connection.plan }}</td>
+                                                <td>
+                                                    {% if connection.is_active %}
+                                                        <span class="label label-primary">Active</span>
+                                                    {% else %}
+                                                        <span class="label label-danger">Deactive</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ connection.created_on }}</td>
+                                                <td>{{ connection.expired_on }}</td>
+                                                <td>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                        </div>
+                        {% else %}
+                            <p><strong>No data available</strong></p>
+                        {% endif %}    
+                        
                        
-                    </div>    
+                    </form>    
                 </div>
-
-
+                <div id="row_june">
+                    <form action=" " method= "post">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <input type="hidden" id="idfname" name ="fname" value="06">
+                            </div>
+                            <div class="col-xs-2">
+                                <input type="submit" value="Submit">
+                            </div>
+                        </div>                
+                        {% if monthwise %}
+                        <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover" id="client_april">
+                                            <tbody>
+                                            <tr>
+                                                <th></th>
+                                                <th>ID</th>
+                                                <th>Client</th>
+                                                <th>Plan</th>
+                                                <th>Status</th>
+                                                <th>Created on</th>
+                                                <th>Expired on</th>
+                                                <th></th>
+                                            </tr>
+                                            {% for connection in monthwise %}
+                                            <tr>
+                                                <td></td>
+                                                <td>{{ connection.id }}</td>
+                                                <td>{{ connection.client }}</td>
+                                                <td>{{ connection.plan }}</td>
+                                                <td>
+                                                    {% if connection.is_active %}
+                                                        <span class="label label-primary">Active</span>
+                                                    {% else %}
+                                                        <span class="label label-danger">Deactive</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ connection.created_on }}</td>
+                                                <td>{{ connection.expired_on }}</td>
+                                                <td>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                        </div>
+                        {% else %}
+                            <p><strong>No data available</strong></p>
+                        {% endif %}    
+                        
+                       
+                    </form>    
+                </div>
+                <div id="row_jully">
+                    <form action=" " method= "post">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <input type="hidden" id="idfname" name ="fname" value="07">
+                            </div>
+                            <div class="col-xs-2">
+                                <input type="submit" value="Submit">
+                            </div>
+                        </div>                
+                        {% if monthwise %}
+                        <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover" id="client_april">
+                                            <tbody>
+                                            <tr>
+                                                <th></th>
+                                                <th>ID</th>
+                                                <th>Client</th>
+                                                <th>Plan</th>
+                                                <th>Status</th>
+                                                <th>Created on</th>
+                                                <th>Expired on</th>
+                                                <th></th>
+                                            </tr>
+                                            {% for connection in monthwise %}
+                                            <tr>
+                                                <td></td>
+                                                <td>{{ connection.id }}</td>
+                                                <td>{{ connection.client }}</td>
+                                                <td>{{ connection.plan }}</td>
+                                                <td>
+                                                    {% if connection.is_active %}
+                                                        <span class="label label-primary">Active</span>
+                                                    {% else %}
+                                                        <span class="label label-danger">Deactive</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ connection.created_on }}</td>
+                                                <td>{{ connection.expired_on }}</td>
+                                                <td>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                        </div>
+                        {% else %}
+                            <p><strong>No data available</strong></p>
+                        {% endif %}    
+                        
+                       
+                    </form>    
+                </div>
+                <div id="row_august">
+                    <form action=" " method= "post">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <input type="hidden" id="idfname" name ="fname" value="08">
+                            </div>
+                            <div class="col-xs-2">
+                                <input type="submit" value="Submit">
+                            </div>
+                        </div>                
+                        {% if monthwise %}
+                        <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover" id="client_april">
+                                            <tbody>
+                                            <tr>
+                                                <th></th>
+                                                <th>ID</th>
+                                                <th>Client</th>
+                                                <th>Plan</th>
+                                                <th>Status</th>
+                                                <th>Created on</th>
+                                                <th>Expired on</th>
+                                                <th></th>
+                                            </tr>
+                                            {% for connection in monthwise %}
+                                            <tr>
+                                                <td></td>
+                                                <td>{{ connection.id }}</td>
+                                                <td>{{ connection.client }}</td>
+                                                <td>{{ connection.plan }}</td>
+                                                <td>
+                                                    {% if connection.is_active %}
+                                                        <span class="label label-primary">Active</span>
+                                                    {% else %}
+                                                        <span class="label label-danger">Deactive</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ connection.created_on }}</td>
+                                                <td>{{ connection.expired_on }}</td>
+                                                <td>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                        </div>
+                        {% else %}
+                            <p><strong>No data available</strong></p>
+                        {% endif %}    
+                        
+                       
+                    </form>    
+                </div>
+                <div id="row_september">
+                    <form action=" " method= "post">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <input type="hidden" id="idfname" name ="fname" value="05">
+                            </div>
+                            <div class="col-xs-2">
+                                <input type="submit" value="Submit">
+                            </div>
+                        </div>                
+                        {% if monthwise %}
+                        <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover" id="client_april">
+                                            <tbody>
+                                            <tr>
+                                                <th></th>
+                                                <th>ID</th>
+                                                <th>Client</th>
+                                                <th>Plan</th>
+                                                <th>Status</th>
+                                                <th>Created on</th>
+                                                <th>Expired on</th>
+                                                <th></th>
+                                            </tr>
+                                            {% for connection in monthwise %}
+                                            <tr>
+                                                <td></td>
+                                                <td>{{ connection.id }}</td>
+                                                <td>{{ connection.client }}</td>
+                                                <td>{{ connection.plan }}</td>
+                                                <td>
+                                                    {% if connection.is_active %}
+                                                        <span class="label label-primary">Active</span>
+                                                    {% else %}
+                                                        <span class="label label-danger">Deactive</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ connection.created_on }}</td>
+                                                <td>{{ connection.expired_on }}</td>
+                                                <td>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                        </div>
+                        {% else %}
+                            <p><strong>No data available</strong></p>
+                        {% endif %}    
+                        
+                       
+                    </form>    
+                </div>
+                <div id="row_octomber">
+                    <form action=" " method= "post">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <input type="hidden" id="idfname" name ="fname" value="05">
+                            </div>
+                            <div class="col-xs-2">
+                                <input type="submit" value="Submit">
+                            </div>
+                        </div>                
+                        {% if monthwise %}
+                        <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover" id="client_april">
+                                            <tbody>
+                                            <tr>
+                                                <th></th>
+                                                <th>ID</th>
+                                                <th>Client</th>
+                                                <th>Plan</th>
+                                                <th>Status</th>
+                                                <th>Created on</th>
+                                                <th>Expired on</th>
+                                                <th></th>
+                                            </tr>
+                                            {% for connection in monthwise %}
+                                            <tr>
+                                                <td></td>
+                                                <td>{{ connection.id }}</td>
+                                                <td>{{ connection.client }}</td>
+                                                <td>{{ connection.plan }}</td>
+                                                <td>
+                                                    {% if connection.is_active %}
+                                                        <span class="label label-primary">Active</span>
+                                                    {% else %}
+                                                        <span class="label label-danger">Deactive</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ connection.created_on }}</td>
+                                                <td>{{ connection.expired_on }}</td>
+                                                <td>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                        </div>
+                        {% else %}
+                            <p><strong>No data available</strong></p>
+                        {% endif %}    
+                        
+                       
+                    </form>    
+                </div>
+                <div id="row_november">
+                    <form action=" " method= "post">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <input type="hidden" id="idfname" name ="fname" value="11">
+                            </div>
+                            <div class="col-xs-2">
+                                <input type="submit" value="Submit">
+                            </div>
+                        </div>                
+                        {% if monthwise %}
+                        <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover" id="client_april">
+                                            <tbody>
+                                            <tr>
+                                                <th></th>
+                                                <th>ID</th>
+                                                <th>Client</th>
+                                                <th>Plan</th>
+                                                <th>Status</th>
+                                                <th>Created on</th>
+                                                <th>Expired on</th>
+                                                <th></th>
+                                            </tr>
+                                            {% for connection in monthwise %}
+                                            <tr>
+                                                <td></td>
+                                                <td>{{ connection.id }}</td>
+                                                <td>{{ connection.client }}</td>
+                                                <td>{{ connection.plan }}</td>
+                                                <td>
+                                                    {% if connection.is_active %}
+                                                        <span class="label label-primary">Active</span>
+                                                    {% else %}
+                                                        <span class="label label-danger">Deactive</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ connection.created_on }}</td>
+                                                <td>{{ connection.expired_on }}</td>
+                                                <td>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                        </div>
+                        {% else %}
+                            <p><strong>No data available</strong></p>
+                        {% endif %}    
+                        
+                       
+                    </form>    
+                </div>
+                <div id="row_december">
+                    <form action=" " method= "post">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <input type="hidden" id="idfname" name ="fname" value="12">
+                            </div>
+                            <div class="col-xs-2">
+                                <input type="submit" value="Submit">
+                            </div>
+                        </div>                
+                        {% if monthwise %}
+                        <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover" id="client_april">
+                                            <tbody>
+                                            <tr>
+                                                <th></th>
+                                                <th>ID</th>
+                                                <th>Client</th>
+                                                <th>Plan</th>
+                                                <th>Status</th>
+                                                <th>Created on</th>
+                                                <th>Expired on</th>
+                                                <th></th>
+                                            </tr>
+                                            {% for connection in monthwise %}
+                                            <tr>
+                                                <td></td>
+                                                <td>{{ connection.id }}</td>
+                                                <td>{{ connection.client }}</td>
+                                                <td>{{ connection.plan }}</td>
+                                                <td>
+                                                    {% if connection.is_active %}
+                                                        <span class="label label-primary">Active</span>
+                                                    {% else %}
+                                                        <span class="label label-danger">Deactive</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ connection.created_on }}</td>
+                                                <td>{{ connection.expired_on }}</td>
+                                                <td>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                    <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                        </div>
+                        {% else %}
+                            <p><strong>No data available</strong></p>
+                        {% endif %}    
+                        
+                       
+                    </form>    
+                </div>
 
                 <div class="tab-content" id ="maintab">
                     <div id="home" class="tab-pane fade in active">
@@ -265,11 +1007,12 @@ $(document).ready(function(){
                                 <div class="col-xs-3">
                                     <input id= "id_l_date" type="date" name="l_date">
                                 </div>
-                                <div class="col-xs-2">
+                                <div class="col-xs-3">
                                     <input type="submit" value="Send">
                                 </div>    
                             </div>
-                            <div class="box-body table-responsive no-padding">
+                            {% if custom %}
+                                <div class="box-body table-responsive no-padding">
                                         <table class="table table-hover" id="custom_table">
                                             <tbody>
                                             <tr>
@@ -303,7 +1046,10 @@ $(document).ready(function(){
                                             {% endfor %}
                                             </tbody>
                                         </table>
-                            </div>
+                                </div>
+                            {% else %}
+                                <p><strong>No records available between this two dates</strong></p>
+                            {% endif %}        
                         </form>   
                     </div>
                     <div id="year" class="tab-pane fade">
