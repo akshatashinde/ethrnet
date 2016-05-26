@@ -16,7 +16,7 @@
 			{% if clients %}
 				{% for q in clients %}
 					<ul>
-						<li><h3 style="color:green;">{{q.name}}</h3></li>
+						<li><h3 style="color:green;">{{q.quotation_no}}</h3></li>
 						<p><a href="{% url 'quotation:item_detail' q.pk %}" class="btn btn-primary" role="button">View</a></p>
 					</ul>	
 				{% endfor %}	

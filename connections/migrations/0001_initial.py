@@ -7,8 +7,9 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('account', '0001_initial'),
-        ('client', '0001_initial'),
+        ('account', '0002_auto_20160329_0021'),
+        ('client', '0003_client_is_active'),
+        ('plans', '0002_auto_20160329_0021'),
     ]
 
     operations = [
@@ -20,6 +21,9 @@ class Migration(migrations.Migration):
                 ('created_on', models.DateTimeField(auto_now_add=True)),
                 ('updated_on', models.DateTimeField(auto_now_add=True)),
                 ('expired_on', models.DateField()),
+                ('branch', models.ForeignKey(blank=True, to='account.Branch', null=True)),
+                ('client', models.ForeignKey(to='client.Client')),
+                ('plan', models.ForeignKey(to='plans.Plans')),
             ],
         ),
         migrations.CreateModel(
@@ -32,6 +36,7 @@ class Migration(migrations.Migration):
                 ('expired_on', models.DateField()),
                 ('branch', models.ForeignKey(blank=True, to='account.Branch', null=True)),
                 ('client', models.ForeignKey(to='client.Client')),
+                ('plan', models.ForeignKey(to='plans.Plans')),
             ],
         ),
     ]

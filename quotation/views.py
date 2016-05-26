@@ -41,8 +41,8 @@ def createitem(request):
 @login_required(login_url='/admin/login/')
 def itemlist(request):
 	context = {}
-	clients = Client.objects.all(request.user)
-	# clients = Quotation.objects.all()
+	# clients = Client.objects.all(request.user)
+	clients = Quotation.objects.all()
 	context = {'clients':clients}
 	return render(request,'quotation/view.html',context)
 
@@ -50,14 +50,13 @@ def itemlist(request):
 def detailitem(request,pk):
 	context ={}
 	
-	client = get_object_or_404(Client, pk=pk, email=request.user)
-	all_list = Item.objects.filter(client=client.client_id)
+	quot = get_object_or_404(Quotation, pk=pk)
+	all_list = Item.objects.filter(quotation_no=quot)
 	print all_list
-	context = {'client':client,
-				'item':item,
+	context = {'quot':quot,
 				'all_list':all_list
 			}
-	return render(request,'quotation/bt.html',context)
+	return render(request,'quotation/detail_item.html',context)
 
 # def detailitem(request,pk):
 # 	context ={}

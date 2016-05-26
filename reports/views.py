@@ -96,5 +96,37 @@ def connecntion_detail(request,pk):
             'yearwise':yearwise
         }) 
 
-# def ex(request):
-#     return render(request,'reports/')
+def excelreport(request):
+    # if request.method == 'POST':
+    if 'excel' in request.POST:
+        response = HttpResponse(content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = 'attachment; filename=Report.xlsx'
+        xlsx_data = WriteToExcel(weather_period, town)
+        response.write(xlsx_data)
+    return response
+    
+def WriteToExcel(weather_data, town=None):
+    import StringIO
+    import xlsxwriter
+    output = StringIO.StringIO()
+    workbook = xlsxwriter.Workbook(output)
+    worksheet_s = workbook.add_worksheet("Summary")
+    title = workbook.add_format({
+        'bold': True,
+        'font_size': 14,
+        'align': 'center',
+        'valign': 'vcenter'
+    })
+    header = workbook.add_format({
+        'bg_color': '#F7F7F7',
+        'color': 'black',
+        'align': 'center',
+        'valign': 'top',
+        'border': 1
+})
+    # Here we will adding the code to add data
+ 
+    workbook.close()
+    xlsx_data = output.getvalue()
+    # xlsx_data contains the Excel file
+    return xlsx_data    
