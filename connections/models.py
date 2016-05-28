@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 
 from account.models import Branch
@@ -26,6 +27,19 @@ class Connection(models.Model):
     expired_on = models.DateField()
 
     objects = BranchWiseObjectManager()
+
+    def __unicode__(self):
+        return self.branch.name + ' ' + self.client.name
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+
+            if self.plan:
+                self.expired_on = datetime.datetime.now() + datetime.timedelta(days=self.plan.duration)
+        else:
+            pass
+        super(Connection, self).save(*args, **kwargs)
+
 
 
 class ConnectionHistory(models.Model):

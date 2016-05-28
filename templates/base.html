@@ -129,8 +129,12 @@ $(function() {
     $('#id_id_proof_types').addClass();
     $('#id_id_proof_types').addClass();
 });
-
-
+{% if client_success %}
+$('div > center > a').click();
+{% endif %}
+{% if not client_no_error %}
+$('form').each(function() { this.reset() });
+{% endif %}
 </script>
 {% block scripts_extend %}{% endblock %}
 <style>
