@@ -212,41 +212,41 @@ $(document).ready(function(){
                     <h3 class="box-title"><b>current Connection </b></h3>
                 </div><!-- /.box-header -->
                 <form action="" method="post" >
-                <div class="box-body table-responsive no-padding">
-                    <table class="table table-hover" id="client_table">
-                        <tbody>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Plan</th>
-                            <th>Status</th>
-                            <th>Creation Date</th>
-                            <th>Expired date</th>
-                        </tr>
-                        {% for current in conn %}
-                        <tr>
-                            <td>{{ current.id }}</td>
-                            <td>{{ current.client }}</td>
-                            <td>{{ current.plan }}</td>
-                            <td>
-                                {% if current.is_active %}
-                                    <span class="label label-primary">Active</span>
-                                {% else %}
-                                    <span class="label label-danger">Deactive</span>
-                                {% endif %}
-                            </td>
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover" id="client_table">
+                            <tbody>
+                            <tr>
+                                <th>ID</th>
+                                <th>Client Id</th>
+                                <th>Plan</th>
+                                <th>Status</th>
+                                <th>Creation Date</th>
+                                <th>Expired Date</th>
+                            </tr>
+                            {% for current in conn %}
+                            <tr>
+                                <td>{{ current.id }}</td>
+                                <td>{{ current.client }}</td>
+                                <td>{{ current.plan }}</td>
+                                <td>
+                                    {% if current.is_active %}
+                                        <span class="label label-primary">Active</span>
+                                    {% else %}
+                                        <span class="label label-danger">Deactive</span>
+                                    {% endif %}
+                                </td>
+                                
+                                <td>{{ current.created_on }}</td>
+                                <td>{{ current.expired_on }}</td>
+                                
+                                
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                             
-                            <td>{{ current.created_on }}</td>
-                            <td>{{ current.expired_on }}</td>
-                            
-                            
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                            
-                                </form>
+                </form>
             </div>
         </div>
     </div>
@@ -260,7 +260,13 @@ $(document).ready(function(){
 
                             <div class="col-xs-9"><h3 class="box-title"><b><strong>Connection History</strong></b></h3></div>
                             <div class="col-xs-1"><button type="submit" class="btn btn-primary" id="btnPrint" >Print</button></div>
-                            <div class="col-xs-2"><button type="submit" class="btn btn-primary" id="excel" value="excel">Excel Report</button></div>
+                            {% for client in clients %}
+                                <div class="col-xs-2">
+                                    <p><a href="{% url 'ethernet-reports:generate_book_excel' client.pk %}" class="btn btn-primary" role="button">EXcelsheet</a></p>
+                                </div> 
+                            
+                            
+                            {% endfor %}
                         
                 </div>    
                 <div class="container">
@@ -270,7 +276,7 @@ $(document).ready(function(){
                         <li><a data-toggle="tab" href="#menu2" id="id_custom" value="#menu2">Custom</a></li>
                         <li><a data-toggle="tab" href="#year" id="id_year" value="#year">Year_wise</a></li>
                         <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Month_wise <span class="caret"></span></a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#menu5">Month_wise <span class="caret"></span></a>
                             <ul name="type" id="type" class="dropdown-menu scrollable-menu" style="width: 100px;height: 200px;overflow: scroll;">
                                 <li value="jan"><a  id="id_jan" name="jan" value="#row_jan">January</a></li>
                                 <li value="feb"><a  id="id_feb" name="feb" value="#row_feb">February</a></li>
@@ -306,7 +312,7 @@ $(document).ready(function(){
                                             <tr>
                                                 <th></th>
                                                 <th>ID</th>
-                                                <th>Client</th>
+                                                <th>Client Id</th>
                                                 <th>Plan</th>
                                                 <th>Status</th>
                                                 <th>Created on</th>
@@ -359,37 +365,37 @@ $(document).ready(function(){
                         <div class="box-body table-responsive no-padding">
                                         <table class="table table-hover" id="client_feb">
                                             <tbody>
-                                            <tr>
-                                                <th></th>
-                                                <th>ID</th>
-                                                <th>Client</th>
-                                                <th>Plan</th>
-                                                <th>Status</th>
-                                                <th>Created on</th>
-                                                <th>Expired on</th>
-                                                <th></th>
-                                            </tr>
-                                            {% for connection in monthwise %}
-                                            <tr>
-                                                <td></td>
-                                                <td>{{ connection.id }}</td>
-                                                <td>{{ connection.client }}</td>
-                                                <td>{{ connection.plan }}</td>
-                                                <td>
-                                                    {% if connection.is_active %}
-                                                        <span class="label label-primary">Active</span>
-                                                    {% else %}
-                                                        <span class="label label-danger">Deactive</span>
-                                                    {% endif %}
-                                                </td>
-                                                <td>{{ connection.created_on }}</td>
-                                                <td>{{ connection.expired_on }}</td>
-                                                <td>
-                                                    <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                                                    <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
+                                                <tr>
+                                                    <th></th>
+                                                    <th>ID</th>
+                                                    <th>Client Id</th>
+                                                    <th>Plan</th>
+                                                    <th>Status</th>
+                                                    <th>Created on</th>
+                                                    <th>Expired on</th>
+                                                    <th></th>
+                                                </tr>
+                                                {% for connection in monthwise %}
+                                                <tr>
+                                                    <td></td>
+                                                    <td>{{ connection.id }}</td>
+                                                    <td>{{ connection.client }}</td>
+                                                    <td>{{ connection.plan }}</td>
+                                                    <td>
+                                                        {% if connection.is_active %}
+                                                            <span class="label label-primary">Active</span>
+                                                        {% else %}
+                                                            <span class="label label-danger">Deactive</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ connection.created_on }}</td>
+                                                    <td>{{ connection.expired_on }}</td>
+                                                    <td>
+                                                        <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                        <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
                                             </tbody>
                                         </table>
                         </div>
@@ -413,12 +419,12 @@ $(document).ready(function(){
                         </div>                
                         {% if monthwise %}
                         <div class="box-body table-responsive no-padding">
-                                        <table class="table table-hover" id="client_jan">
+                                    <table class="table table-hover" id="client_jan">
                                             <tbody>
                                             <tr>
                                                 <th></th>
                                                 <th>ID</th>
-                                                <th>Client</th>
+                                                <th>Client Id</th>
                                                 <th>Plan</th>
                                                 <th>Status</th>
                                                 <th>Created on</th>
@@ -447,7 +453,7 @@ $(document).ready(function(){
                                             </tr>
                                             {% endfor %}
                                             </tbody>
-                                        </table>
+                                    </table>
                         </div>
                         {% else %}
                             <p><strong>No data available</strong></p>
@@ -469,12 +475,12 @@ $(document).ready(function(){
                         </div>                
                         {% if monthwise %}
                         <div class="box-body table-responsive no-padding">
-                                        <table class="table table-hover" id="client_april">
-                                            <tbody>
+                                    <table class="table table-hover" id="client_april">
+                                        <tbody>
                                             <tr>
                                                 <th></th>
                                                 <th>ID</th>
-                                                <th>Client</th>
+                                                <th>Client Id</th>
                                                 <th>Plan</th>
                                                 <th>Status</th>
                                                 <th>Created on</th>
@@ -502,8 +508,8 @@ $(document).ready(function(){
                                                 </td>
                                             </tr>
                                             {% endfor %}
-                                            </tbody>
-                                        </table>
+                                        </tbody>
+                                    </table>
                         </div>
                         {% else %}
                             <p><strong>No data available</strong></p>
@@ -529,7 +535,7 @@ $(document).ready(function(){
                                             <tr>
                                                 <th></th>
                                                 <th>ID</th>
-                                                <th>Client</th>
+                                                <th>Client Id</th>
                                                 <th>Plan</th>
                                                 <th>Status</th>
                                                 <th>Created on</th>
@@ -584,7 +590,7 @@ $(document).ready(function(){
                                             <tr>
                                                 <th></th>
                                                 <th>ID</th>
-                                                <th>Client</th>
+                                                <th>Client Id</th>
                                                 <th>Plan</th>
                                                 <th>Status</th>
                                                 <th>Created on</th>
@@ -639,7 +645,7 @@ $(document).ready(function(){
                                             <tr>
                                                 <th></th>
                                                 <th>ID</th>
-                                                <th>Client</th>
+                                                <th>Client Id</th>
                                                 <th>Plan</th>
                                                 <th>Status</th>
                                                 <th>Created on</th>
@@ -694,7 +700,7 @@ $(document).ready(function(){
                                             <tr>
                                                 <th></th>
                                                 <th>ID</th>
-                                                <th>Client</th>
+                                                <th>Client Id</th>
                                                 <th>Plan</th>
                                                 <th>Status</th>
                                                 <th>Created on</th>
@@ -749,7 +755,7 @@ $(document).ready(function(){
                                             <tr>
                                                 <th></th>
                                                 <th>ID</th>
-                                                <th>Client</th>
+                                                <th>Client Id</th>
                                                 <th>Plan</th>
                                                 <th>Status</th>
                                                 <th>Created on</th>
@@ -804,7 +810,7 @@ $(document).ready(function(){
                                             <tr>
                                                 <th></th>
                                                 <th>ID</th>
-                                                <th>Client</th>
+                                                <th>Client Id</th>
                                                 <th>Plan</th>
                                                 <th>Status</th>
                                                 <th>Created on</th>
@@ -859,7 +865,7 @@ $(document).ready(function(){
                                             <tr>
                                                 <th></th>
                                                 <th>ID</th>
-                                                <th>Client</th>
+                                                <th>Client Id</th>
                                                 <th>Plan</th>
                                                 <th>Status</th>
                                                 <th>Created on</th>
@@ -914,7 +920,7 @@ $(document).ready(function(){
                                             <tr>
                                                 <th></th>
                                                 <th>ID</th>
-                                                <th>Client</th>
+                                                <th>Client Id</th>
                                                 <th>Plan</th>
                                                 <th>Status</th>
                                                 <th>Created on</th>
@@ -956,13 +962,13 @@ $(document).ready(function(){
                 <div class="tab-content" id ="maintab">
                     <div id="home" class="tab-pane fade in active">
                         <form action=" " method= "post">{% csrf_token %}
-                        <div class="col-xs-2"><button type="submit" class="btn btn-primary" id="excel" value="excel">Excel Report</button></div>
+                        <!-- <div class="col-xs-2"><button type="submit" class="btn btn-primary" id="excel" value="excel">Excel Report</button></div> -->
                         <div class="box-body table-responsive no-padding">
                                         <table class="table table-hover" id="client_table">
                                             <tbody>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Client</th>
+                                                <th>Client Id</th>
                                                 <th>Plan</th>
                                                 <th>Status</th>
                                                 <th>Created On</th>
@@ -1001,7 +1007,7 @@ $(document).ready(function(){
                                             <tbody>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Client</th>
+                                                <th>Client Id</th>
                                                 <th>Plan</th>
                                                 <th>Status</th>
                                                 <th>Created on</th>
@@ -1060,7 +1066,7 @@ $(document).ready(function(){
                                             <tbody>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Client</th>
+                                                <th>Client Id</th>
                                                 <th>Plan</th>
                                                 <th>Status</th>
                                                 <th>Created on</th>
@@ -1125,7 +1131,7 @@ $(document).ready(function(){
                                             <tbody>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Client</th>
+                                                <th>Client Id</th>
                                                 <th>Plan</th>
                                                 <th>Status</th>
                                                 <th>Created on</th>
