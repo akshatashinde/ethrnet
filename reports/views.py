@@ -179,34 +179,47 @@ def generate_book_excel(request,pk):
         ldate=request.session['ldate']
         mnth = request.session['mnth']
         year = request.session['year']
-        print mnth
+        print mnth,year,sdate,ldate
 
-        if sdate and ldate is not None:
+        books = ConnectionHistory.objects.filter(client=clients)
+
+        if year is not None:
+            books = ConnectionHistory.objects.filter(client = clients,created_on__year = year) 
+            print books
+        elif sdate and ldate is not None:
             books = ConnectionHistory.objects.filter(client = clients,created_on__range=(sdate,ldate))
-
-        # elif mnth is not None:
-        #     try:
-        #         books = ConnectionHistory.objects.filter(client = clients,created_on__month = mnth)  
-        #     except ConnectionHistory.DoesNotExist:
-        #         books = None
+            print books
+        elif mnth is not None:
+            books = ConnectionHistory.objects.filter(client = clients,created_on__month = mnth)
+            print books
+        elif year and sdate and ldate and mnth is None:
+            books = ConnectionHistory.objects.filter(client=clients)
+            print books
         else:
-            books = ConnectionHistory.objects.filter(client=clients)   
-            
+            books = ConnectionHistory.objects.filter(client=clients)
+            print books
 
-        objectlist = []
-        for conn in books:
-            object = {}
-            object['created_on'] = conn.created_on
-            object['expired_on'] = conn.expired_on
 
-            client = Client.objects.get(id = books)
-            # client = get_object_or_404(Client,client = clients)
-            object['client'] = client.name
-            object['client_id'] = client.client_id
+        try:  
 
-            plan =Plans.objects.get(code = conn.plan)
-            object['plan'] = plan.code
-            objectlist.append(object)
+            objectlist = []
+            for conn in books:
+                object = {}
+                object['created_on'] = conn.created_on
+                object['expired_on'] = conn.expired_on
+
+                client = Client.objects.get(id = books)
+                # client = get_object_or_404(Client,client = clients)
+                object['client'] = client.name
+                object['client_id'] = client.client_id
+
+                plan =Plans.objects.get(code = conn.plan)
+                object['plan'] = plan.code
+                objectlist.append(object)
+                print objectlist
+
+        except:
+            print "No records available in Books variable..."        
       
         
         # Create the HttpResponse object with Excel header.This tells browsers that 
@@ -240,4 +253,6 @@ def generate_book_excel(request,pk):
      
         request.session['sdate'] = 0
         request.session['ldate']= 0
+        request.session['year'] = 0
+        request.session['mnth'] = 0
         return response
