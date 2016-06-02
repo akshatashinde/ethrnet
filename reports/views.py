@@ -66,9 +66,8 @@ def connecntion_detail(request,pk):
     sdate = request.POST.get('s_date')
     ldate = request.POST.get('l_date')
     mnth = request.POST.get('fname')
-    print mnth
     year= request.POST.get('currentDate')
-    print year
+
     custom = ConnectionHistory.objects.filter(client = clients,created_on__range=(sdate,ldate))
     if mnth is None:
         monthwise = 0
@@ -76,7 +75,6 @@ def connecntion_detail(request,pk):
     else :
         monthwise = ConnectionHistory.objects.filter(client = clients,created_on__month = mnth)
         print monthwise
-
 
     if year is None:
         yearwise = 0
@@ -102,42 +100,6 @@ def connecntion_detail(request,pk):
             'monthwise':monthwise,
             'yearwise':yearwise
         }) 
-
-# def excelreport(request):
-#     # if request.method == 'POST':
-#     if 'excel' in request.POST:
-#         response = HttpResponse(content_type='application/vnd.ms-excel')
-#         response['Content-Disposition'] = 'attachment; filename=Report.xlsx'
-#         xlsx_data = WriteToExcel(weather_period, town)
-#         response.write(xlsx_data)
-#     return response
-    
-# def WriteToExcel(weather_data, town=None):
-#     import StringIO
-#     import xlsxwriter
-#     output = StringIO.StringIO()
-#     workbook = xlsxwriter.Workbook(output)
-#     worksheet_s = workbook.add_worksheet("Summary")
-#     title = workbook.add_format({
-#         'bold': True,
-#         'font_size': 14,
-#         'align': 'center',
-#         'valign': 'vcenter'
-#     })
-#     header = workbook.add_format({
-#         'bg_color': '#F7F7F7',
-#         'color': 'black',
-#         'align': 'center',
-#         'valign': 'top',
-#         'border': 1
-# })
-#     # Here we will adding the code to add data
- 
-#     workbook.close()
-#     xlsx_data = output.getvalue()
-#     # xlsx_data contains the Excel file
-#     return xlsx_data    
-#     
 
 def upload(request):
     if request.method == "POST":
@@ -173,53 +135,48 @@ def generate_book_csv(request):
 
 def generate_book_excel(request,pk):
         
+        
         clients = Client.objects.filter(pk=pk)
         # books = ConnectionHistory.objects.filter(client=clients)
         sdate=request.session['sdate']
         ldate=request.session['ldate']
         mnth = request.session['mnth']
-        year = request.session['year']
-        print mnth,year,sdate,ldate
+        # year = request.session['year']
+        print mnth,sdate,ldate
 
         books = ConnectionHistory.objects.filter(client=clients)
 
-        if year is not None:
-            books = ConnectionHistory.objects.filter(client = clients,created_on__year = year) 
-            print books
-        elif sdate and ldate is not None:
+        # if year is not None:
+        #     books = ConnectionHistory.objects.filter(client = clients,created_on__year = year) 
+        #     print books
+        if sdate and ldate is not None:
             books = ConnectionHistory.objects.filter(client = clients,created_on__range=(sdate,ldate))
             print books
         elif mnth is not None:
             books = ConnectionHistory.objects.filter(client = clients,created_on__month = mnth)
             print books
-        elif year and sdate and ldate and mnth is None:
+        elif sdate and ldate and mnth is None:
             books = ConnectionHistory.objects.filter(client=clients)
             print books
         else:
             books = ConnectionHistory.objects.filter(client=clients)
             print books
 
+        objectlist = []
+        for conn in books:
+            object = {}
+            object['created_on'] = conn.created_on
+            object['expired_on'] = conn.expired_on
 
-        try:  
+            client = Client.objects.get(client_id= conn.client)
+            object['client'] = client.name
+            object['client_id'] = client.client_id
+            plan =Plans.objects.get(code = conn.plan)
+            object['plan'] = plan.code
+            objectlist.append(object)
+               
 
-            objectlist = []
-            for conn in books:
-                object = {}
-                object['created_on'] = conn.created_on
-                object['expired_on'] = conn.expired_on
-
-                client = Client.objects.get(id = books)
-                # client = get_object_or_404(Client,client = clients)
-                object['client'] = client.name
-                object['client_id'] = client.client_id
-
-                plan =Plans.objects.get(code = conn.plan)
-                object['plan'] = plan.code
-                objectlist.append(object)
-                print objectlist
-
-        except:
-            print "No records available in Books variable..."        
+              
       
         
         # Create the HttpResponse object with Excel header.This tells browsers that 
