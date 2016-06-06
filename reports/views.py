@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, render_to_response, get_object_or_404
+from django.shortcuts import render, HttpResponse, render_to_response, get_object_or_404, HttpResponseRedirect
 from client.models import Client
 from plans.models import Plans
 from connections.models import Connection, ConnectionHistory
@@ -58,35 +58,27 @@ def client_list(request):
     return render(request,'reports/client_view.html',context)    
 
 def connecntion_detail(request,pk):
+    print 1
     clients = Client.objects.filter(pk=pk)
     conn =Connection.objects.filter(client = clients)
     all_list = ConnectionHistory.objects.filter(client=clients)
     month = datetime.now() - timedelta(days = 30)
     last_month = ConnectionHistory.objects.filter(client=clients,created_on__lt=month)
-    sdate = request.POST.get('s_date')
-    ldate = request.POST.get('l_date')
-    mnth = request.POST.get('fname')
-    year= request.POST.get('currentDate')
-
-    custom = ConnectionHistory.objects.filter(client = clients,created_on__range=(sdate,ldate))
-    if mnth is None:
-        monthwise = 0
-        pass
-    else :
-        monthwise = ConnectionHistory.objects.filter(client = clients,created_on__month = mnth)
-        print monthwise
-
-    if year is None:
-        yearwise = 0
-        pass
-    else:
-        yearwise = ConnectionHistory.objects.filter(client = clients,created_on__year = year)
-        print yearwise
-       
-    request.session['sdate']=sdate
-    request.session['ldate']=ldate 
-    request.session['mnth'] = mnth 
-    request.session['year'] = year     
+    print 2
+    sdate = None
+    ldate = None
+    custom = None
+    if request.method == "POST":
+        print 3
+        sdate = request.POST.get('start_date')
+        ldate = request.POST.get('last_date')
+        print sdate,ldate
+        custom = ConnectionHistory.objects.filter(client = clients,created_on__range=(sdate,ldate))
+        print custom
+        return HttpResponse(custom)
+    print 4
+    # return render_to_response('reports/connection_detail.html',{'clients':clients, 'conn':conn, 'all_list':all_list , 'last_month':last_month, 'custom':custom })
+     
     return render(
         request,
         'reports/connection_detail.html',
@@ -96,120 +88,8 @@ def connecntion_detail(request,pk):
             'conn':conn,
             'all_list':all_list,
             'last_month':last_month,
-            'custom':custom,
-            'monthwise':monthwise,
-            'yearwise':yearwise
         }) 
 
-def upload(request):
-    if request.method == "POST":
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            filehandle = request.FILES['file']
-            return excel.make_response(filehandle.get_sheet(), "csv", file_name="download")
-    else:
-        form = UploadFileForm()
-    return render_to_response('reports/upload_form.html', {'form': form}, context_instance=RequestContext(request))
 
-def generate_book_csv(request):
-        books = Book.objects.all()
 
-        # Create the HttpResponse object with CSV header.This tells browsers that 
-        # the document is a CSV file.
-        response = HttpResponse(content_type='text/csv')
 
-        # The response also has additional Content-Disposition header, which contains 
-        # the name of the CSV file.
-        response['Content-Disposition'] = 'attachment; filename=books.csv'
-
-        # The csv.writer function takes file-like object as argument i.e.,HttpResponse object
-        writer = csv.writer(response)
-
-        # For each row in your CSV file, call writer.writerow function by passing 
-        # a list or tuple to it.
-        writer.writerow(['ID', 'Title', 'Description'])
-
-        for book in books:
-            writer.writerow([book.id, book.title, book.description])
-        return response  
-
-def generate_book_excel(request,pk):
-        
-        
-        clients = Client.objects.filter(pk=pk)
-        # books = ConnectionHistory.objects.filter(client=clients)
-        sdate=request.session['sdate']
-        ldate=request.session['ldate']
-        mnth = request.session['mnth']
-        # year = request.session['year']
-        print mnth,sdate,ldate
-
-        books = ConnectionHistory.objects.filter(client=clients)
-
-        # if year is not None:
-        #     books = ConnectionHistory.objects.filter(client = clients,created_on__year = year) 
-        #     print books
-        if sdate and ldate is not None:
-            books = ConnectionHistory.objects.filter(client = clients,created_on__range=(sdate,ldate))
-            print books
-        elif mnth is not None:
-            books = ConnectionHistory.objects.filter(client = clients,created_on__month = mnth)
-            print books
-        elif sdate and ldate and mnth is None:
-            books = ConnectionHistory.objects.filter(client=clients)
-            print books
-        else:
-            books = ConnectionHistory.objects.filter(client=clients)
-            print books
-
-        objectlist = []
-        for conn in books:
-            object = {}
-            object['created_on'] = conn.created_on
-            object['expired_on'] = conn.expired_on
-
-            client = Client.objects.get(client_id= conn.client)
-            object['client'] = client.name
-            object['client_id'] = client.client_id
-            plan =Plans.objects.get(code = conn.plan)
-            object['plan'] = plan.code
-            objectlist.append(object)
-               
-
-              
-      
-        
-        # Create the HttpResponse object with Excel header.This tells browsers that 
-        # the document is a Excel file.
-        response = HttpResponse(content_type='application/ms-excel')
-
-        # The response also has additional Content-Disposition header, which contains 
-        # the name of the Excel file.
-        response['Content-Disposition'] = 'attachment; filename=Connection_History.xls'
-
-        # Create object for the Workbook which is under xlwt library.
-        workbook = xlwt.Workbook()
-
-        # By using Workbook object, add the sheet with the name of your choice.
-        worksheet = workbook.add_sheet("Connection History Report")
-     
-        row_num = 0
-        columns = ['Client_id','Client_Name','Plan','Created_on','Expired_on']
-        for col_num in range(len(columns)):
-            # For each cell in your Excel Sheet, call write function by passing row number, 
-            # column number and cell data.
-            worksheet.write(row_num, col_num, columns[col_num])     
-       
-        for book in objectlist:
-            row_num += 1
-            row = [book['client_id'],book['client'],book['plan'],book['created_on'],book['expired_on']]
-            for col_num in range(len(row)):
-                worksheet.write(row_num, col_num, row[col_num])
-       
-        workbook.save(response)
-     
-        request.session['sdate'] = 0
-        request.session['ldate']= 0
-        request.session['year'] = 0
-        request.session['mnth'] = 0
-        return response
