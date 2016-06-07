@@ -10,6 +10,9 @@ from django.template import RequestContext
 import csv
 import xlwt
 from .models import Book
+import json
+from django.http import HttpResponse
+from django.core import serializers
 
 # Create your views here.
 def client_reports(request):
@@ -57,28 +60,50 @@ def client_list(request):
     context = {'clients':clients}
     return render(request,'reports/client_view.html',context)    
 
+
+
+
 def connecntion_detail(request,pk):
-    print 1
+    mimetype = 'application/json'
     clients = Client.objects.filter(pk=pk)
     conn =Connection.objects.filter(client = clients)
     all_list = ConnectionHistory.objects.filter(client=clients)
     month = datetime.now() - timedelta(days = 30)
     last_month = ConnectionHistory.objects.filter(client=clients,created_on__lt=month)
-    print 2
     sdate = None
     ldate = None
     custom = None
-    if request.method == "POST":
-        print 3
-        sdate = request.POST.get('start_date')
-        ldate = request.POST.get('last_date')
-        print sdate,ldate
-        custom = ConnectionHistory.objects.filter(client = clients,created_on__range=(sdate,ldate))
-        print custom
-        return HttpResponse(custom)
+    if request.is_ajax():
+        if request.method == "POST":
+            print 3
+            sdate = request.POST.get('start_date')
+            ldate = request.POST.get('last_date')
+            print sdate,ldate
+            custom = ConnectionHistory.objects.filter(client = clients,created_on__range=(sdate,ldate))
+            print custom
+            data = serializers.serialize("json", custom)
+            return HttpResponse(data, content_type='application/json')
+            # result = {}
+            # pickup_records=[]
+
+            # for cust in custom:
+            #         client = cust.client
+            #         plan = cust.plan
+            #         is_active = cust.is_active
+            #         created_on = cust.created_on
+            #         expired_on = cust.expired_on
+            #         record = {"id":client, "rplan":plan, "status":is_active,"created_on":created_on,"expired_on":expired_on}
+            #         print record
+            #         pickup_records.append(record)
+
+            # result["data"] = pickup_records   
+            # rec = {"Boolean": true,"Null": null,"Number": 123} 
+            # pickup_records.append(rec)
+            # return HttpResponse(pickup_records)
+            # return HttpResponse(json.dumps(pickup_records),mimetype)
+        
     print 4
-    # return render_to_response('reports/connection_detail.html',{'clients':clients, 'conn':conn, 'all_list':all_list , 'last_month':last_month, 'custom':custom })
-     
+   
     return render(
         request,
         'reports/connection_detail.html',
@@ -88,8 +113,5 @@ def connecntion_detail(request,pk):
             'conn':conn,
             'all_list':all_list,
             'last_month':last_month,
-        }) 
-
-
-
+        })
 

@@ -1,0 +1,53 @@
+def connecntion_detail(request,pk):
+    print 1
+    # mimetype = 'application/json'
+
+    clients = Client.objects.filter(pk=pk)
+    conn =Connection.objects.filter(client = clients)
+    all_list = ConnectionHistory.objects.filter(client=clients)
+    month = datetime.now() - timedelta(days = 30)
+    last_month = ConnectionHistory.objects.filter(client=clients,created_on__lt=month)
+    print 2
+    sdate = None
+    ldate = None
+    custom = None
+    if request.is_ajax():
+        if request.method == "POST":
+            print 3
+            sdate = request.POST.get('start_date')
+            ldate = request.POST.get('last_date')
+            print sdate,ldate
+            custom = ConnectionHistory.objects.filter(client = clients,created_on__range=(sdate,ldate))
+            print custom
+            return HttpResponse(custom)
+        # result = {}
+        # pickup_records=[]
+
+        # for cust in custom:
+        #         client = cust.client
+        #         plan = cust.plan
+        #         is_active = cust.is_active
+        #         created_on = cust.created_on
+        #         expired_on = cust.expired_on
+        #         record = {"id":client,"plan":plan,"status":is_active,"created_on":created_on,"expired_on":expired_on}
+        #         print record
+        #         pickup_records.append(record)
+
+        # result["pickup"] = pickup_records        
+        # print result
+        # return JsonResponse(result)
+        # data = json.dumps(result)
+        # return HttpResponse(json.dumps(result), content_type="application/json")
+        
+    print 4
+   
+    return render(
+        request,
+        'reports/connection_detail.html',
+        {
+            'clients': clients,
+            'page': 'client',
+            'conn':conn,
+            'all_list':all_list,
+            'last_month':last_month,
+        }) 
