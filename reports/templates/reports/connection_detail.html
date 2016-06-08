@@ -187,34 +187,169 @@ $(document).ready(function(){
       data:{
         start_date:$('#start_date').val(),
         last_date:$('#last_date').val(),
+        action : 'start1',
         csrfmiddlewaretoken:'{{ csrf_token }}'
+
       },
       success:function(data){
         alert("custom report created!");
         console.log(data);
-        var tabledata = '<table>'
-        var i=0;
-        for(i=0;i<data.length;i++)
-        {  
-          $.each(data[i].fields,function(key,value){
-            tabledata +='<tr>';
-            tabledata +='<td>' + key + '</td>';
-            tabledata +='<td>' + value + '</td>';
-            tabledata +='</tr>';
-          });
-          tabledata +='</table>';
-        }  
-        console.log(tabledata);
-        $('#custom_table').html(tabledata);
+        $tbody = $('#custom_table').find('tbody');
+            for(i=0;i<data.length;i++)
+            {
+              $row = $('<tr>');
+              // $.each(data[i].fields, function(key, value){
+              //   $col = $('<td>');
+              //   $col.text(key+':'+value);
+              //   $row.append($col);
+              // });  
+              $col1 = $('<td>');
+              $col1.text(data[i].fields.client);
+              $row.append($col1);
+              $col2 = $('<td>');
+              $col2.text(data[i].fields.plan);
+              $row.append($col2);
+              $col3 = $('<td>');
+              if (data[i].fields.is_active == true)
+              {
+                $col3.text('active');
+              }
+              else
+              {
+                $col3.text('Non-active');
+              }
+              // $col3.text(data[i].fields.is_active);
+              $row.append($col3);
+              $col4 = $('<td>');
+              $col4.text(data[i].fields.created_on);
+              $row.append($col4);
+              $col5 = $('<td>');
+              $col5.text(data[i].fields.expired_on);
+              $row.append($col5);
+              console.log($row);
+                
+                
+                
+              // }); 
+
+              $tbody.append($row);
+            }  
       }
-        
-
-
-
-
-      
     });
+  });
 
+</script>
+
+<script type="text/javascript">
+  $(document).on('submit','#year_report',function(e){
+    e.preventDefault();
+    var clientpk = [];
+
+    {% for client in clients %}
+        clientpk.push('{{ client.pk }}');
+    {% endfor %}
+
+    alert(clientpk);
+    $.ajax({
+      type:'POST',
+      url:'/reports/connection_detail/1/',
+      data:{
+        currentdate:$('#currentdate').val(),
+        action : 'start2',
+        csrfmiddlewaretoken:'{{ csrf_token }}'
+      },
+      success:function(data){
+        alert("year report created!");
+        console.log(data);
+        $tbody = $('#year_table').find('tbody');
+            for(i=0;i<data.length;i++)
+            {
+              $row = $('<tr>');  
+              $col1 = $('<td>');
+              $col1.text(data[i].fields.client);
+              $row.append($col1);
+              $col2 = $('<td>');
+              $col2.text(data[i].fields.plan);
+              $row.append($col2);
+              $col3 = $('<td>');
+              if (data[i].fields.is_active == true)
+              {
+                $col3.text('active');
+              }
+              else
+              {
+                $col3.text('Non-active');
+              }
+              $row.append($col3);
+              $col4 = $('<td>');
+              $col4.text(data[i].fields.created_on);
+              $row.append($col4);
+              $col5 = $('<td>');
+              $col5.text(data[i].fields.expired_on);
+              $row.append($col5);
+              console.log($row);
+
+              $tbody.append($row);
+            }  
+      }
+    });
+  });
+</script>
+
+<script type="text/javascript">
+  $(document).on('submit','#month_report',function(e){
+    e.preventDefault();
+    var clientpk = [];
+
+    {% for client in clients %}
+        clientpk.push('{{ client.pk }}');
+    {% endfor %}
+
+    alert(clientpk);
+    $.ajax({
+      type:'POST',
+      url:'/reports/connection_detail/1/',
+      data:{
+        idfname:$('#idfname').val(),
+        action : 'start1',
+        csrfmiddlewaretoken:'{{ csrf_token }}'
+
+      },
+      success:function(data){
+        alert("month report created!");
+        console.log(data);
+        $tbody = $('#month_table').find('tbody');
+            for(i=0;i<data.length;i++)
+            {
+              $row = $('<tr>');
+              $col1 = $('<td>');
+              $col1.text(data[i].fields.client);
+              $row.append($col1);
+              $col2 = $('<td>');
+              $col2.text(data[i].fields.plan);
+              $row.append($col2);
+              $col3 = $('<td>');
+              if (data[i].fields.is_active == true)
+              {
+                $col3.text('active');
+              }
+              else
+              {
+                $col3.text('Non-active');
+              }
+              $row.append($col3);
+              $col4 = $('<td>');
+              $col4.text(data[i].fields.created_on);
+              $row.append($col4);
+              $col5 = $('<td>');
+              $col5.text(data[i].fields.expired_on);
+              $row.append($col5);
+              console.log($row);
+
+              $tbody.append($row);
+            }  
+      }
+    });
   });
 
 </script>
@@ -302,7 +437,38 @@ $(document).ready(function(){
                         </li>
                     </ul>
                 </div>
-                                
+
+                <div id="row_jan">
+                  <form id ="month_report">{% csrf_token %}
+                    </br>
+                    <div class="row">
+                      <div class="col-xs-2">
+                        <input type="hidden" id="idfname" name ="idfname" value="01">
+                      </div>
+                      <div class="col-xs-2">
+                        <input type="submit" value="Submit" class="btn btn-primary">
+                      </div>
+                    </div>  
+                    </br>              
+                    <div class="box-body table-responsive no-padding">
+                      <table class="table table-hover" id="month_table">
+                        <tbody>
+                        <tr>
+                            <th></th>
+                            <th>Client Id</th>
+                            <th>Plan</th>
+                            <th>Status</th>
+                            <th>Created on</th>
+                            <th>Expired on</th>
+                            <th></th>
+                        </tr>
+            
+                        </tbody>
+                      </table>
+                    </div>
+                     
+                  </form>    
+                </div>
                 
 
                 <div class="tab-content" id ="maintab">
@@ -389,127 +555,81 @@ $(document).ready(function(){
                         <h4>Enter Date for Searching records</h4>
                         
                         <form id ="custom_report">{% csrf_token %}
-                            <div class="row">
-                                <div class="col-xs-5">
-                                    Start Date:
-                                    <input id="start_date" type="date" name="start_date">
-                                </div>
-                            </div>
-                            <div class="row">    
-                                <div class="col-xs-5">
-                                    Last Date:
-                                    <input id= "last_date" type="date" name="last_date">
-                                </div>
-                            </div>
                             </br>
-                            <div class="row">    
-                                <div class="col-xs-4">
-                                    <input type="submit" value="Send">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <input id="start_date" type="date" name="start_date" placeholder="Enter Start Date">
+                                </div>   
+                                <div class="col-xs-2">
+                                    <input id= "last_date" type="date" name="last_date" placeholder="Enter Start Date">
+                                </div>   
+                                <div class="col-xs-1">
+                                    <input type="submit" value="Submit" class="btn btn-primary">
                                 </div>    
                             </div>
-                            {% if custom %}
-                                <div class="box-body table-responsive no-padding" id="custom_data">
+                            </br>
+                                <div class="box-body table-responsive no-padding">
                                         <table class="table table-hover" id="custom_table">
                                           <tbody>
-                                            {% for connection in tabledata %}
-                                            <tr>
-                                                <!-- <td>{{ connection.id }}</td> -->
-                                                <td>{{ connection.client }}</td>
-                                                <td>{{ connection.plan }}</td>
-                                                <!-- <td>
-                                                    {% if connection.is_active %}
-                                                        <span class="label label-primary">Active</span>
-                                                    {% else %}
-                                                        <span class="label label-danger">Deactive</span>
-                                                    {% endif %}
-                                                </td> -->
-                                                <td>{{ connection.created_on }}</td>
-                                                <td>{{ connection.expired_on }}</td>
-                                                <td>
-                                                    <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                                                        <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                            </tbody> 
-                                        </table>
-                                </div>
-                            {% else %}
-                                <p><strong>No records available between this two dates</strong></p>
-                            {% endif %}        
-                        </form>   
-                    </div>
-                    <div id="year" class="tab-pane fade">
-                        <form action=" " method= "post">{% csrf_token %}
-                                
-                                                                
-                            
-                            <h4>Enter Date for Searching records</h4>
-                            <div class="container">
-                                <div class="col-sm-6" style="height:75px;">
-                                    <div class='col-md-5'>
-                                        <div class="form-group">
-                                
-                                            <div class='input-group date' id='currentDate'>
-                                                <input type='text' class="form-control" name="currentDate" />
-                                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-4">
-                                                <input type="submit" value="Submit">
-                                            </div>
-                                </div>
-
-                            </div>
-                            <div class="box-body table-responsive no-padding">
-                                        <table class="table table-hover" id="custom_table">
-                                            <tbody>
-                                            <tr>
-                                                <th>ID</th>
+                                          <tr>
                                                 <th>Client Id</th>
                                                 <th>Plan</th>
                                                 <th>Status</th>
-                                                <th>Created on</th>
+                                                <th>Created On</th>
                                                 <th>Expired on</th>
                                                 <th></th>
+                                                
+                                                
+                                                <th></th>
                                             </tr>
-                                            {% if yearwise %}
-                                                {% for connection in yearwise %}
-                                                <tr>
-                                                    <td>{{ connection.id }}</td>
-                                                    <td>{{ connection.client }}</td>
-                                                    <td>{{ connection.plan }}</td>
-                                                    <td>
-                                                        {% if connection.is_active %}
-                                                            <span class="label label-primary">Active</span>
-                                                        {% else %}
-                                                            <span class="label label-danger">Deactive</span>
-                                                        {% endif %}
-                                                    </td>
-                                                    <td>{{ connection.created_on }}</td>
-                                                    <td>{{ connection.expired_on }}</td>
-                                                    <td>
-                                                        <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                                                        <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
-                                                    </td>
-                                                </tr>
-                                                {% endfor %}
-                                            {% else %}
-                                                <p>No data available</p>
-                                            {% endif %}        
-                                            </tbody>
+                                          </tbody> 
                                         </table>
+                                </div>
+                                   
+                        </form>   
+                    </div>
+                    <div id="year" class="tab-pane fade">
+                        <h4>Enter Date for Searching records</h4>
+                        <form id ="year_report">{% csrf_token %}
+                           
+                          <div class="container">
+                            <div class="col-sm-6" style="height:75px;">
+                                <div class='col-md-5'>
+                                    <div class="form-group">
+                                      <div class='input-group date' id='currentDate'>
+                                        <input type='text' class="form-control" name="currentdate" id="currentdate" />
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3">
+                                  <input type="submit" value="Submit" class="btn btn-primary">
+                                </div>
                             </div>
-                            <script type="text/javascript">
-                                jQuery(function () {
-                                    jQuery('#currentDate').datepicker({
-                                        format :'yyyy'
-                                    });
-                                });
-                            </script>
+                          </div>
+                          <div class="box-body table-responsive no-padding">
+                            <table class="table table-hover" id="year_table">
+                              <tbody>
+                                <tr>
+                                  <th>Client Id</th>
+                                  <th>Plan</th>
+                                  <th>Status</th>
+                                  <th>Created On</th>
+                                  <th>Expired on</th>
+                                  <th></th>
+                                  <th></th>
+                                </tr>    
+                              </tbody>
+                            </table>
+                          </div>
+                          <script type="text/javascript">
+                              jQuery(function () {
+                                  jQuery('#currentDate').datepicker({
+                                      format :'yyyy'
+                                  });
+                              });
+                          </script>
                         </from>
                     </div>
                         

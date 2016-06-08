@@ -51,3 +51,22 @@ def connecntion_detail(request,pk):
             'all_list':all_list,
             'last_month':last_month,
         }) 
+
+
+
+
+    # ajax 8/6/2016  custom report generated but not in sequence
+
+    $tbody = $('#custom_table').find('tbody');
+            for(i=0;i<data.length;i++)
+            {
+              $row = $('<tr>');
+              $.each(data[i].fields, function(key, value){
+                $col = $('<td>');
+                $col.text(value);
+                $row.append($col);
+    
+              }); 
+
+              $tbody.append($row);
+            }

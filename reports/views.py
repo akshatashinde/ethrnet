@@ -64,7 +64,6 @@ def client_list(request):
 
 
 def connecntion_detail(request,pk):
-    mimetype = 'application/json'
     clients = Client.objects.filter(pk=pk)
     conn =Connection.objects.filter(client = clients)
     all_list = ConnectionHistory.objects.filter(client=clients)
@@ -74,7 +73,7 @@ def connecntion_detail(request,pk):
     ldate = None
     custom = None
     if request.is_ajax():
-        if request.method == "POST":
+        if request.method == "POST" and request.POST['action'] == 'start1':
             print 3
             sdate = request.POST.get('start_date')
             ldate = request.POST.get('last_date')
@@ -83,26 +82,35 @@ def connecntion_detail(request,pk):
             print custom
             data = serializers.serialize("json", custom)
             return HttpResponse(data, content_type='application/json')
-            # result = {}
-            # pickup_records=[]
-
+            # to_json = []
             # for cust in custom:
-            #         client = cust.client
-            #         plan = cust.plan
-            #         is_active = cust.is_active
-            #         created_on = cust.created_on
-            #         expired_on = cust.expired_on
-            #         record = {"id":client, "rplan":plan, "status":is_active,"created_on":created_on,"expired_on":expired_on}
-            #         print record
-            #         pickup_records.append(record)
-
-            # result["data"] = pickup_records   
-            # rec = {"Boolean": true,"Null": null,"Number": 123} 
-            # pickup_records.append(rec)
-            # return HttpResponse(pickup_records)
-            # return HttpResponse(json.dumps(pickup_records),mimetype)
+            #     dog_dict = {}
+            #     dog_dict['id'] = cust.client
+            #     dog_dict['plan'] = cust.plan
+            #     dog_dict['status'] = cust.is_active
+            #     dog_dict['created'] = cust.created_on
+            #     dog_dict['expired'] = cust.expired_on
+            #     to_json.append(dog_dict)
+            # print to_json
+            # # response_data =json.dumps(to_json)
+            # response_data=serializers.serialize("json", to_json)
+            # return HttpResponse(response_data,mimetype_type='application/json')    
         
-    print 4
+        if request.method == "POST" and request.POST['action'] == 'start2':
+            year = request.POST.get('currentdate')
+            yearwise = ConnectionHistory.objects.filter(client = clients,created_on__year = year)
+            year_data = serializers.serialize("json", yearwise)
+            return HttpResponse(year_data, content_type='application/json')
+
+        if request.method == "POST" and request.POST['action'] == 'start3':
+            print 4
+            mnth = request.POST.get('idfname')
+            print mnth
+            monthwise = ConnectionHistory.objects.filter(client = clients,created_on__month = mnth)
+            print monthwise
+            month_data = serializers.serialize("json", monthwise)
+            return HttpResponse(month_data, content_type='application/json')        
+    print 5
    
     return render(
         request,
