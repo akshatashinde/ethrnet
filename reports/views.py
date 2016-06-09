@@ -103,14 +103,14 @@ def connecntion_detail(request,pk):
             return HttpResponse(year_data, content_type='application/json')
 
         if request.method == "POST" and request.POST['action'] == 'start3':
-            print 4
+            print 5
             mnth = request.POST.get('idfname')
             print mnth
             monthwise = ConnectionHistory.objects.filter(client = clients,created_on__month = mnth)
             print monthwise
             month_data = serializers.serialize("json", monthwise)
             return HttpResponse(month_data, content_type='application/json')        
-    print 5
+    print 6
    
     return render(
         request,
