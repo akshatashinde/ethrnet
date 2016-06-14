@@ -184,6 +184,7 @@
             success: function(data) {
               alert("month report created!");
               console.log(data);
+              var table = $("<table/>").addClass('CSSTableGenerator');
               $tbody = $('#month_table').find('tbody');
               for(i=0;i<data.length;i++)
               {
@@ -213,10 +214,24 @@
                 console.log($row);
 
                 $tbody.append($row);
+
               }  
             }
-          });  
+          }); 
+  
   });
+  $("#btnPrint").on("click", function () {
+    var divContents1 = $("#cc").html();
+    var divContents = $(tbody).html();
+    var printWindow = window.open('', '', 'height=400,width=800');
+    printWindow.document.write('<html><head><title>Connection History Report</title>');
+    printWindow.document.write('</head><body >');
+    printWindow.document.write(divContents1);
+    printWindow.document.write(divContents);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
+  }); 
 </script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript">
@@ -231,7 +246,6 @@
         $("#id_all").live("click", function () {
         
             printvar = $("#id_all").attr('value');
-            alert(printvar);
         });
         $("#id_last_month").live("click", function () {
         
@@ -248,17 +262,16 @@
         $("#id_month").live("click", function () {
         
             printvar = $(this).attr('name');
-            // printvar = "#id_month";
             alert(printvar);
         });
         $("#btnPrint").live("click", function () {
             var divContents1 = $("#cc").html();
             alert(printvar);
             var divContents = $(printvar).html();
-            if (printvar == '#id_month')
-            {
-              var divContents = $(tbody).html();
-            }
+            // if (printvar == '#id_month')
+            // {
+            //   var divContents = $(tbody).html();
+            // }
             var printWindow = window.open('', '', 'height=400,width=800');
             printWindow.document.write('<html><head><title>Connection History Report</title>');
             printWindow.document.write('</head><body >');
@@ -270,6 +283,59 @@
             printWindow.print();
         });
     </script>
+<script type="text/javascript">
+  
+  $("#id_last_month").live("click", function () {
+        console.log($(this).attr('name'));
+        var name = $(this).attr('value');
+        event.preventDefault(); 
+          $.ajax({
+            type:'POST',
+            url:'/reports/connection_detail/1/',
+            data:{
+            lastmonth: $(this).attr('name'),
+            action : 'start4',
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(data) {
+              alert("month report created!");
+              console.log(data);
+              // $tbody = $('#month_table').find('tbody');
+              // for(i=0;i<data.length;i++)
+              // {
+              //   $row = $('<tr>');
+              //   $col1 = $('<td>');
+              //   $col1.text(data[i].fields.client);
+              //   $row.append($col1);
+              //   $col2 = $('<td>');
+              //   $col2.text(data[i].fields.plan);
+              //   $row.append($col2);
+              //   $col3 = $('<td>');
+              //   if (data[i].fields.is_active == true)
+              //   {
+              //     $col3.text('active');
+              //   }
+              //   else
+              //   {
+              //     $col3.text('Non-active');
+              //   }
+              //   $row.append($col3);
+              //   $col4 = $('<td>');
+              //   $col4.text(data[i].fields.created_on);
+              //   $row.append($col4);
+              //   $col5 = $('<td>');
+              //   $col5.text(data[i].fields.expired_on);
+              //   $row.append($col5);
+              //   console.log($row);
+
+              //   $tbody.append($row);
+
+              // }  
+            }
+          }); 
+  
+  });    
+</script>
 <section class="content">
     <div class="row" id="cc">
         <div class="col-xs-12">
@@ -326,13 +392,16 @@
 
                   <div class="col-xs-9"><h3 class="box-title"><b><strong>Connection History</strong></b></h3></div>
                   <div class="col-xs-1"><button type="submit" class="btn btn-primary" id="btnPrint" >Print</button></div>
-                           
-                        
+                  {% for client in clients %}
+                  <div class="col-xs-2">
+                      <p><a href="{% url 'ethernet-reports:generate_book_excel' client.pk %}" class="btn btn-primary" role="button">EXcelsheet</a></p>
+                  </div>         
+                  {% endfor %}      
                 </div>    
                 <div class="container">
                     <ul class="nav nav-tabs">
                         <li><a data-toggle="tab" href="#home" id="id_all" value="#home">All</a></li>
-                        <li><a data-toggle="tab" href="#menu1" id="id_last_month" value="#menu1">Last_Month</a></li>
+                        <li><a data-toggle="tab" href="#menu1" id="id_last_month" name="lastmonth" value="#menu1">Last_Month</a></li>
                         <li><a data-toggle="tab" href="#menu2" id="id_custom" value="#menu2">Custom</a></li>
                         <li><a data-toggle="tab" href="#year" id="id_year" value="#year">Year_wise</a></li>
                         <li class="dropdown">
@@ -341,9 +410,9 @@
                                 <li value="jan"><a  id="id_month" name="jan" value="01">January</a></li>
                                 <li value="feb"><a  id="id_month" name="feb" value="02">February</a></li>
                                 <li value="march"><a  id="id_month" name="march" value="03" >March</a></li>
-                                <li value="april"><a  id="id_month" name="#id_month" value="04">April</a></li>
-                                <li value="may"><a  id="id_month" name="may" value="05" >May</a></li>
-                                <li value="june"><a  id="id_month" name="june" value="06">June</a></li>
+                                <li value="april"><a  id="id_month" name="#row_month" value="04">April</a></li>
+                                <li value="may"><a  id="id_month" name="#row_month" value="05" >May</a></li>
+                                <li value="june"><a  id="id_month" name="#row_month" value="06">June</a></li>
                                 <li value="jully"><a  id="id_month" name="jully" value="07">jully</a></li>
                                 <li value="august"><a  id="id_month" name="august" value="08">August</a></li>
                                 <li value="september"><a  id="id_month" name="september" value="09">September</a></li>

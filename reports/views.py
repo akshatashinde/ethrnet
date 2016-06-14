@@ -72,12 +72,15 @@ def connecntion_detail(request,pk):
     sdate = None
     ldate = None
     custom = None
+    mnth = None
     if request.is_ajax():
         if request.method == "POST" and request.POST['action'] == 'start1':
             print 3
             sdate = request.POST.get('start_date')
             ldate = request.POST.get('last_date')
-            print sdate,ldate
+           
+            request.session['sdate']=sdate
+            request.session['ldate']=ldate
             custom = ConnectionHistory.objects.filter(client = clients,created_on__range=(sdate,ldate))
             print custom
             data = serializers.serialize("json", custom)
@@ -98,6 +101,7 @@ def connecntion_detail(request,pk):
         
         if request.method == "POST" and request.POST['action'] == 'start2':
             year = request.POST.get('currentdate')
+            request.session['year']=year
             yearwise = ConnectionHistory.objects.filter(client = clients,created_on__year = year)
             year_data = serializers.serialize("json", yearwise)
             return HttpResponse(year_data, content_type='application/json')
@@ -105,13 +109,21 @@ def connecntion_detail(request,pk):
         if request.method == "POST" and request.POST['action'] == 'start3':
             print 5
             mnth = request.POST.get('idfname')
+            request.session['mnth']=mnth
             print mnth
             monthwise = ConnectionHistory.objects.filter(client = clients,created_on__month = mnth)
             print monthwise
             month_data = serializers.serialize("json", monthwise)
-            return HttpResponse(month_data, content_type='application/json')        
+            return HttpResponse(month_data, content_type='application/json')
+        if request.method == "POST" and request.POST['action'] == 'start4':
+            l_month = request.POST.get('action')
+            print l_month
+            request.session['l_month']=l_month
+            month = datetime.now() - timedelta(days = 30)
+            last_month = ConnectionHistory.objects.filter(client=clients,created_on__lt=month)
+            last_month_data = serializers.serialize("json", last_month)
+            return HttpResponse(last_month_data, content_type='application/json')            
     print 6
-   
     return render(
         request,
         'reports/connection_detail.html',
@@ -122,4 +134,92 @@ def connecntion_detail(request,pk):
             'all_list':all_list,
             'last_month':last_month,
         })
+
+def generate_book_excel(request,pk):
+        
+        
+        clients = Client.objects.filter(pk=pk)
+        
+        sdate=request.session['sdate']
+        ldate=request.session['ldate']
+        year=request.session['year']
+        mnth=request.session['mnth']
+        l_month=request.session['l_month']
+        l_month1='start4'
+
+        if year is None:
+            year = 0
+
+        print sdate,ldate
+        print year
+        print mnth
+        print l_month
+        books = ConnectionHistory.objects.filter(client=clients)
+        
+        if mnth != 0:
+            books = ConnectionHistory.objects.filter(client = clients,created_on__month = mnth)
+            print books,1
+        elif year != 0:
+            books = ConnectionHistory.objects.filter(client = clients,created_on__year = year)
+            print books,2    
+        elif sdate and ldate is not None:
+            books = ConnectionHistory.objects.filter(client = clients,created_on__range=(sdate,ldate))
+            print books,3
+        elif l_month == l_month1:
+            month = datetime.now() - timedelta(days = 30)
+            books = ConnectionHistory.objects.filter(client=clients,created_on__lt=month)
+            print books,4
+        else:
+            books = ConnectionHistory.objects.filter(client=clients)
+            print books,5
+
+        objectlist = []
+        for conn in books:
+            object = {}
+            object['created_on'] = conn.created_on
+            object['expired_on'] = conn.expired_on
+
+            client = Client.objects.get(client_id= conn.client)
+            object['client'] = client.name
+            object['client_id'] = client.client_id
+            plan =Plans.objects.get(code = conn.plan)
+            object['plan'] = plan.code
+            objectlist.append(object)
+               
+
+        # Create the HttpResponse object with Excel header.This tells browsers that 
+        # the document is a Excel file.
+        response = HttpResponse(content_type='application/ms-excel')
+
+        # The response also has additional Content-Disposition header, which contains 
+        # the name of the Excel file.
+        response['Content-Disposition'] = 'attachment; filename=Connection_History.xls'
+
+        # Create object for the Workbook which is under xlwt library.
+        workbook = xlwt.Workbook()
+
+        # By using Workbook object, add the sheet with the name of your choice.
+        worksheet = workbook.add_sheet("Connection History Report")
+     
+        row_num = 0
+        columns = ['Client_id','Client_Name','Plan','Created_on','Expired_on']
+        for col_num in range(len(columns)):
+            # For each cell in your Excel Sheet, call write function by passing row number, 
+            # column number and cell data.
+            worksheet.write(row_num, col_num, columns[col_num])     
+       
+        for book in objectlist:
+            row_num += 1
+            row = [book['client_id'],book['client'],book['plan'],book['created_on'],book['expired_on']]
+            for col_num in range(len(row)):
+                worksheet.write(row_num, col_num, row[col_num])
+       
+        workbook.save(response)
+     
+        request.session['sdate'] = 0
+        request.session['ldate']= 0
+        request.session['year'] = 0
+        request.session['mnth'] = 0
+        request.session['l_month'] = None
+        return response
 
