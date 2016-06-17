@@ -3,6 +3,8 @@ from inventory.forms import ItemForm, IteamVariationForm
 from inventory.models import *
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
+from django.views.decorators.http import require_http_methods
+from django.core import serializers
 
 
 def item_add(request):
@@ -54,6 +56,35 @@ def item_delete(request, id):
 def item_list(request):
     pass
 
+@require_http_methods(["GET", "POST"])
+def get_item(request):
+    if request.is_ajax():
+        id = request.POST.get('id')
+
+        data = serializers.serialize("json", InventoryItem.objects.filter(id=id))
+
+    else:
+        data = 'Not valid request'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
+
+
+# @require_http_methods(["GET", "POST"])
+# def get_item_list(request):
+#     mimetype = 'application/json'
+#     result= {}
+#     if request.is_ajax():
+#         data = request.POST
+#         if data.get('area'):
+#             branch = Branch.objects.filter(id=data.get('area'))
+#             if branch:
+#                 branch = branch[0]
+
+#             plans = Plans.objects.filter(branch=branch)
+#             for plan in plans:
+#                 result[plan.id] = plan.code
+#     data = json.dumps(result)
+#     return HttpResponse(data, mimetype)
 
 def inventory_item_add(request, id):
     item = InventoryItem.objects.filter(id=id)
@@ -119,3 +150,4 @@ def inventory_item_delete(request, id):
                     )
         )
     return HttpResponseRedirect(reverse('ethernet-inventory:add_item'))
+

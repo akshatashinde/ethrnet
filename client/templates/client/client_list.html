@@ -37,8 +37,11 @@
                             <td>{{ client.email }}</td>
                             <td>{{ client.phone_number }}</td>
                             <td>
-                                <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                                <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                <a href="{% url 'ethernet-client:client_delete' client.id %}"><button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                
+                                    <button class="btn btn-default btn-sm pull-right"><i class="fa fa-edit"></i>
+                                    </button>
+                                </a>
                             </td>
                         </tr>
                         {% endfor %}

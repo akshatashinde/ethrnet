@@ -2,7 +2,7 @@ import json
 
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
-
+from django.core.urlresolvers import reverse
 from account.models import UserAddress
 from client.forms import ClientForm, AddressForm
 from client.models import Client
@@ -129,8 +129,34 @@ def client_address_images(request):
 
 
 def client_update(request, id):
-    pass
+    client = Client.objects.filter(id=id)
+    if client:
+        client = client[0]
+        if request.POST:
+            form = ClientForm(request.POST, instance=client)
+            address_form = AddressForm(request.POST, instance=client)
+            if form.is_valid() and address_form.is_valid():
+                form.save()
+                address_form.save()
+                return HttpResponseRedirect(reverse('ethernet-client:client_list'))
+
+        form = ClientForm(instance=client)
+        address_form = AddressForm(instance=client)
+        clients = Client.objects.all(request.user).order_by('-id')[:5]
+
+        return render(
+            request,
+            'client/client_create.html',
+            {
+                'client_form': form,
+                'address_form': address_form,
+                'clients': clients,
+                'page': 'clients',
+                'edit': True
+            })
 
 
 def client_delete(request, id):
-    pass
+    client = Client.objects.filter(id=id)
+    client.delete()
+    return HttpResponseRedirect(reverse('ethernet-client:client_list'))

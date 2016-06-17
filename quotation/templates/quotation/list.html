@@ -44,7 +44,7 @@
                             <td>{{ item.price }}</td>
                             <td>{{ item.total }}</td>
                             <td>
-                                <button class="btn btn-default btn-sm" title="delete invoice"><i class="fa fa-trash-o"></i></button>
+                                <a href="{% url 'quotation:item_delete' item.pk %}"><button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
                             </td>
                         </tr>
                         {% endfor %}

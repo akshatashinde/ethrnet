@@ -45,8 +45,9 @@
                             </td>
                             <td>{{ connection.expired_on }}</td>
                             <td>
-                                <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                                <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+                                <a href="{% url 'connections:connection_delete' connection.id %}"><button class="btn btn-default btn-sm pull-right"><i class="fa fa-trash-o"></i></button></a>
+                                <span class="pull-right" style="width:20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <a href="{% url 'connections:connection_edit' connection.id %}"><button class="btn btn-default btn-sm pull-right"><i class="fa fa-edit"></i></button></a>
                             </td>
                         </tr>
                         {% endfor %}

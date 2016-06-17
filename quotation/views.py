@@ -9,6 +9,8 @@ from client.models import Client
 from django.contrib.auth.models import User
 from datetime import datetime, timedelta, date
 from dateutil.relativedelta import relativedelta
+from django.core.urlresolvers import reverse
+
 # Create your views here.
 def home(request):
 	return render(request, 'quotation/home.html',{})
@@ -58,22 +60,6 @@ def detailitem(request,pk):
 			}
 	return render(request,'quotation/detail_item.html',context)
 
-# def detailitem(request,pk):
-# 	context ={}
-	
-# 	client = get_object_or_404(Quotation, pk=pk)
-# 	all_list = Item.objects.filter(client=client.client)
-# 	month = datetime.now() - timedelta(days = 30)
-# 	last_month = Item.objects.filter(client=client.client,created__lt=month)
-# 	print last_month
-# 	months = datetime.month
-# 	print months
-# 	context = {'client':client,
-# 				'all_list':all_list,
-# 				'last_month':last_month,
-# 				'months': months
-# 			}
-# 	return render(request,'quotation/bt.html',context)	
 
 @login_required(login_url='/admin/login/')
 def createitem_formset(request):
@@ -109,6 +95,11 @@ def createitem_formset(request):
 	return render (request,'quotation/create1.html',{'user_form':user_form, 'formset':formset})			
 
 @login_required(login_url='/admin/login/')
-def tablelist(request):
+def item_list(request):
 	item_list = Item.objects.all()
 	return render(request,'quotation/list.html', {'item_list': item_list})
+
+def item_delete(request, id):
+    item = Item.objects.filter(id=id)
+    item.delete()
+    return HttpResponseRedirect(reverse('quotation:tablelist'))

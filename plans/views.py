@@ -84,8 +84,10 @@ def plan_update(request, id):
             })
 
 def plan_delete(request, id):
-    print "plan_delete"
-    pass
+    plan = Plans.objects.filter(id=id)
+    plan.delete()
+    return HttpResponseRedirect(reverse('ethernet-plans:plan_list'))
+
 
 
 @require_http_methods(["GET", "POST"])
