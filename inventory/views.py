@@ -16,6 +16,12 @@ def item_add(request):
             item.save()
             itemform = ItemForm()
     inventoryitems = InventoryItem.objects.all(request.user)
+    if request.is_ajax():
+        if request.method == "POST" and request.POST['action'] == 'start1':
+            search_value = request.POST.get('search_value')
+            item= InventoryItem.objects.filter(item=search_value)
+            data = serializers.serialize("json", item)
+            return HttpResponse(data, content_type='application/json')
     return render(
         request,
         'inventory/item_create.html',

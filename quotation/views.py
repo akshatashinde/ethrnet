@@ -10,6 +10,9 @@ from django.contrib.auth.models import User
 from datetime import datetime, timedelta, date
 from dateutil.relativedelta import relativedelta
 from django.core.urlresolvers import reverse
+import json
+from django.http import HttpResponse
+from django.core import serializers
 
 # Create your views here.
 def home(request):
@@ -97,6 +100,13 @@ def createitem_formset(request):
 @login_required(login_url='/admin/login/')
 def item_list(request):
 	item_list = Item.objects.all()
+	if request.is_ajax():
+		if request.method == "POST" and request.POST['action'] == 'start1':
+			search_value = request.POST.get('search_value')
+			item= Item.objects.filter(item=search_value)
+			data = serializers.serialize("json", item)
+			return HttpResponse(data, content_type='application/json')
+
 	return render(request,'quotation/list.html', {'item_list': item_list})
 
 def item_delete(request, id):

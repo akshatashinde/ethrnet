@@ -29,6 +29,12 @@ def connection_create(request):
 
 def connection_list(request):
     connections = Connection.objects.all(request.user)
+    if request.is_ajax():
+        if request.method == "POST" and request.POST['action'] == 'start1':
+            search_value = request.POST.get('search_value')
+            conn= Connection.objects.filter(plan=search_value)
+            data = serializers.serialize("json", conn)
+            return HttpResponse(data, content_type='application/json')
     return render(
         request,
         'connection/connection_list.html',

@@ -160,6 +160,12 @@ def create_invoice(request):
 
 def invoice_list(request):
     invoices = Invoice.objects.all(request.user)
+    if request.is_ajax():
+        if request.method == "POST" and request.POST['action'] == 'start1':
+            search_value = request.POST.get('search_value')
+            invoice= Invoice.objects.filter(invoice_id=search_value)
+            data = serializers.serialize("json", invoice)
+            return HttpResponse(data, content_type='application/json')
     return render(
         request,
         'invoice/invoice_list.html',

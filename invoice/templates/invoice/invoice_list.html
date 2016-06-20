@@ -1,27 +1,50 @@
 {% extends "admin_base.html" %}
 
 {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).on('submit','#invoice_list',function(e){
+    e.preventDefault();
+
+    $.ajax({
+      type:'POST',
+      url:'/invoice/list/',
+      data:{
+        search_value:$('#table_search').val(),
+        action : 'start1',
+        csrfmiddlewaretoken:'{{ csrf_token }}'
+      },
+      success:function(data){
+        alert("list generated!");
+        console.log(data);
+         
+      }
+    });
+          
+  });
+</script>
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-info">
+            <form id ="invoice_list">{% csrf_token %}
                 <div class="box-header">
                     <h3 class="box-title"><b>Plans</b></h3>
 
                     <div class="box-tools">
                         <div class="input-group" style="width: 150px;">
-                            <input name="table_search" class="form-control input-sm pull-right" placeholder="Search"
+                            <input id="table_search" name="table_search" class="form-control input-sm pull-right" placeholder="Search"
                                    type="text">
 
                             <div class="input-group-btn">
-                                <button class="btn btn-sm btn-default" style="height: 30px;"><i
+                                <button id="submit"  type="submit" class="btn btn-sm btn-default" style="height: 30px;"><i
                                         class="fa fa-search"></i></button>
                             </div>
                         </div>
                     </div>
                 </div><!-- /.box-header -->
                 <div class="box-body table-responsive no-padding">
-                    <table class="table table-hover" id="plans_table">
+                    <table class="table table-hover" id="invoice_table">
                         <tbody>
                         <tr>
                             <th>Invoice ID</th>

@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, render_to_response, get_object_or_404, HttpResponseRedirect
 from client.models import Client
 from plans.models import Plans
+from inventory.models import InventoryItem, IteamVariation
 from connections.models import Connection, ConnectionHistory
 from django.db.models import Count
 from datetime import datetime, timedelta, date
@@ -21,8 +22,22 @@ def client_reports(request):
 
 
 def inventory_reports(request):
-    return HttpResponse('<h2>Inventory Reports</h2>')
+    context = {}
+    inventory_item = InventoryItem.objects.all(request.user)
+    context = {'inventory_item':inventory_item}
+    return render(request,'reports/inventory_item.html',context)
 
+def inventory_detail(request,pk):
+    inventory_item = InventoryItem.objects.filter(pk=pk)
+    items =IteamVariation.objects.filter(inventoryitem = inventory_item)
+    print items
+    return render(
+        request,
+        'reports/inventory_details.html',
+        {
+            'inventory_item': inventory_item,
+            'items': 'items',
+        })
 
 def piechart(request):
     from nvd3 import pieChart

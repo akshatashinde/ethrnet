@@ -13,6 +13,12 @@ from fileupload.models import Picture
 
 def client_list(request):
     clients = Client.objects.all(request.user)
+    if request.is_ajax():
+        if request.method == "POST" and request.POST['action'] == 'start1':
+            search_value = request.POST.get('search_value')
+            client= Client.objects.filter(name=search_value)
+            data = serializers.serialize("json", client)
+            return HttpResponse(data, content_type='application/json')
     return render(
         request,
         'client/client_list.html',
