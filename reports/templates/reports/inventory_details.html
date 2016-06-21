@@ -1,5 +1,4 @@
 {% extends "admin_base.html" %}
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     
     <!-- <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" type="text/css" />
@@ -17,66 +16,521 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>     
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
- 
-<!--<script type="text/javascript"> 
-//     var jQuery_1_12_2 = $.noConflict(true); 
-// </script>-->
 
 {% block content %}
 
         
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-{{ items }}
-{{kk}}
+<script>
+  $(document).ready(function(){
+    $("#row_month").hide();
+});    
+</script>
 
+
+
+<script type="text/javascript">
+  $(document).on('submit','#custom_report',function(e){
+    e.preventDefault();
+    var clientpk = [];
+
+    {% for client in clients %}
+        clientpk.push('{{ client.pk }}');
+    {% endfor %}
+
+    alert(clientpk);
+
+    $.ajax({
+      type:'POST',
+      url:'/reports/inventory_detail/2/',
+      data:{
+        start_date:$('#start_date').val(),
+        last_date:$('#last_date').val(),
+        action : 'start1',
+        csrfmiddlewaretoken:'{{ csrf_token }}'
+
+      },
+      success:function(data){
+        alert("custom report created!");
+        console.log(data);
+        $tbody = $('#custom_table').find('tbody');
+            for(i=0;i<data.length;i++)
+            {
+              $row = $('<tr>');  
+              $col1 = $('<td>');
+              $col1.text(data[i].fields.code);
+              $row.append($col1);
+              $col2 = $('<td>');
+              $col2.text(data[i].fields.status);
+              $row.append($col2);
+              $col3 = $('<td>');
+              $col3.text(data[i].fields.price);
+              $row.append($col3);
+              $col4 = $('<td>');
+              $col4.text(data[i].fields.quantity);
+              $row.append($col4);
+              $col5 = $('<td>');
+              $col5.text(data[i].fields.sale_price);
+              $row.append($col5);
+              $col5 = $('<td>');
+              $col5.text(data[i].fields.purchased_at);
+              $row.append($col5);
+              console.log($row);
+
+              $tbody.append($row);
+            }  
+      }
+    });
+  });
+
+</script>
+
+<script type="text/javascript">
+  $(document).on('submit','#year_report',function(e){
+    e.preventDefault();
+    var clientpk = [];
+
+    {% for client in clients %}
+        clientpk.push('{{ client.pk }}');
+    {% endfor %}
+
+    alert(clientpk);
+
+    $.ajax({
+      type:'POST',
+      url:'/reports/inventory_detail/2/',
+      data:{
+        currentdate:$('#currentdate').val(),
+        action : 'start2',
+        csrfmiddlewaretoken:'{{ csrf_token }}'
+      },
+      success:function(data){
+        alert("year report created!");
+        console.log(data);
+        $tbody = $('#year_table').find('tbody');
+            for(i=0;i<data.length;i++)
+            {
+              $row = $('<tr>');  
+              $col1 = $('<td>');
+              $col1.text(data[i].fields.code);
+              $row.append($col1);
+              $col2 = $('<td>');
+              $col2.text(data[i].fields.status);
+              $row.append($col2);
+              $col3 = $('<td>');
+              $col3.text(data[i].fields.price);
+              $row.append($col3);
+              $col4 = $('<td>');
+              $col4.text(data[i].fields.quantity);
+              $row.append($col4);
+              $col5 = $('<td>');
+              $col5.text(data[i].fields.sale_price);
+              $row.append($col5);
+              $col5 = $('<td>');
+              $col5.text(data[i].fields.purchased_at);
+              $row.append($col5);
+              console.log($row);
+
+              $tbody.append($row);
+            }  
+      }
+    });
+    
+  });
+</script>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+  
+  $("#id_month").live("click", function () {
+        $("#maintab").hide();
+        $("#row_month").show(); 
+        console.log($(this).attr('name'));
+        var id = $(this).attr('value');
+        
+          event.preventDefault(); 
+          $.ajax({
+            type:'POST',
+            url:'/reports/inventory_detail/2/',
+            data:{
+            idfname: $(this).attr('value'),
+            action : 'start3',
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(data) {
+              alert("month report created!");
+              console.log(data);
+              $tbody = $('#month_table').find('tbody');
+              for(i=0;i<data.length;i++)
+              {
+                $row = $('<tr>');  
+                $col1 = $('<td>');
+                $col1.text(data[i].fields.code);
+                $row.append($col1);
+                $col2 = $('<td>');
+                $col2.text(data[i].fields.status);
+                $row.append($col2);
+                $col3 = $('<td>');
+                $col3.text(data[i].fields.price);
+                $row.append($col3);
+                $col4 = $('<td>');
+                $col4.text(data[i].fields.quantity);
+                $row.append($col4);
+                $col5 = $('<td>');
+                $col5.text(data[i].fields.sale_price);
+                $row.append($col5);
+                $col5 = $('<td>');
+                $col5.text(data[i].fields.purchased_at);
+                $row.append($col5);
+                console.log($row);
+
+                $tbody.append($row);
+              }  
+            }
+          }); 
+  
+  });
+</script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+<script type="text/javascript">
+        var printvar;
+        $("#id_all").live("click", function () {
+        
+            printvar = $("#id_all").attr('value');
+        });
+        $("#id_last_month").live("click", function () {
+        
+            printvar = $("#id_last_month").attr('value');
+        });
+        $("#id_custom").live("click", function () {
+        
+            printvar = $("#id_custom").attr('value');
+        });
+        $("#id_year").live("click", function () {
+        
+            printvar = $("#id_year").attr('value');
+        });
+        $("#id_month").live("click", function () {
+        
+            printvar = $(this).attr('name');
+            alert(printvar);
+        });
+        $("#btnPrint").live("click", function () {
+            var divContents1 = $("#cc").html();
+            alert(printvar);
+            var divContents = $(printvar).html();
+            var printWindow = window.open('', '', 'height=400,width=800');
+            printWindow.document.write('<html><head><title>Connection History Report</title>');
+            printWindow.document.write('</head><body >');
+            printWindow.document.write(divContents1);
+            printWindow.document.write(divContents);
+            
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        });
+    </script>
+<script type="text/javascript">
+  
+  $("#id_last_month").live("click", function () {
+        console.log($(this).attr('name'));
+        var name = $(this).attr('value');
+        event.preventDefault(); 
+          $.ajax({
+            type:'POST',
+            url:'/reports/inventory_detail/2/',
+            data:{
+            lastmonth: $(this).attr('name'),
+            action : 'start4',
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(data) {
+              alert("month report created!");
+              console.log(data);
+              
+            }
+          }); 
+  
+  });    
+</script>
 <section class="content">
     <div class="row" id="cc">
         <div class="col-xs-12">
             <div class="box box-info">
                 <div class="box-header">
-                    <h3 class="box-title"><b>Item Details </b></h3>
+                    <h3 class="box-title"><b>Items</b></h3>
+
                 </div><!-- /.box-header -->
-                <form action="" method="post" >
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover" id="plans_table">
+                        <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <th>Code</th>
+                            <th>Status</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Sale Price</th>
+                            <th>Purchased Date</th>
+                            <th></th>
+                        </tr>
+                        {% for items in itm %}
+
+                        <tr>
+                            <td>{{ items.id }}</td>
+                            <td>{{ items.code }}</td>
+                            <td>
+                                {% if items.status == 'IN STOCK' %}
+                                    <span class="label label-primary">In Stock</span>
+                                {% else %}
+                                    <span class="label label-danger">Out of Stock</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ items.quantity }}</td>
+                            <td>{{ items.price }}</td>
+                            <td>{{ items.sale_price }}</td>
+                            <td>{{ items.purchased_at }} </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-info">
+                <div class="box-header">
+                    
+
+                  <div class="col-xs-9"><h3 class="box-title"><b><strong>Connection History</strong></b></h3></div>
+                  <div class="col-xs-1"><button type="submit" class="btn btn-primary" id="btnPrint" >Print</button></div>
+                  {% for client in clients %}
+                  <div class="col-xs-2">
+                      <p><a href="{% url 'ethernet-reports:generate_book_excel' client.pk %}" class="btn btn-primary" role="button">EXcelsheet</a></p>
+                  </div>         
+                  {% endfor %}      
+                </div>    
+                <div class="container">
+                    <ul class="nav nav-tabs">
+                        <li><a data-toggle="tab" href="#home" id="id_all" value="#home">All</a></li>
+                        <li><a data-toggle="tab" href="#menu1" id="id_last_month" name="lastmonth" value="#menu1">Last_Month</a></li>
+                        <li><a data-toggle="tab" href="#menu2" id="id_custom" value="#menu2">Custom</a></li>
+                        <li><a data-toggle="tab" href="#year" id="id_year" value="#year">Year_wise</a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#menu5">Month_wise <span class="caret"></span></a>
+                            <ul name="type" id="type" class="dropdown-menu scrollable-menu" style="width: 100px;height: 200px;overflow: scroll;">
+                                <li value="jan"><a  id="id_month" name="#row_month" value="01">January</a></li>
+                                <li value="feb"><a  id="id_month" name="#row_month" value="02">February</a></li>
+                                <li value="march"><a  id="id_month" name="#row_month" value="03" >March</a></li>
+                                <li value="april"><a  id="id_month" name="#row_month" value="04">April</a></li>
+                                <li value="may"><a  id="id_month" name="#row_month" value="05" >May</a></li>
+                                <li value="june"><a  id="id_month" name="#row_month" value="06">June</a></li>
+                                <li value="jully"><a  id="id_month" name="#row_month" value="07">jully</a></li>
+                                <li value="august"><a  id="id_month" name="#row_month" value="08">August</a></li>
+                                <li value="september"><a  id="id_month" name="#row_month" value="09">September</a></li>
+                                <li value="octomber"><a  id="id_month" name="#row_month" value="10">Octomber</a></li>
+                                <li value="november"><a  id="id_month" name="#row_month" value="11">November</a></li>
+                                <li value="november"><a  id="id_month" name="#row_month" value="12">December</a></li>                        
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="row_month">
+                          
                     <div class="box-body table-responsive no-padding">
+                      <table class="table table-hover" id="month_table" value="111">
+                        <tbody>
+                          <tr>
+                              <th>Code</th>
+                              <th>Status</th>
+                              <th>Quantity</th>
+                              <th>Price</th>
+                              <th>Sale Price</th>
+                              <th>Purchased Date</th>
+                              <th></th>
+
+                          </tr>
+            
+                        </tbody>
+                      </table>
+                    </div>   
+                </div>
+                
+                
+
+                <div class="tab-content" id ="maintab">
+                    <div id="home" class="tab-pane fade in active">
+                      <div class="box-body table-responsive no-padding">
                         <table class="table table-hover" id="client_table">
                             <tbody>
                             <tr>
-                                <th>ID</th>
-                                <th>Item Name</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Purchase Date</th>
-                                <th>delivered Date</th>
+                              <th>ID</th>
+                              <th>Code</th>
+                              <th>Status</th>
+                              <th>Quantity</th>
+                              <th>Price</th>
+                              <th>Sale Price</th>
+                              <th>Purchased Date</th>
+                              <th></th>
                             </tr>
+                            {% for items in itm %}
 
-                            {% for item in items %}
                             <tr>
-                                <td>{{ item.inventoryitem }}</td>
-                                <td>{{ item.quantity }}</td>
-                                <td>{{ item.price }}</td>
-                                <td>{{ item.purchased_at }}</td>
-                                <td>{{ item.delivered_at }}</td>
-                                <!-- <td>
-                                    {% if current.is_active %}
-                                        <span class="label label-primary">Active</span>
+                                <td>{{ items.id }}</td>
+                                <td>{{ items.code }}</td>
+                                <td>
+                                    {% if items.status == 'IN STOCK' %}
+                                        <span class="label label-primary">In Stock</span>
                                     {% else %}
-                                        <span class="label label-danger">Deactive</span>
+                                        <span class="label label-danger">Out of Stock</span>
                                     {% endif %}
                                 </td>
-                                
-                                <td>{{ current.created_on }}</td>
-                                <td>{{ current.expired_on }}</td> -->
-                                
-                                
+                                <td>{{ items.quantity }}</td>
+                                <td>{{ items.price }}</td>
+                                <td>{{ items.sale_price }}</td>
+                                <td>{{ items.purchased_at }} </td>
                             </tr>
                             {% endfor %}
                             </tbody>
                         </table>
+                      </div>    
+                    
                     </div>
-                            
-                </form>
-            </div>
+                    <div id="menu1" class="tab-pane fade">
+                      <div class="box-body table-responsive no-padding">
+                          <table class="table table-hover" id="client_table">
+                              <tbody>
+                              <tr>
+                              <th>ID</th>
+                              <th>Code</th>
+                              <th>Status</th>
+                              <th>Quantity</th>
+                              <th>Price</th>
+                              <th>Sale Price</th>
+                              <th>Purchased Date</th>
+                              <th></th>
+                            </tr>
+                            {% for items in last_month %}
+
+                            <tr>
+                                <td>{{ items.id }}</td>
+                                <td>{{ items.code }}</td>
+                                <td>
+                                    {% if items.status == 'IN STOCK' %}
+                                        <span class="label label-primary">In Stock</span>
+                                    {% else %}
+                                        <span class="label label-danger">Out of Stock</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ items.quantity }}</td>
+                                <td>{{ items.price }}</td>
+                                <td>{{ items.sale_price }}</td>
+                                <td>{{ items.purchased_at }} </td>
+                            </tr>
+                            {% endfor %}
+                              </tbody>
+                          </table>
+                        </div>    
+                    </div>
+                    <div id="menu2" class="tab-pane fade">
+                        <h4>Enter Date for Searching records</h4>
+                        
+                        <form id ="custom_report">{% csrf_token %}
+                            </br>
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <input id="start_date" type="date" name="start_date" placeholder="Enter Start Date">
+                                </div>   
+                                <div class="col-xs-2">
+                                    <input id= "last_date" type="date" name="last_date" placeholder="Enter Start Date">
+                                </div>   
+                                <div class="col-xs-1">
+                                    <input type="submit" value="Submit" class="btn btn-primary">
+                                </div>    
+                            </div>
+                            </br>
+                                <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover" id="custom_table">
+                                          <tbody>
+                                            <tr>
+                                              <th>Code</th>
+                                              <th>Status</th>
+                                              <th>Quantity</th>
+                                              <th>Price</th>
+                                              <th>Sale Price</th>
+                                              <th>Purchased Date</th>
+                                              <th></th>
+
+                                            </tr> 
+                                          </tbody> 
+                                        </table>
+                                </div>
+                                   
+                        </form>   
+                    </div>
+                    <div id="year" class="tab-pane fade">
+                        <h4>Enter Date for Searching records</h4>
+                        <form id ="year_report">{% csrf_token %}
+                           
+                          <div class="container">
+                            <div class="col-sm-6" style="height:75px;">
+                                <div class='col-md-5'>
+                                    <div class="form-group">
+                                      <div class='input-group date' id='currentDate'>
+                                        <input type='text' class="form-control" name="currentdate" id="currentdate" />
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3">
+                                  <input type="submit" value="Submit" class="btn btn-primary">
+                                </div>
+                            </div>
+                          </div>
+                          <div class="box-body table-responsive no-padding">
+                            <table class="table table-hover" id="year_table">
+                              <tbody>
+                                <tr>
+                                  <th>Code</th>
+                                  <th>Status</th>
+                                  <th>Quantity</th>
+                                  <th>Price</th>
+                                  <th>Sale Price</th>
+                                  <th>Purchased Date</th>
+                                  <th></th>
+
+                                </tr>    
+                              </tbody>
+                            </table>
+                          </div>
+                          <script type="text/javascript">
+                              jQuery(function () {
+                                  jQuery('#currentDate').datepicker({
+                                      format :'yyyy'
+                                  });
+                              });
+                          </script>
+                        </from>
+                    </div>
+                        
+                        
+                    
+                    
+                </div>
+            </div>    
         </div>
     </div>
+ 
 </section>
+<style>
+
+</style>
 {% endblock content %}
+

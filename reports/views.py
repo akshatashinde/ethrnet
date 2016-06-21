@@ -29,14 +29,58 @@ def inventory_reports(request):
 
 def inventory_detail(request,pk):
     inventory_item = InventoryItem.objects.filter(pk=pk)
-    items =IteamVariation.objects.filter(inventoryitem = inventory_item)
-    print items
+    itm =IteamVariation.objects.filter(inventoryitem = inventory_item)
+    month = datetime.now() - timedelta(days = 30)
+    last_month = IteamVariation.objects.filter(inventoryitem = inventory_item,purchased_at__lt=month)
+    sdate = None
+    ldate = None
+    custom = None
+    mnth = None
+    if request.is_ajax():
+        if request.method == "POST" and request.POST['action'] == 'start1':
+            print 3
+            sdate = request.POST.get('start_date')
+            ldate = request.POST.get('last_date')
+           
+            request.session['sdate']=sdate
+            request.session['ldate']=ldate
+            custom = IteamVariation.objects.filter(inventoryitem = inventory_item,purchased_at__range=(sdate,ldate))
+            print custom
+            data = serializers.serialize("json", custom)
+            return HttpResponse(data, content_type='application/json')
+
+        if request.method == "POST" and request.POST['action'] == 'start2':
+            year = request.POST.get('currentdate')
+            request.session['year']=year
+            yearwise = IteamVariation.objects.filter(inventoryitem = inventory_item,purchased_at__year = year)
+            year_data = serializers.serialize("json", yearwise)
+            return HttpResponse(year_data, content_type='application/json')
+        
+        if request.method == "POST" and request.POST['action'] == 'start3':
+            print 5
+            mnth = request.POST.get('idfname')
+            request.session['mnth']=mnth
+            print mnth
+            monthwise = IteamVariation.objects.filter(inventoryitem = inventory_item,purchased_at__month = mnth)
+            print monthwise
+            month_data = serializers.serialize("json", monthwise)
+
+        if request.method == "POST" and request.POST['action'] == 'start4':
+            l_month = request.POST.get('action')
+            print l_month
+            request.session['l_month']=l_month
+            month = datetime.now() - timedelta(days = 30)
+            last_month = IteamVariation.objects.filter(inventoryitem = inventory_item,purchased_at__lt=month)
+            last_month_data = serializers.serialize("json", last_month)
+            return HttpResponse(last_month_data, content_type='application/json')
+                        
     return render(
         request,
         'reports/inventory_details.html',
         {
             'inventory_item': inventory_item,
-            'items': 'items',
+            'itm': itm,
+            'last_month':last_month,
         })
 
 def piechart(request):
