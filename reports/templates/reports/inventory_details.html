@@ -147,9 +147,9 @@
         $("#row_month").show(); 
         console.log($(this).attr('name'));
         var id = $(this).attr('value');
-        
+        alert(id);
           event.preventDefault(); 
-          $.ajax({
+          jQuery.ajax({
             type:'POST',
             url:'/reports/inventory_detail/2/',
             data:{
@@ -160,6 +160,7 @@
             success: function(data) {
               alert("month report created!");
               console.log(data);
+              var table = $("<table/>").addClass('CSSTableGenerator');
               $tbody = $('#month_table').find('tbody');
               for(i=0;i<data.length;i++)
               {
@@ -190,6 +191,18 @@
           }); 
   
   });
+  $("#btnPrint").on("click", function () {
+    var divContents1 = $("#cc").html();
+    var divContents = $(tbody).html();
+    var printWindow = window.open('', '', 'height=400,width=800');
+    printWindow.document.write('<html><head><title>Connection History Report</title>');
+    printWindow.document.write('</head><body >');
+    printWindow.document.write(divContents1);
+    printWindow.document.write(divContents);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
+  }); 
 </script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
@@ -239,7 +252,7 @@
         event.preventDefault(); 
           $.ajax({
             type:'POST',
-            url:'/reports/inventory_detail/2/',
+            url:'/reports/connection_detail/1/',
             data:{
             lastmonth: $(this).attr('name'),
             action : 'start4',
@@ -309,9 +322,9 @@
 
                   <div class="col-xs-9"><h3 class="box-title"><b><strong>Connection History</strong></b></h3></div>
                   <div class="col-xs-1"><button type="submit" class="btn btn-primary" id="btnPrint" >Print</button></div>
-                  {% for client in clients %}
+                  {% for inventory in inventory_item %}
                   <div class="col-xs-2">
-                      <p><a href="{% url 'ethernet-reports:generate_book_excel' client.pk %}" class="btn btn-primary" role="button">EXcelsheet</a></p>
+                      <p><a href="{% url 'ethernet-reports:generate_item_excel' inventory.pk %}" class="btn btn-primary" role="button">EXcelsheet</a></p>
                   </div>         
                   {% endfor %}      
                 </div>    
@@ -346,16 +359,15 @@
                     <div class="box-body table-responsive no-padding">
                       <table class="table table-hover" id="month_table" value="111">
                         <tbody>
-                          <tr>
-                              <th>Code</th>
-                              <th>Status</th>
-                              <th>Quantity</th>
-                              <th>Price</th>
-                              <th>Sale Price</th>
-                              <th>Purchased Date</th>
-                              <th></th>
-
-                          </tr>
+                        <tr>
+                            <th>Code</th>
+                            <th>Status</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Sale Price</th>
+                            <th>Purchased Date</th>
+                            <th></th>
+                        </tr>
             
                         </tbody>
                       </table>
