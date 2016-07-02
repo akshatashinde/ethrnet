@@ -1,23 +1,27 @@
-from django.shortcuts import render, HttpResponse, render_to_response, get_object_or_404, HttpResponseRedirect
-from client.models import Client
-from plans.models import Plans
-from connections.models import Connection, ConnectionHistory
-from django.db.models import Count
-from datetime import datetime, timedelta, date
-from dateutil.relativedelta import relativedelta
-from .forms import UploadFileForm
-from django.template import RequestContext
 import csv
 import xlwt
-from .models import Book
 import json
+
+from datetime import datetime, timedelta, date
+from dateutil.relativedelta import relativedelta
+from django.template import RequestContext
 from django.http import HttpResponse
 from django.core import serializers
+from django.shortcuts import render, HttpResponse, render_to_response
+from django.db.models import Count
+from django.shortcuts import render, HttpResponse, render_to_response, get_object_or_404, HttpResponseRedirect
+from django.db.models import Count
 
-# Create your views here.
+from .forms import UploadFileForm
+from client.models import Client
+from connections.models import Connection, ConnectionHistory
+from client.models import Client
+from connections.models import Connection
+from plans.models import Plans
+
 def client_reports(request):
     clients = Client.objects.all(request.user)
-    return render(request, 'reports/report.html', {})
+    return render(request, 'reports/report.html', {'clients':clients})
 
 
 def inventory_reports(request):
@@ -222,4 +226,3 @@ def generate_book_excel(request,pk):
         request.session['mnth'] = 0
         request.session['l_month'] = None
         return response
-

@@ -1,11 +1,13 @@
+import datetime
+
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 from account.models import Branch
 from client.models import Client
 from plans.models import Plans
-from django.db.models.signals import post_save
 from ethrnet.branch_manager import BranchWiseObjectManager
-from django.dispatch import receiver
 
 
 class Connection(models.Model):
@@ -26,6 +28,18 @@ class Connection(models.Model):
     expired_on = models.DateField()
 
     objects = BranchWiseObjectManager()
+
+    def __unicode__(self):
+        return self.branch.name + ' ' + self.client.name
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+
+            if self.plan:
+                self.expired_on = datetime.datetime.now() + datetime.timedelta(days=self.plan.duration)
+        else:
+            pass
+        super(Connection, self).save(*args, **kwargs)
 
 
 class ConnectionHistory(models.Model):
@@ -55,5 +69,3 @@ def connection_post_saved_receiver(sender, instance, created, *args, **kwargs):
     conn_hist.updated_on = instance.updated_on
     conn_hist.expired_on = instance.expired_on
     conn_hist.save()
-
-    

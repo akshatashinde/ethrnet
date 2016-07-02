@@ -8,7 +8,7 @@ import datetime
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('client', '0003_client_is_active'),
+        ('client', '0001_initial'),
     ]
 
     operations = [
