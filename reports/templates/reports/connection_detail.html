@@ -171,7 +171,7 @@
         $("#row_month").show(); 
         console.log($(this).attr('name'));
         var id = $(this).attr('value');
-        // $('#month_table option[value=111]').remove();
+        
           event.preventDefault(); 
           $.ajax({
             type:'POST',
@@ -234,13 +234,7 @@
   }); 
 </script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script type="text/javascript">
-  // $('#month_table').on('update', function(){
-  //   alert('Table updated, launching kill space goats sequence now.')
 
-  // });
-  
-</script>
 <script type="text/javascript">
         var printvar;
         $("#id_all").live("click", function () {
@@ -268,10 +262,6 @@
             var divContents1 = $("#cc").html();
             alert(printvar);
             var divContents = $(printvar).html();
-            // if (printvar == '#id_month')
-            // {
-            //   var divContents = $(tbody).html();
-            // }
             var printWindow = window.open('', '', 'height=400,width=800');
             printWindow.document.write('<html><head><title>Connection History Report</title>');
             printWindow.document.write('</head><body >');
@@ -300,37 +290,7 @@
             success: function(data) {
               alert("month report created!");
               console.log(data);
-              // $tbody = $('#month_table').find('tbody');
-              // for(i=0;i<data.length;i++)
-              // {
-              //   $row = $('<tr>');
-              //   $col1 = $('<td>');
-              //   $col1.text(data[i].fields.client);
-              //   $row.append($col1);
-              //   $col2 = $('<td>');
-              //   $col2.text(data[i].fields.plan);
-              //   $row.append($col2);
-              //   $col3 = $('<td>');
-              //   if (data[i].fields.is_active == true)
-              //   {
-              //     $col3.text('active');
-              //   }
-              //   else
-              //   {
-              //     $col3.text('Non-active');
-              //   }
-              //   $row.append($col3);
-              //   $col4 = $('<td>');
-              //   $col4.text(data[i].fields.created_on);
-              //   $row.append($col4);
-              //   $col5 = $('<td>');
-              //   $col5.text(data[i].fields.expired_on);
-              //   $row.append($col5);
-              //   console.log($row);
-
-              //   $tbody.append($row);
-
-              // }  
+              
             }
           }); 
   
@@ -407,18 +367,18 @@
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#menu5">Month_wise <span class="caret"></span></a>
                             <ul name="type" id="type" class="dropdown-menu scrollable-menu" style="width: 100px;height: 200px;overflow: scroll;">
-                                <li value="jan"><a  id="id_month" name="jan" value="01">January</a></li>
-                                <li value="feb"><a  id="id_month" name="feb" value="02">February</a></li>
-                                <li value="march"><a  id="id_month" name="march" value="03" >March</a></li>
+                                <li value="jan"><a  id="id_month" name="#row_month" value="01">January</a></li>
+                                <li value="feb"><a  id="id_month" name="#row_month" value="02">February</a></li>
+                                <li value="march"><a  id="id_month" name="#row_month" value="03" >March</a></li>
                                 <li value="april"><a  id="id_month" name="#row_month" value="04">April</a></li>
                                 <li value="may"><a  id="id_month" name="#row_month" value="05" >May</a></li>
                                 <li value="june"><a  id="id_month" name="#row_month" value="06">June</a></li>
-                                <li value="jully"><a  id="id_month" name="jully" value="07">jully</a></li>
-                                <li value="august"><a  id="id_month" name="august" value="08">August</a></li>
-                                <li value="september"><a  id="id_month" name="september" value="09">September</a></li>
-                                <li value="octomber"><a  id="id_month" name="octomber" value="10">Octomber</a></li>
-                                <li value="november"><a  id="id_month" name="november" value="11">November</a></li>
-                                <li value="november"><a  id="id_month" name="december" value="12">December</a></li>                        
+                                <li value="jully"><a  id="id_month" name="#row_month" value="07">jully</a></li>
+                                <li value="august"><a  id="id_month" name="#row_month" value="08">August</a></li>
+                                <li value="september"><a  id="id_month" name="#row_month" value="09">September</a></li>
+                                <li value="octomber"><a  id="id_month" name="#row_month" value="10">Octomber</a></li>
+                                <li value="november"><a  id="id_month" name="#row_month" value="11">November</a></li>
+                                <li value="november"><a  id="id_month" name="#row_month" value="12">December</a></li>                        
                             </ul>
                         </li>
                     </ul>
@@ -443,85 +403,75 @@
                     </div>   
                 </div>
                 
-                
 
                 <div class="tab-content" id ="maintab">
                     <div id="home" class="tab-pane fade in active">
-                        
-                        
-                        <div class="box-body table-responsive no-padding">
-                                        <table class="table table-hover" id="client_table">
-                                            <tbody>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Client Id</th>
-                                                <th>Plan</th>
-                                                <th>Status</th>
-                                                <th>Created On</th>
-                                                <th>Expired on</th>
-                                                <th></th>
-                                            </tr>
-                                            {% for connection in all_list %}
-                                            <tr>
-                                                <td>{{ connection.id }}</td>
-                                                <td>{{ connection.client }}</td>
-                                                <td>{{ connection.plan }}</td>
-                                                <td>
-                                                    {% if connection.is_active %}
-                                                        <span class="label label-primary">Active</span>
-                                                    {% else %}
-                                                        <span class="label label-danger">Deactive</span>
-                                                    {% endif %}
-                                                </td>
-                                                <td>{{ connection.created_on }}</td>
-                                                <td>{{ connection.expired_on }}</td>
-                                                <td>
-                                                    <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                                                    <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                            </tbody>
-                                        </table>
-                        </div>    
+                      <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover" id="client_table">
+                            <tbody>
+                            <tr>
+                                <th>ID</th>
+                                <th>Client Id</th>
+                                <th>Plan</th>
+                                <th>Status</th>
+                                <th>Created On</th>
+                                <th>Expired on</th>
+                                <th></th>
+                            </tr>
+                            {% for connection in all_list %}
+                            <tr>
+                                <td>{{ connection.id }}</td>
+                                <td>{{ connection.client }}</td>
+                                <td>{{ connection.plan }}</td>
+                                <td>
+                                    {% if connection.is_active %}
+                                        <span class="label label-primary">Active</span>
+                                    {% else %}
+                                        <span class="label label-danger">Deactive</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ connection.created_on }}</td>
+                                <td>{{ connection.expired_on }}</td>
+                                
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                      </div>    
                     
                     </div>
                     <div id="menu1" class="tab-pane fade">
-                            
-                        <div class="box-body table-responsive no-padding">
-                                        <table class="table table-hover" id="client_table">
-                                            <tbody>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Client Id</th>
-                                                <th>Plan</th>
-                                                <th>Status</th>
-                                                <th>Created on</th>
-                                                <th>Expired on</th>
-                                                <th></th>
-                                            </tr>
-                                            {% for connection in last_month %}
-                                            <tr>
-                                                <td>{{ connection.id }}</td>
-                                                <td>{{ connection.client }}</td>
-                                                <td>{{ connection.plan }}</td>
-                                                <td>
-                                                    {% if connection.is_active %}
-                                                        <span class="label label-primary">Active</span>
-                                                    {% else %}
-                                                        <span class="label label-danger">Deactive</span>
-                                                    {% endif %}
-                                                </td>
-                                                <td>{{ connection.created_on }}</td>
-                                                <td>{{ connection.expired_on }}</td>
-                                                <td>
-                                                    <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                                                        <button class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                            </tbody>
-                                        </table>
+                      <div class="box-body table-responsive no-padding">
+                          <table class="table table-hover" id="client_table">
+                              <tbody>
+                              <tr>
+                                  <th>ID</th>
+                                  <th>Client Id</th>
+                                  <th>Plan</th>
+                                  <th>Status</th>
+                                  <th>Created on</th>
+                                  <th>Expired on</th>
+                                  <th></th>
+                              </tr>
+                              {% for connection in last_month %}
+                              <tr>
+                                  <td>{{ connection.id }}</td>
+                                  <td>{{ connection.client }}</td>
+                                  <td>{{ connection.plan }}</td>
+                                  <td>
+                                      {% if connection.is_active %}
+                                          <span class="label label-primary">Active</span>
+                                      {% else %}
+                                          <span class="label label-danger">Deactive</span>
+                                      {% endif %}
+                                  </td>
+                                  <td>{{ connection.created_on }}</td>
+                                  <td>{{ connection.expired_on }}</td>
+                                  
+                              </tr>
+                              {% endfor %}
+                              </tbody>
+                          </table>
                         </div>    
                     </div>
                     <div id="menu2" class="tab-pane fade">

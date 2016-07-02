@@ -10,22 +10,174 @@ from django.core import serializers
 from django.shortcuts import render, HttpResponse, render_to_response
 from django.db.models import Count
 from django.shortcuts import render, HttpResponse, render_to_response, get_object_or_404, HttpResponseRedirect
-from django.db.models import Count
+
 
 from .forms import UploadFileForm
 from client.models import Client
 from connections.models import Connection, ConnectionHistory
 from client.models import Client
 from connections.models import Connection
+from inventory.models import InventoryItem, IteamVariation
 from plans.models import Plans
 
 def client_reports(request):
     clients = Client.objects.all(request.user)
     return render(request, 'reports/report.html', {'clients':clients})
 
-
 def inventory_reports(request):
-    return HttpResponse('<h2>Inventory Reports</h2>')
+    context = {}
+    inventory_item = InventoryItem.objects.all(request.user)
+    context = {'inventory_item':inventory_item}
+    return render(request,'reports/inventory_item.html',context)
+
+def inventory_detail(request,pk):
+    inventory_item = InventoryItem.objects.filter(pk=pk)
+    itm =IteamVariation.objects.filter(inventoryitem = inventory_item)
+    month = datetime.now() - timedelta(days = 30)
+    last_month = IteamVariation.objects.filter(inventoryitem = inventory_item,purchased_at__lt=month)
+    sdate = None
+    ldate = None
+    custom = None
+    mnth = None
+    year=None
+    l_month=None
+    if request.is_ajax():
+        if request.method == "POST" and request.POST['action'] == 'start1':
+            print 3
+            sdate = request.POST.get('start_date')
+            ldate = request.POST.get('last_date')
+           
+            request.session['sdate']=sdate
+            request.session['ldate']=ldate
+            custom = IteamVariation.objects.filter(inventoryitem = inventory_item,purchased_at__range=(sdate,ldate))
+            print custom
+            data = serializers.serialize("json", custom)
+            return HttpResponse(data, content_type='application/json')
+
+        if request.method == "POST" and request.POST['action'] == 'start2':
+            year = request.POST.get('currentdate')
+            request.session['year']=year
+            yearwise = IteamVariation.objects.filter(inventoryitem = inventory_item,purchased_at__year = year)
+            year_data = serializers.serialize("json", yearwise)
+            return HttpResponse(year_data, content_type='application/json')
+        
+        if request.method == "POST" and request.POST['action'] == 'start3':
+            mnth = request.POST.get('idfname')
+            request.session['mnth']=mnth
+            monthwise = IteamVariation.objects.filter(inventoryitem = inventory_item,purchased_at__month = mnth)
+            month_data = serializers.serialize("json", monthwise)
+            return HttpResponse(month_data, content_type='application/json')
+
+        if request.method == "POST" and request.POST['action'] == 'start4':
+            l_month = request.POST.get('action')
+            print l_month
+            request.session['l_month']=l_month
+            month = datetime.now() - timedelta(days = 30)
+            last_month = IteamVariation.objects.filter(inventoryitem = inventory_item,purchased_at__lt=month)
+            last_month_data = serializers.serialize("json", last_month)
+            return HttpResponse(last_month_data, content_type='application/json')
+                        
+    return render(
+        request,
+        'reports/inventory_details.html',
+        {
+            'inventory_item': inventory_item,
+            'itm': itm,
+            'last_month':last_month,
+        })
+
+def generate_item_excel(request,pk):
+        
+        
+        inventory_item = InventoryItem.objects.filter(pk=pk)
+        
+        sdate=request.session['sdate']
+        ldate=request.session['ldate']
+        year=request.session['year']
+        mnth=request.session['mnth']
+        l_month=request.session['l_month']
+        l_month1='start4'
+
+        print sdate,ldate
+
+        if year is None:
+            year = 0
+
+        
+        items = IteamVariation.objects.filter(inventoryitem = inventory_item)
+        
+        if mnth != 0:
+            items = IteamVariation.objects.filter(inventoryitem = inventory_item,purchased_at__month = mnth)
+            print items,1
+        elif year != 0:
+            items = IteamVariation.objects.filter(inventoryitem = inventory_item,purchased_at__year = year)
+            print items,2    
+        elif sdate and ldate is not None:
+            items = IteamVariation.objects.filter(inventoryitem = inventory_item,purchased_at__range=(sdate,ldate))
+            print items,3
+        elif l_month == l_month1:
+            month = datetime.now() - timedelta(days = 30)
+            items = IteamVariation.objects.filter(inventoryitem = inventory_item,purchased_at__lt=month)
+            print items,4
+        else:
+            items = IteamVariation.objects.filter(inventoryitem = inventory_item)
+            print items,5
+
+        objectlist = []
+        for conn in items:
+            object = {}
+            object['code'] = conn.code
+            object['status'] = conn.status
+            object['quantity'] = conn.quantity
+            object['price'] = conn.price
+            object['sale_price'] = conn.sale_price
+            object['purchased_at'] = conn.purchased_at
+
+
+
+            # client = Client.objects.get(client_id= conn.client)
+            # object['client'] = client.name
+            # object['client_id'] = client.client_id
+            # plan =Plans.objects.get(code = conn.plan)
+            # object['plan'] = plan.code
+            objectlist.append(object)
+               
+
+        # Create the HttpResponse object with Excel header.This tells browsers that 
+        # the document is a Excel file.
+        response = HttpResponse(content_type='application/ms-excel')
+
+        # The response also has additional Content-Disposition header, which contains 
+        # the name of the Excel file.
+        response['Content-Disposition'] = 'attachment; filename=Inventory_details.xls'
+
+        # Create object for the Workbook which is under xlwt library.
+        workbook = xlwt.Workbook()
+
+        # By using Workbook object, add the sheet with the name of your choice.
+        worksheet = workbook.add_sheet("Inventory Report")
+     
+        row_num = 0
+        columns = ['Item_Code','Status','Quantity','Price','Sale_price','purchased_at']
+        for col_num in range(len(columns)):
+            # For each cell in your Excel Sheet, call write function by passing row number, 
+            # column number and cell data.
+            worksheet.write(row_num, col_num, columns[col_num])     
+       
+        for item in objectlist:
+            row_num += 1
+            row = [item['code'],item['status'],item['quantity'],item['price'],item['sale_price'],item['purchased_at']]
+            for col_num in range(len(row)):
+                worksheet.write(row_num, col_num, row[col_num])
+       
+        workbook.save(response)
+     
+        request.session['sdate'] = 0
+        request.session['ldate']= 0
+        request.session['year'] = 0
+        request.session['mnth'] = 0
+        request.session['l_month'] = None
+        return response
 
 
 def piechart(request):
