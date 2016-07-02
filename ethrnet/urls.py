@@ -44,5 +44,6 @@ urlpatterns = [
     url(r'^upload/', include('fileupload.urls')),
     url(r'^media/(.*)$', 'django.views.static.serve',
                          {'document_root': settings.MEDIA_ROOT}),
+    url(r'^quotation/',include('quotation.urls', namespace='quotation')),
 ]
 

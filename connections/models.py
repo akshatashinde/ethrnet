@@ -1,12 +1,13 @@
 import datetime
+
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 from account.models import Branch
 from client.models import Client
 from plans.models import Plans
-from django.db.models.signals import post_save
 from ethrnet.branch_manager import BranchWiseObjectManager
-from django.dispatch import receiver
 
 
 class Connection(models.Model):
@@ -39,7 +40,6 @@ class Connection(models.Model):
         else:
             pass
         super(Connection, self).save(*args, **kwargs)
-
 
 
 class ConnectionHistory(models.Model):

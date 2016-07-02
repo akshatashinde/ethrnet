@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                 ('society', models.CharField(max_length=120)),
                 ('city', models.CharField(default=b'Pune', max_length=120)),
                 ('state', models.CharField(default=b'Maharashtra', max_length=120, null=True, blank=True)),
-                ('country', models.CharField(default=b'India', max_length=120)),
+                ('country', models.CharField(default=b'India', max_length=120, null=True, blank=True)),
                 ('zipcode', models.CharField(max_length=25)),
                 ('timestamp', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now=True)),

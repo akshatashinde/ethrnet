@@ -1,7 +1,13 @@
 import json
+
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
+
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render
+from django.views.decorators.http import require_http_methods
+
 from account.models import Branch
 from plans.models import Plans
 from client.models import Client
@@ -9,7 +15,7 @@ from invoice.models import Invoice
 from connections.models import Connection
 from client.forms import ClientFormMin, AddressForm
 from fileupload.forms import PictureForm
-# from enquiries.models import Enquiries
+
 from django.contrib.auth.decorators import login_required
 from connections.forms import ConnectPlanForm
 
@@ -52,7 +58,6 @@ def client(request):
             pic2 = PictureForm()
         else:
             context['client_success'] = True
-
     context['client_form'] = client_form
     context['address_form'] = address_form
     context['plan_form'] = plan_form
@@ -73,7 +78,6 @@ def dashboard(request):
     invoices = Invoice.objects.all(request.user).count()
     latest_invoice = Invoice.objects.all(request.user).order_by('id')[:7]
     connections = Connection.objects.all(request.user).count()
-    # enquiries = Enquiries.objects.all().count()
 
     context['client'] = clients
     context['invoice'] = invoices

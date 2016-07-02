@@ -1,0 +1,90 @@
+{% extends "admin_base.html" %}
+{% block content %}
+
+<head>
+	<title>Multiple creation</title>
+</head>
+	<div class="row">
+		<div class='col-md-3'>
+		</div>
+		<div class='col-md-8'>
+			<h1 align='center' style="color:Blue;">Create Quotation</h1>
+
+
+
+
+			<script type='text/javascript'>
+				$('input[type="text"]').addClass('form-control');
+				$('textarea').addClass('form-control');
+			</script>
+
+			<div class="container">
+				<div class='col-md-6'>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<form action="" method="post" enctype="multipart/form-data">
+							{% csrf_token %}
+							{{user_form.as_p}}
+							<label>Enter Item Information:</label>
+							<table rules="all" style="background:#fff;">
+								<tr>
+									<th style="font-size:16px;" >Name</th>
+									<th style="font-size:16px;">Quantity</th>
+									<th style="font-size:16px;">Price</th>
+									<th><span style="font:normal 12px agency, arial; color:blue; text-decoration:underline; cursor:pointer;" onclick="addMoreRows(this.form);">
+									Add More
+									</span>
+									</th>
+								</tr>
+								{{ formset.management_form }}
+								{% for form in formset.forms %}
+									<tr id="rowId" class="dynamic-form">
+											<td>{{form.item}}</td>
+											<td>{{form.quantity}}</td>
+											<td>{{form.price}}</td>
+											
+											
+											
+									</tr>
+									
+								{% endfor %}	
+
+							</table>
+								{{ formset.management_form }}	
+								{% for form in formset.forms %}
+									<div id="addedRows"></div>
+								{% endfor %}	
+							
+								<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+								{{ formset.management_form }}
+								{% for form in formset.forms %}
+										<script type="text/javascript">
+											var rowCount = 1;
+											function addMoreRows(frm) {
+												rowCount ++;
+												var recRow = '<p id="rowCount'+rowCount+'"><tr><td>{{form.item}}</td><td>{{form.quantity}}</td><td>{{form.price}}</td></tr> <a href="javascript:void(0);" onclick="removeRow('+rowCount+');">Delete</a></p>';
+												jQuery('#addedRows').append(recRow);
+												}
+
+											function removeRow(removeNum) {
+												jQuery('#rowCount'+removeNum).remove();
+												}
+										</script>	
+								{% endfor %}
+							
+
+
+							</br>
+							<input type='submit' value='Save' class="btn btn-primary btn-lg" align="center"/>
+					 		<a href="{% url 'quotation:home' %}">GOTO HOME</a>
+						</form>
+					</div>
+				</div>
+				
+			</div>
+
+		</div>
+		<div class='col-md-1'>
+		</div>
+	</div>
+{% endblock content %}

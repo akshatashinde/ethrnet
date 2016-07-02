@@ -187,6 +187,18 @@
                         </li>
                     </ul>
                 </li>
+                <li class="{% if page == 'quotation' %} active {% endif %}treeview">
+                    <a href="">
+                        <i class="fa fa-files-o"></i>
+                        <span>Quotation</span>
+                        <span class="label label-primary pull-right">new</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="active"><a href="{% url 'quotation:create_item1' %}"><i class="fa fa-circle-o"></i>Add Item</a></li>
+                        <li><a href="{% url 'quotation:tablelist' %}"><i class="fa fa-circle-o"></i>List Item</a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="{% if page == 'inventory' %} active {% endif %}treeview">
                     <a href="">
                         <i class="fa fa-files-o"></i>
@@ -207,14 +219,9 @@
                     <ul class="treeview-menu">
                         <li class="active"><a href="{% url 'ethernet-reports:client_reports' %}"><i class="fa fa-circle-o"></i>Client</a></li>
                         <li ><a href="{% url 'ethernet-reports:inventory_reports' %}"><i class="fa fa-circle-o"></i>Inventory</a></li>
-                        </li>
+                        <li><a href="{% url 'ethernet-reports:client_list' %}"><i class="fa fa-circle-o"></i>Client_Report</a></li>
                     </ul>
                 </li>
-
-                <li class="header">LABELS</li>
-                <li><a href="{% static '#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-                <li><a href="{% static '#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-                <li><a href="{% static '#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
             </ul>
         </section>
         <!-- /.sidebar -->
