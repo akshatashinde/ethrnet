@@ -25,7 +25,7 @@ class UserAddress(models.Model):
     area = models.ForeignKey(Branch, null=True, blank=True)
     city = models.CharField(max_length=120, default="Pune")
     state = models.CharField(max_length=120, null=True, blank=True, default="Maharashtra")
-    country = models.CharField(max_length=120,default="India")
+    country = models.CharField(max_length=120,default="India", null=True, blank=True)
     zipcode = models.CharField(max_length=25)
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)

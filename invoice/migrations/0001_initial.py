@@ -10,10 +10,7 @@ import django_extensions.db.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('account', '0002_auto_20160329_0021'),
         ('inventory', '0001_initial'),
-        ('plans', '0002_auto_20160329_0021'),
-        ('client', '0003_client_is_active'),
     ]
 
     operations = [
@@ -37,10 +34,6 @@ class Migration(migrations.Migration):
                 ('invoiced', models.BooleanField(default=False)),
                 ('draft', models.BooleanField(default=False)),
                 ('paid_date', models.CharField(max_length=200, null=True, blank=True)),
-                ('address', models.ForeignKey(related_name='invoice_set', to='account.UserAddress')),
-                ('branch', models.ForeignKey(blank=True, to='account.Branch', null=True)),
-                ('currency', models.ForeignKey(blank=True, to='invoice.Currency', null=True)),
-                ('user', models.ForeignKey(to='client.Client')),
             ],
             options={
                 'ordering': ('-invoice_date', 'id'),
@@ -55,7 +48,6 @@ class Migration(migrations.Migration):
                 ('quantity', models.PositiveIntegerField(default=1, validators=[django.core.validators.MinValueValidator(1)])),
                 ('invoice', models.ForeignKey(related_name='items', to='invoice.Invoice')),
                 ('item', models.ForeignKey(blank=True, to='inventory.IteamVariation', null=True)),
-                ('plan', models.ForeignKey(blank=True, to='plans.Plans', null=True)),
             ],
         ),
     ]

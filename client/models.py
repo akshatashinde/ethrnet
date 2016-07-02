@@ -61,7 +61,7 @@ class Client(models.Model):
 
     attachments = models.ManyToManyField(Picture, null=True, blank=True)
 
-    created_by = models.ForeignKey(User)
+    created_by = models.ForeignKey(User, null=True, blank=True)
     branch = models.ForeignKey(Branch, blank=True, null=True,)
 
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
@@ -69,6 +69,8 @@ class Client(models.Model):
     is_active = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return self.client_id
+        if self.client_id:
+            return self.client_id
+        return self.name
 
     objects = BranchWiseObjectManager()

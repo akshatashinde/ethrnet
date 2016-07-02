@@ -27,6 +27,7 @@ class Migration(migrations.Migration):
                 ('address_proof_types', models.CharField(default=b'Other', max_length=20, null=True, blank=True, choices=[(b'Aadhar', b'AADHAR'), (b'Driving Licence', b'DRIVING LICENCE'), (b'Electricity Bill', b'ELECTRICITY BILL'), (b'Other', b'OTHER'), (b'Passport', b'PASSPORT'), (b'Voter', b'VOTER')])),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
+                ('is_active', models.BooleanField(default=False)),
                 ('Address', models.ForeignKey(blank=True, to='account.UserAddress', null=True)),
                 ('attachments', models.ManyToManyField(to='fileupload.Picture', null=True, blank=True)),
                 ('branch', models.ForeignKey(blank=True, to='account.Branch', null=True)),

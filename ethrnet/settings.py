@@ -111,9 +111,20 @@ WSGI_APPLICATION = 'ethrnet.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'mydatabase',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'ethernet',
+#         'USER': 'ethernet_user',
+#         'PASSWORD': 'ethernet6',
+#         'HOST': 'ethernet.ctjtg3cziby4.us-west-2.rds.amazonaws.com',
+#         'PORT': '3306',
+#     }
+# }
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
@@ -138,6 +149,7 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = False
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
