@@ -19,7 +19,7 @@ def item_add(request):
     if request.is_ajax():
         if request.method == "POST" and request.POST['action'] == 'start1':
             search_value = request.POST.get('search_value')
-            item= InventoryItem.objects.filter(item=search_value)
+            item = InventoryItem.objects.filter(item=search_value)
             data = serializers.serialize("json", item)
             return HttpResponse(data, content_type='application/json')
     return render(
@@ -41,7 +41,8 @@ def item_edit(request, id):
             itemform = ItemForm(request.POST, instance=item)
             if itemform.is_valid():
                 itemform.save()
-                return HttpResponseRedirect(reverse('ethernet-inventory:add_item'))
+                return HttpResponseRedirect(reverse(
+                    'ethernet-inventory:add_item'))
         inventoryitems = InventoryItem.objects.all(request.user)
         return render(
             request,
@@ -62,12 +63,14 @@ def item_delete(request, id):
 def item_list(request):
     pass
 
+
 @require_http_methods(["GET", "POST"])
 def get_item(request):
     if request.is_ajax():
         id = request.POST.get('id')
 
-        data = serializers.serialize("json", InventoryItem.objects.filter(id=id))
+        data = serializers.serialize(
+            "json", InventoryItem.objects.filter(id=id))
 
     else:
         data = 'Not valid request'
@@ -104,7 +107,8 @@ def inventory_item_add(request, id):
                 itemvariation.branch = request.user.userprofile.branch
                 itemvariation.save()
                 form = IteamVariationForm()
-        inventoryitems = IteamVariation.objects.filter(inventoryitem=id,branch=request.user.userprofile.branch)
+        inventoryitems = IteamVariation.objects.filter(
+            inventoryitem=id, branch=request.user.userprofile.branch)
         if request.user.is_staff:
             inventoryitems = IteamVariation.objects.filter(inventoryitem=id)
         return render(
@@ -156,4 +160,3 @@ def inventory_item_delete(request, id):
                     )
         )
     return HttpResponseRedirect(reverse('ethernet-inventory:add_item'))
-

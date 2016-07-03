@@ -36,7 +36,8 @@ class Connection(models.Model):
         if self.pk is None:
 
             if self.plan:
-                self.expired_on = datetime.datetime.now() + datetime.timedelta(days=self.plan.duration)
+                self.expired_on = datetime.datetime.now(
+                ) + datetime.timedelta(days=self.plan.duration)
         else:
             pass
         super(Connection, self).save(*args, **kwargs)

@@ -1,9 +1,8 @@
 import os
 import sys
 import site
-
-
-site.addsitedir('/home/vishal/.virtualenvs/ethernet/local/lib/python2.7/site-packages')
+site.addsitedir(
+    '/home/vishal/.virtualenvs/ethernet/local/lib/python2.7/site-packages')
 
 sys.path.append('/var/www/ethernet/ethrnet')
 sys.path.append('/var/www/ethernet/ethrnet/ethrnet')

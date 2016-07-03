@@ -24,8 +24,10 @@ class UserAddress(models.Model):
     society = models.CharField(max_length=120,)
     area = models.ForeignKey(Branch, null=True, blank=True)
     city = models.CharField(max_length=120, default="Pune")
-    state = models.CharField(max_length=120, null=True, blank=True, default="Maharashtra")
-    country = models.CharField(max_length=120,default="India", null=True, blank=True)
+    state = models.CharField(
+        max_length=120, null=True, blank=True, default="Maharashtra")
+    country = models.CharField(
+        max_length=120, default="India", null=True, blank=True)
     zipcode = models.CharField(max_length=25)
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
@@ -55,7 +57,7 @@ class UserAddress(models.Model):
         else:
             address += "<br/>"
         if self.zipcode:
-            address += "Pincode - " +self.zipcode
+            address += "Pincode - " + self.zipcode
         return address
 
     class Meta:
@@ -68,6 +70,7 @@ class UserProfile(models.Model):
     This class creates attributes userprofile.
     """
     class UserTypes(Enum):
+
         """
         This class creates enum for user_type field of UserProfile.
         """
@@ -111,6 +114,7 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return u''.join((self.first_name, self.last_name))
 
+
 @receiver(post_save, sender=User)
 def create_profile_for_user(sender, instance=None,
                             created=False, **kwargs):
@@ -119,8 +123,8 @@ def create_profile_for_user(sender, instance=None,
     and associates it with the newly created user.
     """
     if created:
-            UserProfile.objects.create(
-                user=instance)
+        UserProfile.objects.create(
+            user=instance)
 
 
 @receiver(pre_delete, sender=User)
@@ -130,5 +134,5 @@ def delete_profile_for_user(sender, instance=None, **kwargs):
     of that particular user.
     """
     if instance:
-            user_profile = UserProfile.objects.get(user=instance)
-            user_profile.delete()
+        user_profile = UserProfile.objects.get(user=instance)
+        user_profile.delete()

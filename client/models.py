@@ -8,6 +8,7 @@ from ethrnet.branch_manager import BranchWiseObjectManager
 
 
 class Client(models.Model):
+
     class Gender(Enum):
         MALE = 'Male'
         FEMALE = 'Female'
@@ -47,16 +48,22 @@ class Client(models.Model):
     Address = models.ForeignKey(UserAddress, null=True, blank=True)
 
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
-                                 message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
-    phone_number = models.CharField(max_length=15, validators=[phone_regex], blank=True)
+                                 message="Phone number must be entered" +
+                                 " in the format: '+999999999'. Up to" +
+                                 " 15 digits allowed."
+                                 )
+    phone_number = models.CharField(max_length=15,
+                                    validators=[phone_regex], blank=True)
 
     birth_date = models.DateField(null=True, blank=True)
     gender = models.CharField(null=True, max_length=20, default='Other',
                               choices=Gender.as_tuple())
 
-    id_proof_types = models.CharField(null=True, blank=True, max_length=20, default='Other',
+    id_proof_types = models.CharField(null=True, blank=True, max_length=20,
+                                      default='Other',
                                       choices=Id_proofs.as_tuple())
-    address_proof_types = models.CharField(null=True, blank=True, max_length=20,  default='Other',
+    address_proof_types = models.CharField(null=True, blank=True,
+                                           max_length=20, default='Other',
                                            choices=Address_proofs.as_tuple())
 
     attachments = models.ManyToManyField(Picture, null=True, blank=True)

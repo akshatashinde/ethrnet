@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from client.models import Client
 
+
 class PictureCreateView(CreateView):
     model = Picture
     fields = "__all__"
@@ -24,7 +25,9 @@ class PictureCreateView(CreateView):
 
     def form_invalid(self, form):
         data = json.dumps(form.errors)
-        return HttpResponse(content=data, status=400, content_type='application/json')
+        return HttpResponse(content=data,
+                            status=400, content_type='application/json')
+
 
 class BasicVersionCreateView(PictureCreateView):
     template_name_suffix = '_basic_form'
@@ -47,7 +50,8 @@ class PictureDeleteView(DeleteView):
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
-        return super(PictureDeleteView, self).dispatch(request, *args, **kwargs)
+        return super(PictureDeleteView, self).dispatch(
+            request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -61,7 +65,7 @@ class PictureListView(ListView):
     model = Picture
 
     def render_to_response(self, context, **response_kwargs):
-        files = [ serialize(p) for p in self.get_queryset() ]
+        files = [serialize(p) for p in self.get_queryset()]
         data = {'files': files}
         response = JSONResponse(data, mimetype=response_mimetype(self.request))
         response['Content-Disposition'] = 'inline; filename=files.json'

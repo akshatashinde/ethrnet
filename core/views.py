@@ -35,7 +35,8 @@ def client(request):
         address_form = AddressForm(request.POST)
         plan_form = ConnectPlanForm(request.POST)
 
-        if client_form.is_valid() and address_form.is_valid() and plan_form.is_valid():
+        if (client_form.is_valid() and address_form.is_valid()
+        and plan_form.is_valid()):
             client = client_form.save()
             address = address_form.save()
             conn_plan = plan_form.save(commit=False)

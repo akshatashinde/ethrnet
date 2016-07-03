@@ -16,7 +16,7 @@ def client_list(request):
     if request.is_ajax():
         if request.method == "POST" and request.POST['action'] == 'start1':
             search_value = request.POST.get('search_value')
-            client= Client.objects.filter(name=search_value)
+            client = Client.objects.filter(name=search_value)
             data = serializers.serialize("json", client)
             return HttpResponse(data, content_type='application/json')
     return render(
@@ -82,6 +82,7 @@ def client_create(request):
             'page': 'client'
         })
 
+
 def create_address(request):
     address = []
     print "address hit"
@@ -91,7 +92,7 @@ def create_address(request):
         address = UserAddress.objects.filter(id=address_id)
     address_form = AddressForm(request.POST)
     if address:
-            address_form = AddressForm(request.POST, instance=address[0])
+        address_form = AddressForm(request.POST, instance=address[0])
     if address_form.is_valid():
         address = address_form.save()
         response['success'] = True
@@ -103,7 +104,7 @@ def create_address(request):
 
 
 def client_address_images(request):
-    client =[]
+    client = []
     address = []
     response = {}
     address_id = request.POST.get('id_address')
@@ -121,7 +122,8 @@ def client_address_images(request):
             client = client[0]
     if images_ids:
         images = Picture.objects.filter(id__in=images_ids.split(','))
-    if address and client and images and id_proof_types and address_proof_types:
+    if (address and client and images and id_proof_types
+    and address_proof_types):
         client.Address = address
         client.attachments = images_ids.split(',')
         client.id_proof_types = id_proof_types
@@ -144,7 +146,8 @@ def client_update(request, id):
             if form.is_valid() and address_form.is_valid():
                 form.save()
                 address_form.save()
-                return HttpResponseRedirect(reverse('ethernet-client:client_list'))
+                return HttpResponseRedirect(reverse(
+                    'ethernet-client:client_list'))
 
         form = ClientForm(instance=client)
         address_form = AddressForm(instance=client)
