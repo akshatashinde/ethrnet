@@ -108,12 +108,6 @@ WSGI_APPLICATION = 'ethrnet.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'mydatabase',
-    }
-}
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
@@ -125,16 +119,16 @@ DATABASES = {
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'ethernet',
-#         'USER': 'ethernet_user',
-#         'PASSWORD': 'ethernet6',
-#         'HOST': 'ethernet.ctjtg3cziby4.us-west-2.rds.amazonaws.com',
-#         'PORT': '3306',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'ethernet',
+        'USER': 'ethernet_prod',
+        'PASSWORD': 'ethernet_production',
+        'HOST': 'ethernetproduction.c4njphmloupl.us-west-2.rds.amazonaws.com',
+        'PORT': '3306',
+    }
+}
 
 
 # Internationalization
